@@ -36,7 +36,7 @@ const Register = () => {
     }
 
     if (isUsernameExists(data.username)) {
-      setMessage("Cann't register. User already exists");
+      setMessage("Registration failed. User already exists");
       return;
     }
 
