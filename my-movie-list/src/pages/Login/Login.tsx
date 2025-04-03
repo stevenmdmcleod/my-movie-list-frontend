@@ -64,7 +64,7 @@ const Login = () => {
         <button>Log In</button>
         <div className="social">
           <h4>
-            <Link to="/register">Register</Link>
+            <Link to="/registration">Register</Link>
           </h4>
         </div>
       </form>
