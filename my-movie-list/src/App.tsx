@@ -17,24 +17,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <><><Navigation />
-    
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/watchlists" element={<Watchlists />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/mywatchlists" element={<MyWatchLists />} />
-        <Route path="/movieinformation" element={<MovieInformation />} />
-        <Route path="*" element={<NoMatch />} />
-      
-      </Routes>
-    
-    </><Footer /></>
+    <div className="app-container">
+        <Navigation />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/watchlists" element={<Watchlists />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mywatchlists" element={<MyWatchLists />} />
+            <Route path="/movieinformation" element={<MovieInformation />} />
+            <Route path="*" element={<NoMatch />} />
+          
+          </Routes>
+        </main>
+      <Footer />
+    </div>
   );
 }
 
