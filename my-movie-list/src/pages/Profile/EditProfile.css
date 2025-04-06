@@ -1,0 +1,104 @@
+#edit-profile-dialog {
+    height: 75%;
+    width: 30%;
+    background-color: #c0c0c0;
+    overflow: hidden;
+}
+
+.dialog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    cursor:default;
+}
+
+#edit-profile-dialog-close {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    background-color: transparent;
+    border: 0px solid transparent;
+    position: absolute;
+    top:1rem;
+    right: 1.5rem;
+
+} 
+
+#edit-profile-dialog::backdrop {
+    background: rgba(0,0,0,.8);
+    cursor: pointer;
+}
+
+#preferred-genres-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 0;
+}
+
+.edit-profile-input-label {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.dialog-container p {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+#edit-profile-about-me-label {
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
+#edit-profile-biography {
+    width: 100%;
+}
+
+#edit-profile-dialog textarea {
+    resize: none;
+}
+
+#file-upload-label {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+}
+
+#profile-upload-background {
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+    background-color: #A2A2A2;
+    border-radius: 10px;
+
+}
+
+#profile-picture-upload {
+    height:2rem;
+    background-color: transparent;
+}
+
+#edit-profile-submit {
+    width:60%;
+    background-color: black;
+    color: white;
+    border: 0px solid transparent;
+    border-radius: 10px;
+    margin-top: 1.5rem;
+    transition: .3s;
+
+}
+
+#edit-profile-submit:hover {
+    background-color: white;
+    color:black;
+    transition: ease();
+}

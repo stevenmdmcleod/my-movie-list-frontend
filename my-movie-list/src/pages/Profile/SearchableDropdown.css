@@ -1,0 +1,24 @@
+.searchable-dropdown{
+    width: 60%;
+    margin-left: 1rem;
+}
+
+.searchable-dropdown-button,
+.searchable-dropdown-button:hover,
+.searchable-dropdown-button:focus,
+.searchable-dropdown-button:active,
+.searchable-dropdown-button:focus-visible,
+.searchable-dropdown-button:active:focus  {
+    background-color: black !important;
+    color: white !important;
+    border-color: black !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.searchable-dropdown .dropdown-menu{
+    max-height: 400px; /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+}
