@@ -21,7 +21,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import { useEffect } from "react";
 
 function App() {
-
   // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
   // UNCOMMENT FOR TESTING
   // REMOVE WHEN NOT NEEDED
@@ -30,7 +29,7 @@ function App() {
   //   try {
   //     async function login() {
   //       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,{
-  //         username: "nickbowden",
+  //         username: "nickbowden", // replace with test user information
   //         password: "asdfasdf"
   //     });
     
