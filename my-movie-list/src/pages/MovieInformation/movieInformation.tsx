@@ -25,7 +25,9 @@ function MovieInformation() {
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string }[]>([]);
+  const [similarTitles, setSimilarTitles] = useState<
+    { poster: string; title: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchData = async (url: string) => {
@@ -64,7 +66,10 @@ function MovieInformation() {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             const similarData = await response.json();
-            similarTitlesList.push({ poster: similarData.poster, title: similarData.title });
+            similarTitlesList.push({
+              poster: similarData.poster,
+              title: similarData.title,
+            });
           } catch (e) {
             console.error("Error fetching similar title:", e);
           }
@@ -139,24 +144,28 @@ function MovieInformation() {
             <br />
             {`Genres: ${genres}`}
           </p>
-
-          {/* Render similar titles only if available */}
-          <div className="similar-titles">
-            {similarTitles.length > 0 ? (
-              similarTitles.slice(0, 4).map((similar, index) => (
-                <div key={index} className="similar-title">
-                  <img
-                    src={similar.poster ?? ""}
-                    className="rounded mx-auto d-block"
-                    alt="similar title not found"
-                  />
-                  <p>{similar.title ?? "Title Not Found"}</p>
-                </div>
-              ))
-            ) : (
-              <p>No similar titles found</p>
-            )}
-          </div>
+          <>
+            <h1>
+              <u>{"Similar Titles"}</u>
+            </h1>
+            {/* Render similar titles only if available */}
+            <div className="similar-titles">
+              {similarTitles.length > 0 ? (
+                similarTitles.slice(0, 4).map((similar, index) => (
+                  <div key={index} className="similar-title">
+                    <img
+                      src={similar.poster ?? ""}
+                      className="rounded mx-auto d-block"
+                      alt="similar title not found"
+                    />
+                    <p>{similar.title ?? "Title Not Found"}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No similar titles found</p>
+              )}
+            </div>
+          </>
         </div>
 
         <div className="rightblock">
