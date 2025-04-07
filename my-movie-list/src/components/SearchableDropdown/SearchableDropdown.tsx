@@ -7,7 +7,10 @@ interface SearchableDropdownProps {
     setSelected: (option: string) => void
 }
 
-
+// Options is an array of strings
+// SetSelected is a function that will be run with the selected option passed to it. 
+// For an example of use check out /pages/Profile/EditProfile on the handleSelectedGenre function.
+// It is passed to SearchableDropdown and used to assign the selected option from the dropdown to a useState setter function in the parent component.
 const SearchableDropdown = ({ options, setSelected }: SearchableDropdownProps) => {
   const [filter, setFilter] = useState<string>('');
 
