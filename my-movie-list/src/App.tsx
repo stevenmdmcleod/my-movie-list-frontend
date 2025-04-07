@@ -30,7 +30,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/mywatchlists" element={<MyWatchLists />} />
-            <Route path="/movieinformation" element={<MovieInformation />} />
+            <Route path="/movieinformation/:titleid" element={<MovieInformation />} />
             <Route path="*" element={<NoMatch />} />
           
           </Routes>
