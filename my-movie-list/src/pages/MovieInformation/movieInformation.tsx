@@ -62,10 +62,15 @@ function MovieInformation() {
       : null;
 }
 const youtubeEmbed: string = "//www.youtube.com/embed/";
-const videoId = getTitleId(title.trailer);
+let videoId: string | null= null;
+if(title.trailer){
+  videoId = getTitleId(title.trailer);
+}
+
 
 
   return (
+    <div className="default">
     <div className="page">
       
         <div className="leftblock">
@@ -89,10 +94,11 @@ const videoId = getTitleId(title.trailer);
         <div className="rightblock">
 
         <iframe  width={300} height={300}
-          src={`${youtubeEmbed}${videoId}`} title="trailer" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
+          src={`${youtubeEmbed}${videoId ?? "not found"}`} title="trailer" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen>
         </iframe> 
         <p>placeholder</p>
         </div>
+    </div>
     </div>
   );
 }
