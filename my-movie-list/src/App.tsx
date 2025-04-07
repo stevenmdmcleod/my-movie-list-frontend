@@ -8,7 +8,7 @@ import NoMatch from "./pages/NoMatch/NoMatch";
 import Login from "./pages/Login/Login";
 import Registration from "./pages/Registration/Registration"
 import Friends from "./pages/Friends/friends";
-import Profile from "./pages/Profile/Profile";
+import Profile from "./pages/Profile/profile";
 import Dashboard from "./pages/Dashboard/dashboard";
 import MovieInformation from "./pages/MovieInformation/movieInformation";
 import MyWatchLists from "./pages/MyWatchlists/myWatchLists";
