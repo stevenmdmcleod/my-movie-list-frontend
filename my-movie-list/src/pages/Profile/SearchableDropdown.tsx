@@ -3,12 +3,12 @@ import { Dropdown, FormControl } from 'react-bootstrap';
 import "./SearchableDropdown.css";
 
 interface SearchableDropdownProps {
-    options: Array<string>
+    options: Array<string>,
+    setSelected: (genre: string) => void
 }
 
-const SearchableDropdown = ({ options }: SearchableDropdownProps) => {
+const SearchableDropdown = ({ options, setSelected }: SearchableDropdownProps) => {
   const [filter, setFilter] = useState<string>('');
-  const [selected, setSelected] = useState('');
 
   // Filter the options based on the input text
   const filteredOptions = options.filter(option =>
