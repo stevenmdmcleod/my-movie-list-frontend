@@ -1,11 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import "./EditProfile.css";
-import SearchableDropdown from './SearchableDropdown';
+import SearchableDropdown from '../../components/SearchableDropdown/SearchableDropdown';
 import axios from 'axios';
 
 interface EditProfileProps {
     profile: Profile,
     setProfile: (profile: Profile) => void,
+    setImageSource: (source: string) => void,
     isOpen: boolean,
     onClose: () => void;
 }
@@ -45,7 +46,7 @@ const genres = [
     "Western"
 ]
 
-function EditProfile({profile, setProfile, isOpen, onClose}:EditProfileProps) {
+function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:EditProfileProps) {
     const EditProfileRef = useRef<HTMLDialogElement>(null);
     const [selectedGenres, setSelectedGenres] = useState<Array<string>>(profile.preferredGenres || []);
     const [biography, setBiography] = useState(profile.biography || '');
@@ -65,7 +66,7 @@ function EditProfile({profile, setProfile, isOpen, onClose}:EditProfileProps) {
     function handleSelectedGenre(genre:string) {
         if (selectedGenres.includes(genre)) {
             setSelectedGenres(selectedGenres.filter(option => option !== genre))
-        } else {
+        } else if (selectedGenres.length < 7){
             setSelectedGenres([...selectedGenres, genre]);
         }
     }
@@ -101,6 +102,7 @@ function EditProfile({profile, setProfile, isOpen, onClose}:EditProfileProps) {
             })
             if (response.status === 200) {
                 setProfile({...profile, ...response.data.user, signedUrl: response.data.signedUrl});
+                setImageSource(response.data.signedUrl);
                 onClose();
             }
         } catch (error) {
@@ -140,13 +142,17 @@ function EditProfile({profile, setProfile, isOpen, onClose}:EditProfileProps) {
             <h1>Edit Profile</h1>
 
             <div id="preferred-genres-input">
-                <label className='edit-profile-input-label'>Preferred Genres:</label>
+                <div className="stacked-labels">
+                    <label className='edit-profile-input-label'>Preferred Genres:</label>
+                    <label className='edit-profile-input-label'>Max: 7</label>
+
+                </div>
                 <SearchableDropdown options={genres} setSelected={handleSelectedGenre}/>
             </div>
             <p className='genres-list'>{displayGenres(selectedGenres)}</p>
 
             <label className="edit-profile-input-label" id='edit-profile-about-me-label'>About Me:</label>
-            <textarea name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={500} value={biography} onChange={handleBiographyUpdate}></textarea>
+            <textarea name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={400} value={biography} onChange={handleBiographyUpdate}></textarea>
             
             <label htmlFor='profile-picture-upload' className='edit-profile-input-label' id='file-upload-label'>Upload New Profile Picture:</label>
             <div id="profile-upload-background">

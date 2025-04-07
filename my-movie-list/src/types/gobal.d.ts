@@ -1,3 +1,8 @@
+interface Friend {
+    userId: string,
+    username: string
+}
+
 interface Profile {
     userId: string,
     username: string,
@@ -10,6 +15,6 @@ interface Profile {
     isBanned?: boolean,
     collaborativeLists?: Array<string>,
     likedLists?: Array<string>,
-    friends?: Array<string>,
+    friends?: Array<Friend>,
     recentlyAdded?: Array<string>,
 }

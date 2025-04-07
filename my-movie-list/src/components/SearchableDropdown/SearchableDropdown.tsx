@@ -4,8 +4,9 @@ import "./SearchableDropdown.css";
 
 interface SearchableDropdownProps {
     options: Array<string>,
-    setSelected: (genre: string) => void
+    setSelected: (option: string) => void
 }
+
 
 const SearchableDropdown = ({ options, setSelected }: SearchableDropdownProps) => {
   const [filter, setFilter] = useState<string>('');

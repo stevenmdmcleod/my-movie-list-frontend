@@ -76,7 +76,24 @@
     font-size: 1.1rem;
 }
 
-.biography {
-    margin-top: 1rem;
+.biography, .genres-list {
     width: 70%;
+    text-align: center;
+    margin-top: .75rem;
+}
+
+#profile-error-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 100%;
+}
+
+#profile-error-page h1 {
+    font-size: 7rem;
+}
+#profile-error-page p {
+    font-size: 3rem;
 }
