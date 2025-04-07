@@ -1,0 +1,99 @@
+#profile-view {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #474747;
+}
+
+#profile {
+    background-color: #c0c0c0;
+    width: 50%; 
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: .5rem;
+
+}
+
+#edit-profile {
+    display: flex;
+    justify-content: end;
+    padding-right: 1rem;
+    position:fixed;
+    width: 50%;
+}
+
+#edit-profile-button, #add-friend-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    width: 6.5rem;
+    background-color: black;
+    color:white;
+    border-radius: 10px;
+}
+
+#profile-picture {
+    height: 14rem;
+    width: 14rem;
+    border-radius: 50%;
+    border: 5px solid black;
+    margin-top: 1rem;
+}
+
+#profile-add-friend {
+    height:2rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.strikethrough {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 1rem;
+    font-weight: bold;
+    width: 70%;
+    justify-content: center;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.strikethrough::before, .strikethrough::after {
+    content: "";
+    height: 2px;
+    background-color: black;
+    display: block;
+}
+
+#profile p {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.biography, .genres-list {
+    width: 70%;
+    text-align: center;
+    margin-top: .75rem;
+}
+
+#profile-error-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 100%;
+}
+
+#profile-error-page h1 {
+    font-size: 7rem;
+}
+#profile-error-page p {
+    font-size: 3rem;
+}
