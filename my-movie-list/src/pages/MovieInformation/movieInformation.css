@@ -1,51 +1,57 @@
-    div{
-        background-color: blue;
-         
+    .default{
+        background-color: #121212;
+        width: 100%;
+        height: 100%;
+    }
+    .page div{
+        background-color: #121212;
+        color: white;
     }
 
     .page{
         display: flex; 
-        
-        background-color: black;
-        color: white;
-        margin-left: 100px;
-        margin-right: 100px;
+        font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        margin-left: 10rem;
+        margin-right: 10rem;
     }
  
-    h1{
+    .page h1{
         display: flex;
-        color: white;
+        color: #e0e0e0;
         justify-content: center;
     }
 
 
-    u{
-        color: white;
+    .page u{
+        color: #e0e0e0;
     }
-    p{
-        color: white;
+    .page p{
+        color: #e0e0e0;
     }
 
     .leftblock{
         
-        background-color: gray;
+        background-color: #272727;
         width: 15%;
-        height: 600px;
+        height: 60rem;
         
-        border: 2px solid darkblue; 
+        border: 1px solid #585858;; 
    
     } 
 
     .centerblock{
         
-        background-color: gray;
+        background-color: #272727;
         
         
         width: 60%;
-        border: 2px solid darkblue;
+        border: 1px solid #585858;;
     }
+    
     .rightblock{
-        background-color: gray;
-        height: 300px;
-        border: 2px solid darkblue;
+        background-color: #272727;
+        height: 30rem;
+        border: 1px solid #585858;;
     }
