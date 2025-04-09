@@ -13,10 +13,17 @@ html, body, #root {
 }
 
 .app-container {
-    display: flex;
+    display: grid;
     flex-direction: column;
     height: 100vh; 
 }
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 /* Adds columns to side of page layout*/
 /* .page-container {
     margin-bottom: 0px;
@@ -28,9 +35,7 @@ html, body, #root {
 } */
 
 .main-content {
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
 }
