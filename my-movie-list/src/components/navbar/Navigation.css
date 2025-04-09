@@ -4,6 +4,7 @@
 
 .navbar-brand {
     color: #ffffff !important;
+    margin-left: 50px;
 }
 
 .navbar-brand:hover {
@@ -35,4 +36,13 @@
 .btn-primary {
     --bs-btn-bg: #e1e7f5 !important;
     --bs-btn-color: #2e51a2 !important;
+}
+
+.profile-button {
+    align-content: center;
+}
+
+.profile-button-button {
+    float: right;
+    margin-right: 50px;
 }
