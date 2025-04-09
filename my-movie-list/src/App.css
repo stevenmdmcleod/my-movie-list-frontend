@@ -1,3 +1,12 @@
+/* Colors:
+Primary Blue: #2e51a2;  (Nav Icons Darker shades)
+Background Blue: #e1e7f5;
+Background Border Blue: #e5e5e5;
+Text Blue: #1c439b;
+Buttons: #4f74c8;
+*/
+
+
 html, body, #root {
     height: 100%;
     margin: 0;
@@ -8,6 +17,15 @@ html, body, #root {
     flex-direction: column;
     height: 100vh; 
 }
+/* Adds columns to side of page layout*/
+/* .page-container {
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    text-align: left;
+    width: 1400px;
+} */
 
 .main-content {
     flex: 1;
