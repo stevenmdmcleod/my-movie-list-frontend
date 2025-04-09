@@ -15,6 +15,7 @@ import MyWatchLists from "./pages/MyWatchlists/myWatchLists";
 import Watchlists from "./pages/Watchlists/watchlists";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AdminRoute from "./components/ProtectedRoute/AdminRoute";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
@@ -59,7 +60,10 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            
             <Route path="/mywatchlists" element={<MyWatchLists />} />
             <Route path="/movieinformation/:titleid" element={<MovieInformation />} />
             <Route path="*" element={<NoMatch />} />
