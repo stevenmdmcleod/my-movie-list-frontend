@@ -20,6 +20,7 @@ const Navigation = () => {
             <Nav.Link id="nav-link" href="/friends">Friends</Nav.Link>
             <Nav.Link href="/myWatchLists">My Watchlists</Nav.Link>
             <Nav.Link href="/watchLists">Watchlists</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -31,7 +32,7 @@ const Navigation = () => {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown> */}
-                      <Col xs="auto">
+            <Col xs="auto">
             <Form.Control
               type="text"
               placeholder="Search by title..."
@@ -41,9 +42,15 @@ const Navigation = () => {
           <Col xs="auto">
             <Button type="submit">Submit</Button>
           </Col>
+
           </Nav>
         </Navbar.Collapse>
       </Container>
+      <Col className="profile-button">
+            <div className="profile-button-button">
+            <Button href="/profile">Profile</Button>
+            </div>
+          </Col>
 
     </Navbar>
 
