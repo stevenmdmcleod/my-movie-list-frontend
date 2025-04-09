@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./movieInformation.css";
 import { useParams } from "react-router";
 
-let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
+const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 
 interface MovieData {
   title: string;
@@ -19,6 +19,7 @@ interface MovieData {
 }
 
 function MovieInformation() {
+  console.log(API_KEY);
   const { titleid } = useParams();
   const apiURL = `https://api.watchmode.com/v1/title/${titleid}/details/?apiKey=${API_KEY}`;
 
