@@ -2,6 +2,8 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import "./EditProfile.css";
 import SearchableDropdown from '../../components/SearchableDropdown/SearchableDropdown';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
+import { removeActiveUser } from '../../LocalStorage';
 
 interface EditProfileProps {
     profile: Profile,
@@ -48,9 +50,12 @@ const genres = [
 
 function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:EditProfileProps) {
     const EditProfileRef = useRef<HTMLDialogElement>(null);
+    const navigate = useNavigate();
     const [selectedGenres, setSelectedGenres] = useState<Array<string>>(profile.preferredGenres || []);
     const [biography, setBiography] = useState(profile.biography || '');
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [activeDelete, setActiveDelete] = useState<boolean>(false);
+    const [activeDeleteInput, setActiveDeleteInput] = useState<string>('');
 
     function displayGenres(preferredGenres: Array<string>):string {
         let genreString = '';
@@ -102,17 +107,41 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             })
             if (response.status === 200) {
                 setProfile({...profile, ...response.data.user, signedUrl: response.data.signedUrl});
-                setImageSource(response.data.signedUrl);
+                if (response.data.signedUrl) {
+                    setImageSource(response.data.signedUrl);
+                }
                 onClose();
             }
+            setActiveDelete(false);
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async function handleDeleteProfile() {
+        if (activeDeleteInput !== 'delete') {
+            setActiveDeleteInput('');
+            setActiveDelete(false);
+            return;
+        }
+
+        const response = await axios.delete(`${ import.meta.env.VITE_BASE_URL}/users/me`, {
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
+            }
+        })
+
+        if (response.status === 200) {
+            removeActiveUser();
+            window.localStorage.removeItem("token");
+            navigate('/');
         }
     }
 
     useEffect(() => {
         function handleBackdropClick(event: MouseEvent) {
             if (EditProfileRef.current && event.target === EditProfileRef.current) {
+                setActiveDelete(false);
                 onClose();
             }
         };
@@ -137,7 +166,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
   return (
     <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog'>
         <div className="dialog-container">
-            <button id="edit-profile-dialog-close" onClick={onClose}>&times;</button>
+            <button id="edit-profile-dialog-close" onClick={() => {setActiveDelete(false);onClose();}}>&times;</button>
             
             <h1>Edit Profile</h1>
 
@@ -160,6 +189,15 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             </div>
 
             <button id="edit-profile-submit" onClick={handleSaveChanges}>Save Changes</button>
+            { activeDelete? 
+                <div id="active-delete">
+                    <input type="text" id="active-delete-input" placeholder="Type 'delete' to confirm..." onChange={(event) => setActiveDeleteInput(event.target.value)} />
+                    <button id="active-delete-button" onClick={handleDeleteProfile}>Delete</button>
+                </div>
+                :
+                <button id="edit-profile-delete" onClick={() => setActiveDelete(true)}>Delete Profile</button>
+            }
+            
         </div>
     </dialog>
   )

@@ -86,19 +86,57 @@
     background-color: transparent;
 }
 
-#edit-profile-submit {
+#edit-profile-submit, #edit-profile-delete {
     width:60%;
+    transition: .3s;
+    border-radius: 10px;
+    border: 0px solid transparent;
+    
+}
+
+#edit-profile-submit {
     background-color: black;
     color: white;
-    border: 0px solid transparent;
-    border-radius: 10px;
     margin-top: 1.5rem;
-    transition: .3s;
+}
 
+#edit-profile-delete {
+    background-color: #ac0000;
+    color: white;
+    margin-top: .75rem;
 }
 
 #edit-profile-submit:hover {
     background-color: white;
     color:black;
     transition: ease();
+}
+
+#active-delete {
+    display: flex;
+    gap: 1rem;
+    margin-top: .75rem;
+    width: 100%;
+}
+
+#active-delete-button {
+    background-color: #ac0000;
+    color: white;
+    border-radius: 10px;
+    border: 0px solid transparent;
+}
+
+#active-delete-input {
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    
+}
+
+#active-delete-input::placeholder {
+    color: #5a5a5a;
+}
+
+#edit-profile-delete:hover, #active-delete-button:hover {
+    background-color: red;
 }
