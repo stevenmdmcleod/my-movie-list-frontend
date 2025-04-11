@@ -23,6 +23,11 @@ footer {
     width: 100%;
 }
 
+.page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 /* Adds columns to side of page layout*/
 /* .page-container {
     margin-bottom: 0px;

@@ -152,20 +152,23 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
                 dialog.showModal();
             }
             dialog?.addEventListener('click', handleBackdropClick);
+            document.body.style.overflow = 'hidden';
         } else {
             EditProfileRef.current?.close();
+            document.body.style.overflow = '';
         }
 
         setSelectedGenres(profile?.preferredGenres);
         setBiography(profile?.biography);
         return () => {
             EditProfileRef.current?.removeEventListener('click', handleBackdropClick);
+            document.body.style.overflow = '';
         };
     }, [isOpen, onClose, profile]);
 
   return (
     <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog'>
-        <div className="dialog-container">
+        <div id="edit-profile-dialog-container">
             <button id="edit-profile-dialog-close" onClick={() => {setActiveDelete(false);onClose();}}>&times;</button>
             
             <h1>Edit Profile</h1>
