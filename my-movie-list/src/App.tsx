@@ -16,6 +16,7 @@ import Watchlists from "./pages/Watchlists/watchlists";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import { UserProvider } from "./context/userAuth";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
@@ -46,6 +47,7 @@ function App() {
   // }, []);
 
   return (
+    <UserProvider>
     <div className="app-container">
       <div className="page-container">
         <Navigation />
@@ -73,6 +75,7 @@ function App() {
       <Footer />
       </div>
     </div>
+    </UserProvider>
   );
 }
 
