@@ -12,11 +12,10 @@ import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
 
 let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-//const TOKEN = window.localStorage.getItem("token");
-const TOKEN = import.meta.env.VITE_ADMIN_TOKEN;
+const TOKEN = window.localStorage.getItem("token") || '';
 const admin = decodeToken(TOKEN) as userJwt;
-//const ADMIN = window.localStorage.getItem("activeUser");
 
 type Section = "dashboard" | "users" | "watchlists" | "comments";
 
@@ -39,6 +38,7 @@ interface UserData {
   signedUrl: string;
   userId: string;
   isBanned: boolean;
+  isAdmin: boolean;
 }
 
 interface WatchlistData {
@@ -51,7 +51,7 @@ interface WatchlistData {
   titles: string[];
   collaborators: string[];
   isPublic: boolean;
-  posterUrl? : string;
+  posterUrl?: string;
 }
 
 function dashboard() {
@@ -61,18 +61,19 @@ function dashboard() {
   const [section, setSection] = useState<Section>("dashboard");
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [showUserPopup, setShowUserPopup] = useState(false);
+  const [selectedWatchlist, setSelectedWatchlist] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [commentsRes, usersRes, watchlistRes] = await Promise.all([
-          axios.get("http://localhost:3000/watchlist/comments/all", {
+          axios.get(`${BASE_URL}/watchlist/comments/all`, {
             headers: { Authorization: `Bearer ${TOKEN}` },
           }),
-          axios.get("http://localhost:3000/users/users", {
+          axios.get(`${BASE_URL}/users/users`, {
             headers: { Authorization: `Bearer ${TOKEN}` },
           }),
-          axios.get("http://localhost:3000/watchlist", {
+          axios.get(`${BASE_URL}/watchlist`, {
             headers: { Authorization: `Bearer ${TOKEN}` },
           }),
         ]);
@@ -82,8 +83,10 @@ function dashboard() {
             if (watchlist.titles.length > 0) {
               const firstTitleId = watchlist.titles[0];
               try {
-                const res = await axios.get(`https://api.watchmode.com/v1/title/${firstTitleId}/details/?apiKey=${API_KEY}`);
-                console.log(res)
+                const res = await axios.get(
+                  `https://api.watchmode.com/v1/title/${firstTitleId}/details/?apiKey=${API_KEY}`
+                );
+                console.log(res);
                 return {
                   ...watchlist,
                   posterUrl: res.data.poster, // assuming response has posterUrl
@@ -121,7 +124,7 @@ function dashboard() {
     try {
       const banStatus = isCurrentlyBanned ? "unbanned" : "banned";
       await axios.patch(
-        `http://localhost:3000/users/${userId}/ban-status`,
+        `${BASE_URL}/users/${userId}/ban-status`,
         { status: banStatus },
         {
           headers: { Authorization: `Bearer ${TOKEN}` },
@@ -144,7 +147,7 @@ function dashboard() {
   const handleDeleteComment = async (listId: string, commentId: string) => {
     try {
       await axios.put(
-        `http://localhost:3000/watchlist/${listId}/comments/${commentId}`,
+        `${BASE_URL}/watchlist/${listId}/comments/${commentId}`,
         {},
         {
           headers: { Authorization: `Bearer ${TOKEN}` },
@@ -159,6 +162,10 @@ function dashboard() {
       console.error("Failed to delete comment:", error);
     }
   };
+
+  const adminProfile = users.find((user) => user.userId === admin.userId);
+  const adminProfilePicture =
+    adminProfile?.signedUrl || "/src/assets/Images/default-profile.png";
 
   return (
     <>
@@ -268,18 +275,20 @@ function dashboard() {
                           className="watchlist-thumbnail"
                         />
                         <div className="watchlist-name">{list.listName}</div>
-                        <div className="watchlist-username">{list.username || "username"}</div>
+                        <div className="watchlist-username">
+                          {list.username || "username"}
+                        </div>
                       </div>
                     ))}
                     <div className="view-more">
-                    <div
-                      className="view-more-link"
-                      style={{ cursor: "pointer", color: "#526d82" }}
-                      onClick={() => setSection("watchlists")}
-                    >
-                      View More →
+                      <div
+                        className="view-more-link"
+                        style={{ cursor: "pointer", color: "#526d82" }}
+                        onClick={() => setSection("watchlists")}
+                      >
+                        View More →
+                      </div>
                     </div>
-                  </div>
                   </div>
                 </div>
               </div>
@@ -311,7 +320,7 @@ function dashboard() {
                           >
                             {item.username}
                           </a>{" "}
-                          on <Link to="">{item.watchlistName}</Link>
+                          on <Link to={`/watchlist/${item.watchlistId}`}>{item.watchlistName}</Link>
                         </div>
                         <div className="comment--text">{item.comment}</div>
                       </div>
@@ -415,6 +424,7 @@ function dashboard() {
                     </div>
                     <div className="user-actions">
                       <button
+                        hidden={item.isAdmin}
                         className={item.isBanned ? "unban-btn" : "ban-btn"}
                         onClick={() =>
                           handleBanToggle(item.userId, item.isBanned)
@@ -432,7 +442,26 @@ function dashboard() {
           {section === "watchlists" && (
             <div className="content-watchlists-all">
               <div className="content-title">Watchlists</div>
-              <p>Watchlist content goes here</p>
+              <div className="watchlist-list-all">
+                {watchlists.map((wl) => (
+                  <div key={wl.listId} className="watchlist-item">
+                    {wl.posterUrl && (
+                      <img src={wl.posterUrl} alt={`${wl.listName} Poster`} className="poster" />
+                    )}
+                    <div className="watchlist-info">
+                      <Link to={`/watchlist/${wl.listId}`} className="watchlist-title">
+                        <h3>{wl.listName}</h3>
+                      </Link>
+                      <p><strong>User:</strong> {wl.username}</p>
+                      <p><strong>Likes:</strong> {wl.likes.length}</p>
+                      <p><strong>Comments:</strong> {wl.comments.length}</p>
+                      <p><strong>Titles:</strong> {wl.titles.length}</p>
+                      <p><strong>Collaborators:</strong> {wl.collaborators.length}</p>
+                      <p><strong>Visibility:</strong> {wl.isPublic ? "Public" : "Private"}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -465,7 +494,7 @@ function dashboard() {
                         >
                           {item.username}
                         </a>{" "}
-                        on <Link to="">{item.watchlistName}</Link>
+                        on <Link to={`/watchlist/${item.watchlistId}`}>{item.watchlistName}</Link>
                       </div>
                       <div className="comment--text">{item.comment}</div>
                     </div>
@@ -503,7 +532,11 @@ function dashboard() {
           <h2 className="profile-header header-title">Profile</h2>
           <div className="admin-profile">
             <div className="admin-detail">
-              <img src="/src/assets/Images/default-profile.jpg" alt="" />
+              <img
+                src={adminProfilePicture}
+                alt=""
+                className="w-12 h-12 rounded-full"
+              />
               <h3 className="username">
                 {admin.username}
                 {/* AdminUsername */}

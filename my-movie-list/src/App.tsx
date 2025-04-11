@@ -17,16 +17,17 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
 import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist";
+import { UserProvider } from "./context/userAuth";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
-import axios from 'axios';
-import { useEffect } from "react";
+// import axios from 'axios';
+// import { useEffect } from "react";
 
 function App() {
   // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
   // UNCOMMENT FOR TESTING
   // REMOVE WHEN NOT NEEDED
-  window.localStorage.removeItem("token")
+  
   // useEffect(() => {
   //   try {
   //     async function login() {
@@ -47,6 +48,7 @@ function App() {
   // }, []);
 
   return (
+    <UserProvider>
     <div className="app-container">
       <div className="page-container">
         <Navigation />
@@ -74,6 +76,7 @@ function App() {
       <Footer />
       </div>
     </div>
+    </UserProvider>
   );
 }
 

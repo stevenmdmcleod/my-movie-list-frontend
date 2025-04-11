@@ -14,15 +14,15 @@
     flex-direction: column;
     align-items: center;
     padding-top: .5rem;
+    position: relative;
 
 }
 
-#edit-profile {
-    display: flex;
-    justify-content: end;
-    padding-right: 1rem;
-    position:fixed;
-    width: 50%;
+#edit-profile-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: .5rem;
 }
 
 #edit-profile-button, #add-friend-button {
@@ -96,4 +96,10 @@
 }
 #profile-error-page p {
     font-size: 3rem;
+}
+
+@media screen  and (max-width: 991px) {
+    #profile {
+        width: 90%;
+    }
 }

@@ -311,12 +311,53 @@
   background: #fff;
 }
 
+.watchlist-list-all {
+  display: flex;
+  flex-direction: column;
+}
+
+.watchlist-list-all .watchlist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.watchlist-list-all .poster {
+  width: 60px;
+  height: 90px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.watchlist-list-all .watchlist-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.watchlist-list-all .watchlist-info p {
+  margin: 4px 0;
+}
+
+.watchlist-title {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.watchlist-title:hover {
+  color: #0056b3;
+}
+
+/*---Comments tag---*/
 .content-comments-all {
   background: #fff;
   border-radius: 10px;
   padding: 0.7rem;
   align-items: center;
 }
+
 /* Profile section*/
 .profile {
   width: 20%;
@@ -345,9 +386,10 @@
 .admin-detail img{
   background: #fff;
   border-radius: 50%;
-  width: 55%;
+  width: 12rem;
+  height: 12rem;
   object-fit: cover;
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 20px;
 }
 .admin-detail .username{
