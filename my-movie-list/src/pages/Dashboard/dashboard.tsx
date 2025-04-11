@@ -39,6 +39,7 @@ interface UserData {
   signedUrl: string;
   userId: string;
   isBanned: boolean;
+  isAdmin: boolean;
 }
 
 interface WatchlistData {
@@ -51,7 +52,7 @@ interface WatchlistData {
   titles: string[];
   collaborators: string[];
   isPublic: boolean;
-  posterUrl? : string;
+  posterUrl?: string;
 }
 
 function dashboard() {
@@ -82,8 +83,10 @@ function dashboard() {
             if (watchlist.titles.length > 0) {
               const firstTitleId = watchlist.titles[0];
               try {
-                const res = await axios.get(`https://api.watchmode.com/v1/title/${firstTitleId}/details/?apiKey=${API_KEY}`);
-                console.log(res)
+                const res = await axios.get(
+                  `https://api.watchmode.com/v1/title/${firstTitleId}/details/?apiKey=${API_KEY}`
+                );
+                console.log(res);
                 return {
                   ...watchlist,
                   posterUrl: res.data.poster, // assuming response has posterUrl
@@ -159,6 +162,10 @@ function dashboard() {
       console.error("Failed to delete comment:", error);
     }
   };
+
+  const adminProfile = users.find((user) => user.userId === admin.userId);
+  const adminProfilePicture =
+    adminProfile?.signedUrl || "/src/assets/Images/default-profile.png";
 
   return (
     <>
@@ -268,18 +275,20 @@ function dashboard() {
                           className="watchlist-thumbnail"
                         />
                         <div className="watchlist-name">{list.listName}</div>
-                        <div className="watchlist-username">{list.username || "username"}</div>
+                        <div className="watchlist-username">
+                          {list.username || "username"}
+                        </div>
                       </div>
                     ))}
                     <div className="view-more">
-                    <div
-                      className="view-more-link"
-                      style={{ cursor: "pointer", color: "#526d82" }}
-                      onClick={() => setSection("watchlists")}
-                    >
-                      View More →
+                      <div
+                        className="view-more-link"
+                        style={{ cursor: "pointer", color: "#526d82" }}
+                        onClick={() => setSection("watchlists")}
+                      >
+                        View More →
+                      </div>
                     </div>
-                  </div>
                   </div>
                 </div>
               </div>
@@ -415,6 +424,7 @@ function dashboard() {
                     </div>
                     <div className="user-actions">
                       <button
+                        hidden={item.isAdmin}
                         className={item.isBanned ? "unban-btn" : "ban-btn"}
                         onClick={() =>
                           handleBanToggle(item.userId, item.isBanned)
@@ -432,7 +442,7 @@ function dashboard() {
           {section === "watchlists" && (
             <div className="content-watchlists-all">
               <div className="content-title">Watchlists</div>
-              <p>Watchlist content goes here</p>
+            
             </div>
           )}
 
@@ -503,7 +513,11 @@ function dashboard() {
           <h2 className="profile-header header-title">Profile</h2>
           <div className="admin-profile">
             <div className="admin-detail">
-              <img src="/src/assets/Images/default-profile.jpg" alt="" />
+              <img
+                src={adminProfilePicture}
+                alt=""
+                className="w-12 h-12 rounded-full"
+              />
               <h3 className="username">
                 {admin.username}
                 {/* AdminUsername */}
