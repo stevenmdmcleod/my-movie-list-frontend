@@ -6,8 +6,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import "./Navigation.css";
-const Navigation = () => {
+import { useAuth } from '../../context/userAuth';
 
+const Navigation = () => {
+  const { logout } = useAuth();
 
 
   return (
@@ -47,10 +49,13 @@ const Navigation = () => {
         </Navbar.Collapse>
       </Container>
       <Col className="profile-button">
-            <div className="profile-button-button">
+          <div className="profile-button-button">
+            <Button onClick={logout} href="/profile">Logout</Button>
+          </div>
+          <div className="profile-button-button">
             <Button href="/profile">Profile</Button>
-            </div>
-          </Col>
+          </div>
+      </Col>
 
     </Navbar>
 
