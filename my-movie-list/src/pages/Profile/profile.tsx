@@ -127,10 +127,15 @@ function Profile() {
         {loading && <div>Loading...</div>}
         {!loading && (
           <>
-            {ownerProfile? <EditProfile profile={profile} setProfile={setProfile} setImageSource={setImageSource} isOpen={isDialogOpen} onClose={()=>setIsDialogOpen(false)}/>: null}
-            <div id="edit-profile">
-              {ownerProfile? <button id="edit-profile-button" onClick={() => setIsDialogOpen(true)}>Edit Profile</button>: null}
-            </div>
+            { ownerProfile?
+              <> 
+                <EditProfile profile={profile} setProfile={setProfile} setImageSource={setImageSource} isOpen={isDialogOpen} onClose={()=>setIsDialogOpen(false)}/>
+                <button id="edit-profile-button" onClick={() => setIsDialogOpen(true)}>Edit Profile</button>
+              </>
+              : 
+              null
+            }
+
             <img src={imageSource} alt="Profile picture" id="profile-picture" />
             <h1>{profile.username}</h1>
             <h3>{profile.email}</h3>
