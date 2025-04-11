@@ -16,16 +16,17 @@ import Watchlists from "./pages/Watchlists/watchlists";
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
-// import axios from 'axios';
-// import { useEffect } from "react";
+import axios from 'axios';
+import { useEffect } from "react";
 
 function App() {
   // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
   // UNCOMMENT FOR TESTING
   // REMOVE WHEN NOT NEEDED
-
+  window.localStorage.removeItem("token")
   // useEffect(() => {
   //   try {
   //     async function login() {
@@ -63,7 +64,7 @@ function App() {
             <Route element={<AdminRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
-            
+            <Route path="/watchlist/:listId" element={<IndividualWatchlist />} />
             <Route path="/mywatchlists" element={<MyWatchLists />} />
             <Route path="/movieinformation/:titleid" element={<MovieInformation />} />
             <Route path="*" element={<NoMatch />} />

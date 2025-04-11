@@ -1,23 +1,22 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
 
-export interface UseProfileDataReturn {
-    data: Profile | null,
+export interface UseIndividualWatchlistDataReturn {
+    data: Watchlist | null,
     loading: boolean
 }
 
-const useProfileData = (userId : string): UseProfileDataReturn => {
-  const [data, setData] = useState<Profile | null>(null);
+const useIndividualWatchlistData = (listId : string | undefined): UseIndividualWatchlistDataReturn => {
+  const [data, setData] = useState<Watchlist | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!listId) return;
     const fetchData = async () => {
       try {
-        const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/userId/${userId}`, {
+        const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/watchlist/${listId}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
             }
         });
         setData(response);
@@ -28,7 +27,7 @@ const useProfileData = (userId : string): UseProfileDataReturn => {
     };
 
     fetchData();
-  }, [userId]);
+  }, [listId]);
 
   return {
     data,
@@ -36,4 +35,4 @@ const useProfileData = (userId : string): UseProfileDataReturn => {
   };
 };
 
-export default useProfileData;
+export default useIndividualWatchlistData;

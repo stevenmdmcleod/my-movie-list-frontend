@@ -18,3 +18,22 @@ interface Profile {
     friends?: Array<Friend>,
     recentlyAdded?: Array<string>,
 }
+
+interface Comment {
+    commentId: string,
+    userId: string,
+    username: string,
+    comment: string,
+    datePosted: string
+}
+
+interface Watchlist {
+    listId: string,
+    userId: string,
+    listName: string,
+    isPublic: boolean,
+    likes: Array<string>,
+    titles: Array<string>,
+    collaborators: Array<string>,
+    comments: Array<Comment>
+}
