@@ -4,22 +4,9 @@ import { useParams } from "react-router";
 
 const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 
-interface MovieData {
-  title: string;
-  similar_titles: string[];
-  poster: string;
-  trailer: string;
-  user_rating: string;
-  critic_score: string;
-  us_rating: string;
-  release_date: string;
-  type: string;
-  plot_overview: string;
-  genre_names: string[];
-}
+
 
 function MovieInformation() {
-  console.log(API_KEY);
   const { titleid } = useParams();
   const apiURL = `https://api.watchmode.com/v1/title/${titleid}/details/?apiKey=${API_KEY}`;
 

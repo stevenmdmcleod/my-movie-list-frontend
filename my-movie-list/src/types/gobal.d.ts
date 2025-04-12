@@ -18,3 +18,20 @@ interface Profile {
     friends?: Array<Friend>,
     recentlyAdded?: Array<string>,
 }
+
+interface MovieData {
+    id: number;
+    title: string;
+    similar_titles: string[];
+    poster: string;
+    trailer: string;
+    user_rating: string;
+    critic_score: string;
+    us_rating: string;
+    release_date: string;
+    type: string;
+    plot_overview: string;
+    genre_names: string[];
+  }
+
+
