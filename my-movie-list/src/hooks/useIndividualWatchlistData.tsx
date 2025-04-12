@@ -17,6 +17,7 @@ const useIndividualWatchlistData = (listId : string | undefined): UseIndividualW
         const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/watchlist/${listId}`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
             }
         });
         setData(response);

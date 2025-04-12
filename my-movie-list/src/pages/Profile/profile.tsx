@@ -3,7 +3,7 @@ import DefaultProfilePic from '../../assets/Images/default-profile.jpg';
 import "./Profile.css";
 import EditProfile from './EditProfile';
 import useProfileData, { UseProfileDataReturn } from '../../hooks/useProfileData';
-import { decodeToken, userJwt } from '../../utils/jwt';
+import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
@@ -46,8 +46,10 @@ function Profile() {
   let userIdToRetrieve;
   if (navigatedUserId && navigatedUserId.length > 0) {
     userIdToRetrieve = navigatedUserId;
-  } else {
+  } else if (isTokenValid(token)){
     userIdToRetrieve = decoded.userId;
+  } else {
+    userIdToRetrieve = '';
   }
 
   const { data, loading }: UseProfileDataReturn = useProfileData(userIdToRetrieve)
@@ -97,7 +99,7 @@ function Profile() {
   useEffect(() => {
     if (data && data.userId) {
       setProfile(data)
-      if (!navigatedUserId || navigatedUserId === decoded.userId) {
+      if (!navigatedUserId || navigatedUserId === decoded?.userId) {
         setOwnerProfile(true);
       } else {
         setOwnerProfile(false);
@@ -119,7 +121,7 @@ function Profile() {
     } else {
       setImageSource(DefaultProfilePic);
     }
-  }, [data, decoded.userId, navigatedUserId])
+  }, [data, decoded, navigatedUserId])
 
   return (
     <div id='profile-view'>

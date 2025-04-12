@@ -11,13 +11,18 @@ const useProfileData = (userId : string): UseProfileDataReturn => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!userId) return;
+    // if (!userId) return;
+    const token = window.localStorage.getItem("token");
+    if (!userId) {
+      setLoading(false);
+      return;
+    };
     const fetchData = async () => {
       try {
         const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/userId/${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
+                'Authorization': `Bearer ${token}`
             }
         });
         setData(response);

@@ -60,9 +60,7 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/watchlists" element={<Watchlists />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
-            </Route>
+            <Route path="/profile" element={<Profile />} />
             <Route element={<AdminRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
