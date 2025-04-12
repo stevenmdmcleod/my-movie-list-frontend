@@ -64,7 +64,7 @@ function EditWatchlist({watchlist, listName, setListName, setIsPublic, isOpen, o
   return (
     <dialog ref={EditWatchlistRef} onClose={onClose} id='edit-watchlist-dialog'>
         <div id="edit-watchlist-dialog-container">
-        <button id="edit-watchlist-dialog-close" onClick={() => {onClose()}}>&times;</button>
+            <button id="edit-watchlist-dialog-close" onClick={() => {onClose()}}>&times;</button>
 
             <h1>Edit Watchlist</h1>
             <div id="edit-watchlist-name">
@@ -74,14 +74,16 @@ function EditWatchlist({watchlist, listName, setListName, setIsPublic, isOpen, o
             
             <div id="edit-watchlist-visibility">
                 <span className='edit-watchlist-label'>Visibility:</span>
-                <label>
-                    <input type="radio" name="edit-watchlist-public" value="true" onClick={() => setEditIsPublic(true)} defaultChecked={editIsPublic === true}/>
-                    Public
-                </label>
-                <label>
-                    <input type="radio" name="edit-watchlist-public" value="false" onClick={() => setEditIsPublic(false)} defaultChecked={editIsPublic === false}/>
-                    Private
-                </label>
+                <div id="edit-watchlist-visibility-options">
+                    <label>
+                        <input type="radio" name="edit-watchlist-public" value="true" onClick={() => setEditIsPublic(true)} defaultChecked={editIsPublic === true}/>
+                        Public
+                    </label>
+                    <label>
+                        <input type="radio" name="edit-watchlist-public" value="false" onClick={() => setEditIsPublic(false)} defaultChecked={editIsPublic === false}/>
+                        Private
+                    </label>
+                </div>
             </div>
 
             <button id="edit-watchlist-submit" onClick={handleSaveChanges}>Save Changes</button>

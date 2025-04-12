@@ -27,6 +27,7 @@ function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
     const [listName, setListName] = useState<string>('')
     const [isPublic, setIsPublic] = useState<boolean>(false);
+    const [collaborators, setCollaborators] = useState<Array<Profile>>([])
 
     const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState<boolean>(false);
     const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
@@ -47,9 +48,10 @@ function IndividualWatchlist() {
     
     const {data: ownerProfile, loading:profileLoading } = useProfileData(ownerId ?? "");
 
+    
     const { profiles: collaboratorsProfiles, loading: collaboratorsLoading } = useMultipleProfiles(watchlistData?.collaborators);
 
-    const collaboratorsUsernames = collaboratorsProfiles.map(profile => profile.username);
+    // const collaboratorsUsernames = collaboratorsProfiles.map(profile => profile.username);
     const userIsOwner = userProfile && userProfile.userId && userProfile?.userId === ownerProfile?.userId;
 
     function handleProfileNavigation(userId:string | undefined): void {
@@ -129,7 +131,11 @@ function IndividualWatchlist() {
             setIsPublic(watchlistData.isPublic);
         }
 
-    },[watchlistData])
+        if (collaboratorsProfiles) {
+            setCollaborators(collaboratorsProfiles);
+        }
+
+    },[watchlistData, collaboratorsProfiles])
 
     if (!hasAccess()) return <div>Access Denied</div>
     if (watchlistLoading || profileLoading) return <div>Loading...</div>;
@@ -158,14 +164,14 @@ function IndividualWatchlist() {
                             <span>Collaborators:</span>
                             <select name="collaborators" id="individual-watchlist-view-collaborators" defaultValue="">
                                 <option value="" disabled hidden>-- View Users --</option>
-                                {collaboratorsUsernames.map(username => {
-                                    return <option key={`collaborator-${username}`} value={username}>{username}</option>
+                                {collaborators.map(profile => {
+                                    return <option key={`collaborator-${profile.username}`} value={profile.username}>{profile.username}</option>
                                 })}
                             </select>
                             { userIsOwner? 
                                 <>
                                     <span id="individual-watchlist-collaborator-icon" title='Edit Collaborators' onClick={() => {setIsCollaboratorDialogOpen(true)}}></span>
-                                    <EditCollaborators watchlist={watchlistData} isOpen={isCollaboratorDialogOpen} onClose={() => setIsCollaboratorDialogOpen(false)}/>
+                                    <EditCollaborators ownerProfile={ownerProfile} watchlist={watchlistData} collaborators={collaborators} setCollaborators={setCollaborators} isOpen={isCollaboratorDialogOpen} onClose={() => setIsCollaboratorDialogOpen(false)}/>
                                 </>
                                 : 
                                 null
