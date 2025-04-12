@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
-import { updateBanStatus } from "../../utils/databaseCalls";
+import { deleteCommentOnWatchlist, getAllWatchlistComments, getAllWatchlistsAdmins, getUsers, updateBanStatus } from "../../utils/databaseCalls";
 
 let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -62,25 +62,27 @@ function dashboard() {
   const [section, setSection] = useState<Section>("dashboard");
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [showUserPopup, setShowUserPopup] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [commentsRes, usersRes, watchlistRes] = await Promise.all([
-          axios.get(`${BASE_URL}/watchlist/comments/all`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
-          axios.get(`${BASE_URL}/users/users`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
-          axios.get(`${BASE_URL}/watchlist`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
+          // axios.get(`${BASE_URL}/watchlist/comments/all`, {
+          //   headers: { Authorization: `Bearer ${TOKEN}` },
+          // }),
+          getAllWatchlistComments(),
+          // axios.get(`${BASE_URL}/users/users`, {
+          //   headers: { Authorization: `Bearer ${TOKEN}` },
+          // }),
+          getUsers(),
+          // axios.get(`${BASE_URL}/watchlist`, {
+          //   headers: { Authorization: `Bearer ${TOKEN}` },
+          // }),
+          getAllWatchlistsAdmins(),
         ]);
 
         const enrichedWatchlists = await Promise.all(
-          watchlistRes.data.map(async (watchlist: WatchlistData) => {
+          watchlistRes?.data.map(async (watchlist: WatchlistData) => {
             if (watchlist.titles.length > 0) {
               const firstTitleId = watchlist.titles[0];
               try {
@@ -107,9 +109,12 @@ function dashboard() {
           })
         );
 
-        setComments(commentsRes.data);
-        setUsers(usersRes.data);
-        setWatchlists(enrichedWatchlists);
+        if (commentsRes && usersRes && watchlistRes) {
+          // safe to access .data now
+          setComments(commentsRes.data);
+          setUsers(usersRes.data);
+          setWatchlists(enrichedWatchlists);
+        }
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -148,13 +153,14 @@ function dashboard() {
 
   const handleDeleteComment = async (listId: string, commentId: string) => {
     try {
-      await axios.put(
-        `${BASE_URL}/watchlist/${listId}/comments/${commentId}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        }
-      );
+      await deleteCommentOnWatchlist(listId, commentId);
+      // await axios.put(
+      //   `${BASE_URL}/watchlist/${listId}/comments/${commentId}`,
+      //   {},
+      //   {
+      //     headers: { Authorization: `Bearer ${TOKEN}` },
+      //   }
+      // );
 
       // Remove the comment from state
       setComments((prevComments) =>
