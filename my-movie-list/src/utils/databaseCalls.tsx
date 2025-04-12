@@ -5,14 +5,14 @@ import { BASE_ROUTE } from "./config";
 //adds a friend by their username
 export async function addFriend(username: string) {
     try{
-       await axios.patch(`${BASE_ROUTE}/users/friends`, {
-        data: { // request body for POST, PUT, PATCH requests
+       await axios.patch(`${BASE_ROUTE}/users/friends`, 
+        { // request body for POST, PUT, PATCH requests
             username: username
           },
-        headers: {
+        {headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      })
+        }}
+      )
       .then(response => {
         // Handle response.data
          return response;
@@ -79,14 +79,14 @@ export async function getFriends() {
 //update ban status of a user
 export async function updateBanStatus(userId: string, banStatus: string) {
     try{
-       await axios.patch(`${BASE_ROUTE}/users/${userId}/ban-status`, {
-        data: { // request body for POST, PUT, PATCH requests
+       await axios.patch(`${BASE_ROUTE}/users/${userId}/ban-status`, 
+        { // request body for POST, PUT, PATCH requests
             status: banStatus
           },
-        headers: {
+        {headers: {
           'Authorization': `Bearer ${localStorage.getItem("token")}`
-        }
-      })
+        }}
+      )
       .then(response => {
         // Handle response.data
          return response;
@@ -115,14 +115,14 @@ export async function getUsers() {
 //create watchlist
 export async function createWatchlist(listName: string) {
   try{
-     await axios.post(`${BASE_ROUTE}/watchlist`, {
-      data: { // request body for POST, PUT, PATCH requests
+     await axios.post(`${BASE_ROUTE}/watchlist`, 
+      { // request body for POST, PUT, PATCH requests
           listName: listName
         },
-      headers: {
+      {headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
-      }
-    })
+      }}
+    )
     .then(response => {
       // Handle response.data
        return response;
@@ -201,11 +201,11 @@ export async function getPublicWatchlists() {
 //add collaborator to collaborative watchlist
 export async function addCollaborator(listId: string, userId: string) {
   try{
-     await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/collaborators`, {
-      data: { // request body for POST, PUT, PATCH requests
+     await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/collaborators`, 
+      { // request body for POST, PUT, PATCH requests
         collaborator: userId
       },
-      headers: {
+      {headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
@@ -218,7 +218,7 @@ export async function addCollaborator(listId: string, userId: string) {
 }}
 
 
-//remove collaborator to collaborative watchlist
+//remove collaborator to collaborative watchlist --needs to be tested thoroughly
 export async function removeCollaborator(listId: string, userId: string) {
   try{
      await axios.delete(`${BASE_ROUTE}/watchlist/${listId}/collaborators`, {
@@ -241,12 +241,12 @@ export async function removeCollaborator(listId: string, userId: string) {
 //update listName and isPublic
 export async function updateWatchlist(listId: string, listName: string, isPublic: Boolean) {
   try{
-     await axios.put(`${BASE_ROUTE}/watchlist/${listId}`, {
-      data: { // request body for POST, PUT, PATCH requests
+     await axios.put(`${BASE_ROUTE}/watchlist/${listId}`, 
+      { // request body for POST, PUT, PATCH requests
         listName: listName,
         isPublic: isPublic
       },
-      headers: {
+      {headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
@@ -262,11 +262,11 @@ export async function updateWatchlist(listId: string, listName: string, isPublic
 //add a comment to watchlist
 export async function addCommentToWatchlist(listId: string, comment: string) {
   try{
-     await axios.put(`${BASE_ROUTE}/watchlist/${listId}/comments`, {
-      data: { // request body for POST, PUT, PATCH requests
+     await axios.put(`${BASE_ROUTE}/watchlist/${listId}/comments`, 
+      { // request body for POST, PUT, PATCH requests
         comment: comment
       },
-      headers: {
+      {headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
@@ -318,11 +318,11 @@ export async function deleteCommentOnWatchlist(listId: string, commentId: string
 //add or remove title from watchlist
 export async function AddRemoveTitleFromWatchlist(listId: string, titleId: string) {
   try{
-     await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/titles`, {
-      data: { // request body for POST, PUT, PATCH requests
+     await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/titles`, 
+      { // request body for POST, PUT, PATCH requests
         titleId: titleId
       },
-      headers: {
+      {headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`
       }
     })
