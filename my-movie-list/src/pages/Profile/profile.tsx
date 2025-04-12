@@ -98,7 +98,10 @@ function Profile() {
 
   useEffect(() => {
     if (data && data.userId) {
-      setProfile(data)
+      // Only update data if userId has changed (prevents overwrites)
+      if (data.userId !== profile.userId) {
+        setProfile(data)
+      }
       if (!navigatedUserId || navigatedUserId === decoded?.userId) {
         setOwnerProfile(true);
       } else {

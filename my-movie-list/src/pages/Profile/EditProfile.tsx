@@ -106,6 +106,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
                 }
             })
             if (response.status === 200) {
+                console.log('valid')
                 setProfile({...profile, ...response.data.user, signedUrl: response.data.signedUrl});
                 if (response.data.signedUrl) {
                     setImageSource(response.data.signedUrl);
@@ -152,17 +153,14 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
                 dialog.showModal();
             }
             dialog?.addEventListener('click', handleBackdropClick);
-            document.body.style.overflow = 'hidden';
         } else {
             EditProfileRef.current?.close();
-            document.body.style.overflow = '';
         }
 
         setSelectedGenres(profile?.preferredGenres);
         setBiography(profile?.biography);
         return () => {
             EditProfileRef.current?.removeEventListener('click', handleBackdropClick);
-            document.body.style.overflow = '';
         };
     }, [isOpen, onClose, profile]);
 
