@@ -124,7 +124,7 @@ function Profile() {
     } else {
       setImageSource(DefaultProfilePic);
     }
-  }, [data, decoded, navigatedUserId])
+  }, [data, decoded, navigatedUserId, profile])
 
   return (
     <div id='profile-view'>

@@ -37,6 +37,15 @@
     margin-left: .5rem;
 }
 
+#individual-watchlist-edit-icon {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background-image: url('../../assets/icons/gear.png');
+    background-size: cover;
+    margin-left: .5rem;
+}
+
 #individual-watchlist-header-center {
     display: flex;
     justify-content: center;
@@ -52,7 +61,7 @@
     background-size: cover;
 }
 
-#individual-watchlist-collaborator-icon:hover {
+#individual-watchlist-collaborator-icon:hover, #individual-watchlist-edit-icon:hover {
     cursor: pointer;
 }
 

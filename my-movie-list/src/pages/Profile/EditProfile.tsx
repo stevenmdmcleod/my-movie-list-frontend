@@ -106,7 +106,6 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
                 }
             })
             if (response.status === 200) {
-                console.log('valid')
                 setProfile({...profile, ...response.data.user, signedUrl: response.data.signedUrl});
                 if (response.data.signedUrl) {
                     setImageSource(response.data.signedUrl);

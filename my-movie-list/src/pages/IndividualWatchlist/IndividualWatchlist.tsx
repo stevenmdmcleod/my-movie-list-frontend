@@ -11,6 +11,8 @@ import useProfileData from '../../hooks/useProfileData';
 import useMultipleProfiles from '../../hooks/useMultipleProfilesData';
 import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
 import axios from 'axios';
+import EditWatchlist from './EditWatchlist/EditWatchlist';
+import EditCollaborators from './EditCollaborators/EditCollaborators';
 
 const emptyWatchlist = {
     listId: "",
@@ -23,6 +25,12 @@ const emptyWatchlist = {
 }
 function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
+    const [listName, setListName] = useState<string>('')
+    const [isPublic, setIsPublic] = useState<boolean>(false);
+
+    const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState<boolean>(false);
+    const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
+
     const navigate = useNavigate();
     // const [watchlist, setWatchlist] = useState<Watchlist>(emptyWatchlist);
     const { listId } = useParams();
@@ -34,7 +42,7 @@ function IndividualWatchlist() {
     const {data: userProfile, loading: userLoading } = useProfileData(decoded?.userId || '')
 
     const { data: watchlistData, loading: watchlistLoading }: UseIndividualWatchlistDataReturn = useIndividualWatchlistData(listId);
-  
+
     const ownerId = watchlistData?.userId;
     
     const {data: ownerProfile, loading:profileLoading } = useProfileData(ownerId ?? "");
@@ -112,6 +120,15 @@ function IndividualWatchlist() {
         if (watchlistData && watchlistData.likes) {
             setLikedLists(watchlistData.likes);
         }
+
+        if (watchlistData && watchlistData.listName) {
+            setListName(watchlistData.listName)
+        }
+
+        if (watchlistData && watchlistData.isPublic) {
+            setIsPublic(watchlistData.isPublic);
+        }
+
     },[watchlistData])
 
     if (!hasAccess()) return <div>Access Denied</div>
@@ -125,10 +142,17 @@ function IndividualWatchlist() {
                     <div id="individual-watchlist-header">
                         <div id="individual-watchlist-header-left">
                             <div id="individual-watchlist-header-name-visibility">
-                                <span>{watchlistData?.isPublic? "Public": "Private"}</span>
-                                <h1>{watchlistData?.listName}</h1>
+                                <span>{isPublic? "Public": "Private"}</span>
+                                <h1>{listName}</h1>
                             </div>
                             <span id='individual-watchlist-header-author'>by <a href="#" onClick={(e) => {e.preventDefault(); handleProfileNavigation(watchlistData?.userId);}}>{ownerProfile?.username}</a></span>
+                            { userIsOwner? 
+                                <>
+                                    <span id='individual-watchlist-edit-icon' title='Edit Watchlist' onClick={() => setIsWatchlistDialogOpen(true)}></span>
+                                    <EditWatchlist watchlist={watchlistData} listName={listName} setListName={setListName} setIsPublic={setIsPublic} isOpen={isWatchlistDialogOpen} onClose={() => setIsWatchlistDialogOpen(false)} />
+                                </>
+                                :null
+                            }
                         </div>
                         <div id="individual-watchlist-header-center">
                             <span>Collaborators:</span>
@@ -138,7 +162,14 @@ function IndividualWatchlist() {
                                     return <option key={`collaborator-${username}`} value={username}>{username}</option>
                                 })}
                             </select>
-                            {userIsOwner? <span id="individual-watchlist-collaborator-icon" title='Edit Collaborators'></span>: null}
+                            { userIsOwner? 
+                                <>
+                                    <span id="individual-watchlist-collaborator-icon" title='Edit Collaborators' onClick={() => {setIsCollaboratorDialogOpen(true)}}></span>
+                                    <EditCollaborators watchlist={watchlistData} isOpen={isCollaboratorDialogOpen} onClose={() => setIsCollaboratorDialogOpen(false)}/>
+                                </>
+                                : 
+                                null
+                            }
                             
                         </div>
                         <div id="individual-watchlist-header-right">
