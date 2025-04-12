@@ -1,0 +1,79 @@
+.page .public-watchlists-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow: hidden; 
+}
+.page .watchlist-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center; /* Or space-between / start */
+}
+
+
+.page .watchlist-card {
+  width: calc(33.33% - 1rem);
+  min-width: 300px;
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  
+  min-height: 540px; 
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  
+}
+
+.watchlist-name {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.watchlist-username {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.title-grid {
+  min-height: 300px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.title-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-poster {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.title-name {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.collaborators{
+  min-height: 45px;
+  text-align: left;
+}
+
+.likes-comments {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+}
+
+
+  
