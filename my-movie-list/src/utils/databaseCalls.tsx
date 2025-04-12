@@ -3,7 +3,7 @@ import { BASE_ROUTE } from "./config";
 
 
 //adds a friend by their username
-async function addFriend(username: string) {
+export async function addFriend(username: string) {
     try{
        await axios.patch(`${BASE_ROUTE}/users/friends`, {
         data: { // request body for POST, PUT, PATCH requests
@@ -22,7 +22,7 @@ async function addFriend(username: string) {
 }}
 
 //deletes the current logged in user
-async function deleteMe() {
+export async function deleteMe() {
     try{
        await axios.delete(`${BASE_ROUTE}/users/me`, {
         
@@ -39,7 +39,7 @@ async function deleteMe() {
 }}
 
 //get user by userId
-async function getUserByUserId(userId: string) {
+export async function getUserByUserId(userId: string) {
     try{
        await axios.get(`${BASE_ROUTE}/users/userId/${userId}`, {
         
@@ -57,7 +57,7 @@ async function getUserByUserId(userId: string) {
 
 
 //gets a users friendslist
-async function getFriends() {
+export async function getFriends() {
     try{
        await axios.get(`${BASE_ROUTE}/users/friends`, {
         
@@ -77,7 +77,7 @@ async function getFriends() {
 
 
 //update ban status of a user
-async function updateBanStatus(userId: string, banStatus: string) {
+export async function updateBanStatus(userId: string, banStatus: string) {
     try{
        await axios.patch(`${BASE_ROUTE}/users/${userId}/ban-status`, {
         data: { // request body for POST, PUT, PATCH requests
@@ -96,7 +96,7 @@ async function updateBanStatus(userId: string, banStatus: string) {
 }}
 
 //get users for Admins
-async function getUsers() {
+export async function getUsers() {
     try{
        await axios.get(`${BASE_ROUTE}/users/users`, {
         
@@ -113,7 +113,7 @@ async function getUsers() {
 }}
 
 //create watchlist
-async function createWatchlist(listName: string) {
+export async function createWatchlist(listName: string) {
   try{
      await axios.post(`${BASE_ROUTE}/watchlist`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -132,7 +132,7 @@ async function createWatchlist(listName: string) {
 }}
 
 //likes/unlikes watchlist
-async function likeWatchlist(listId: string) {
+export async function likeWatchlist(listId: string) {
   try{
      await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/likes`, {
       
@@ -150,7 +150,7 @@ async function likeWatchlist(listId: string) {
 
 
 //get watchlists for user
-async function getUserWatchlists() {
+export async function getUserWatchlists() {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist/my-watchlists`, {
       
@@ -168,7 +168,7 @@ async function getUserWatchlists() {
 
 
 //get collaborative lists for user
-async function getUserCollaborativeWatchlists() {
+export async function getUserCollaborativeWatchlists() {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist/collaborative-lists`, {
       
@@ -186,7 +186,7 @@ async function getUserCollaborativeWatchlists() {
 
 
 //gets public watchlists(no authorization token needed)
-async function getPublicWatchlists() {
+export async function getPublicWatchlists() {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist/public`, {})
     .then(response => {
@@ -199,7 +199,7 @@ async function getPublicWatchlists() {
 
 
 //add collaborator to collaborative watchlist
-async function addCollaborator(listId: string, userId: string) {
+export async function addCollaborator(listId: string, userId: string) {
   try{
      await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/collaborators`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -219,7 +219,7 @@ async function addCollaborator(listId: string, userId: string) {
 
 
 //remove collaborator to collaborative watchlist
-async function removeCollaborator(listId: string, userId: string) {
+export async function removeCollaborator(listId: string, userId: string) {
   try{
      await axios.delete(`${BASE_ROUTE}/watchlist/${listId}/collaborators`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -239,7 +239,7 @@ async function removeCollaborator(listId: string, userId: string) {
 
 
 //update listName and isPublic
-async function updateWatchlist(listId: string, listName: string, isPublic: Boolean) {
+export async function updateWatchlist(listId: string, listName: string, isPublic: Boolean) {
   try{
      await axios.put(`${BASE_ROUTE}/watchlist/${listId}`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -260,7 +260,7 @@ async function updateWatchlist(listId: string, listName: string, isPublic: Boole
 
 
 //add a comment to watchlist
-async function addCommentToWatchlist(listId: string, comment: string) {
+export async function addCommentToWatchlist(listId: string, comment: string) {
   try{
      await axios.put(`${BASE_ROUTE}/watchlist/${listId}/comments`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -280,7 +280,7 @@ async function addCommentToWatchlist(listId: string, comment: string) {
 
 
 //get watchlist by id
-async function getWatchlistById(listId: string) {
+export async function getWatchlistById(listId: string) {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist/${listId}`, {
       
@@ -298,7 +298,7 @@ async function getWatchlistById(listId: string) {
 
 
 //delete a comment on watchlist for admin
-async function deleteCommentOnWatchlist(listId: string, commentId: string) {
+export async function deleteCommentOnWatchlist(listId: string, commentId: string) {
   try{
      await axios.put(`${BASE_ROUTE}/watchlist/${listId}/comments/${commentId}`, {
       
@@ -316,7 +316,7 @@ async function deleteCommentOnWatchlist(listId: string, commentId: string) {
 
 
 //add or remove title from watchlist
-async function AddRemoveTitleFromWatchlist(listId: string, titleId: string) {
+export async function AddRemoveTitleFromWatchlist(listId: string, titleId: string) {
   try{
      await axios.patch(`${BASE_ROUTE}/watchlist/${listId}/titles`, {
       data: { // request body for POST, PUT, PATCH requests
@@ -336,7 +336,7 @@ async function AddRemoveTitleFromWatchlist(listId: string, titleId: string) {
 
 
 //get all comments for admins
-async function getAllWatchlistComments() {
+export async function getAllWatchlistComments() {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist/comments/all`, {
       
@@ -354,7 +354,7 @@ async function getAllWatchlistComments() {
 
 
 //get all watchlists for admins only
-async function getAllWatchlistsAdmins() {
+export async function getAllWatchlistsAdmins() {
   try{
      await axios.get(`${BASE_ROUTE}/watchlist`, {
       
