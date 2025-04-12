@@ -10,6 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
+import { updateBanStatus } from "../../utils/databaseCalls";
 
 let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -123,13 +124,14 @@ function dashboard() {
   ) => {
     try {
       const banStatus = isCurrentlyBanned ? "unbanned" : "banned";
-      await axios.patch(
-        `${BASE_URL}/users/${userId}/ban-status`,
-        { status: banStatus },
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        }
-      );
+      await updateBanStatus(userId, banStatus);
+      // await axios.patch(
+      //   `${BASE_URL}/users/${userId}/ban-status`,
+      //   { status: banStatus },
+      //   {
+      //     headers: { Authorization: `Bearer ${TOKEN}` },
+      //   }
+      // );
 
       // Update user state locally after ban/unban
       setUsers((prev) =>
