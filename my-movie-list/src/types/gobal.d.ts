@@ -35,3 +35,13 @@ interface MovieData {
   }
 
 
+  interface Watchlist {
+    listId: string;
+    collaborators: string[];
+    comments: [];
+    isPublic: boolean;
+    likes: [];
+    listName: string;
+    titles: [];
+    userId: string;
+  }
