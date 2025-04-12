@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./movieInformation.css";
 import { useParams } from "react-router";
+import { getUserWatchlists, AddRemoveTitleFromWatchlist } from "../../utils/databaseCalls";
 
 const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 
@@ -13,9 +14,8 @@ function MovieInformation() {
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [similarTitles, setSimilarTitles] = useState<
-    { poster: string; title: string }[]
-  >([]);
+  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string }[]>([]);
+  const [userWatchlists, setUserWatchlists] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async (url: string) => {
@@ -70,6 +70,24 @@ function MovieInformation() {
     }
   }, [data]); // Only run when data (movie details) is available
 
+  useEffect(() => {
+    const fetchUserWatchlists = async () => {
+      try {
+        const response = await getUserWatchlists();
+        if (response.status === 200) {
+          setUserWatchlists(response.data.watchlists);
+          console.log("Fetched user watchlists:", response.data.watchlists);
+        } else {
+          console.error("Failed to fetch watchlists:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching user watchlists:", error);
+      }
+    };
+  
+    fetchUserWatchlists();
+  }, []);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -81,6 +99,9 @@ function MovieInformation() {
   if (!data) {
     return <h1 style={{ color: "white" }}>Could not find title</h1>;
   }
+
+
+
 
   // Get genres
   let genres: string = "";
@@ -165,7 +186,17 @@ function MovieInformation() {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
-          <p>placeholder</p>
+          <label htmlFor="watchlist">Add/Remove title from watchlist:
+          <select className="watchlist-select" onChange={(e) => AddRemoveTitleFromWatchlist(e.target.value, titleid ?? "")}>
+            
+          <option value="">Select a watchlist</option>
+            {userWatchlists.map((watchlist) => (
+              <option key={watchlist.listId} value={watchlist.listId}>
+                {watchlist.listName}
+              </option>
+            ))}
+          </select>
+          </label>
         </div>
       </div>
     </div>
