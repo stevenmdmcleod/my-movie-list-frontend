@@ -60,7 +60,7 @@ function IndividualWatchlist() {
         })
 
         if (response.status !== 200) return;
-        
+
         if ( likedLists.includes(userProfile.userId)) {
             setLikedLists(likedLists.filter(id => id !== userProfile.userId));
         } else {
@@ -144,8 +144,7 @@ function IndividualWatchlist() {
                         <div id="individual-watchlist-header-right">
                             <span>Likes:</span>
                             {getLikeIcon()}
-                            {/* <span className="individual-watchlist-likes-icon"></span> */}
-                            <span>{watchlistData?.likes.length}</span>
+                            <span>{likedLists.length}</span>
                         </div>
                     </div>
                     <hr id='individual-watchlist-header-hr'/>
