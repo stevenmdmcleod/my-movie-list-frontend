@@ -1,12 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router";
-import { Pagination } from 'react-bootstrap';
-// import collaboratorCogwheelIcon from "../../assets/icons/person-cogwheel.png";
-// import redHeartIcon from "../../assets/icons/red-heart.png";
-// import greyHeartIcon from "../../assets/icons/grey-heart.png";
-// import removeIcon from "../../assets/icons/remove.png";
-
-import './IndividualWatchlist.css'
 import useIndividualWatchlistData, { UseIndividualWatchlistDataReturn } from "../../hooks/useIndividualWatchlistData";
 import useProfileData from '../../hooks/useProfileData';
 import useMultipleProfiles from '../../hooks/useMultipleProfilesData';
@@ -15,9 +8,8 @@ import axios from 'axios';
 import EditWatchlist from './EditWatchlist/EditWatchlist';
 import EditCollaborators from './EditCollaborators/EditCollaborators';
 import TitleCard, { TitleInformation } from './TitleCard/TitleCard';
-import Comment from './Comment/Comment';
-
-const COMMENTS_PER_PAGE = 5;
+import CommentSection from './CommentSection/CommentSection';
+import './IndividualWatchlist.css'
 
 function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
@@ -29,19 +21,7 @@ function IndividualWatchlist() {
     // const [titles, setTitles] = useState<Array<TitleInformation>>([])
     const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState<boolean>(false);
     const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
-    const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<Array<Comment>>([]);
-
-
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const totalPages = Math.ceil(comments.length / COMMENTS_PER_PAGE);
-    const indexOfLastComment = currentPage * COMMENTS_PER_PAGE;
-    const indexOfFirstComment = indexOfLastComment - COMMENTS_PER_PAGE;
-    const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
-
-
-
 
     const navigate = useNavigate();
     const { listId } = useParams();
@@ -102,27 +82,6 @@ function IndividualWatchlist() {
             if (response.status === 200) {
                 setTitles(titles.filter(title => title.id !== titleId));
             }
-        }
-    }
-
-    function handleCommentUpdate(event: ChangeEvent<HTMLTextAreaElement>) {
-        setComment(event.target.value);
-    }
-
-    async function handleSubmitComment() {
-        if (!watchlistData) return;
-        const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/comments`, { comment },{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
-            }
-        })
-
-        if (response.status === 200) {
-            const unsorted = [...comments, response.data.comment];
-            const sorted = sortComments(unsorted);
-            setComments(sorted);
-            setComment("");
         }
     }
 
@@ -215,7 +174,8 @@ function IndividualWatchlist() {
         if (watchlistData && watchlistData.titles) {
             // getTitles(watchlistData.titles);
         }
-
+        
+        // Comment out this section to avoid Watchmode API calls, can use dummy state to simulate titles.
         if (watchlistData && watchlistData.comments) {
             const sorted = sortComments(watchlistData.comments);
             setComments(sorted);
@@ -286,45 +246,7 @@ function IndividualWatchlist() {
                             return <TitleCard key={title.id + index} titleInfo={title} handleDelete={handleDelete} userCanDelete={userIsOwner || userIsCollaborator}/>
                         })}
                     </div>
-
-                    <div id="individual-watchlist-comment-section">
-                        <h2>Comments</h2>
-                        <hr id='individual-watchlist-header-comments-hr'/>
-                        
-                        <div id="individual-watchlist-create-comment">
-                            <textarea name="add-comment" id="individual-watchlist-comment-textarea" rows={5} maxLength={400} value={comment} onChange={handleCommentUpdate}></textarea>
-                            <button id="individual-watchlist-post-comment" onClick={handleSubmitComment}>Post</button>
-                        </div>
-
-                        <div id="individual-watchlist-comments">
-                            {currentComments.map(comment => {
-                                return <React.Fragment key={comment.commentId}>
-                                    <Comment  comment={comment} />
-                                    <hr id='individual-watchlist-header-hr-light'/>
-                                </React.Fragment>
-                            })}
-
-                            <Pagination style={{ width: '100%' }}  className="mt-3 justify-content-center">
-                                    <Pagination.Prev
-                                    onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                                    disabled={currentPage === 1}
-                                    />
-                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                                    <Pagination.Item
-                                        key={page}
-                                        active={page === currentPage}
-                                        onClick={() => setCurrentPage(page)}
-                                    >
-                                        {page}
-                                    </Pagination.Item>
-                                    ))}
-                                    <Pagination.Next
-                                    onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                                    disabled={currentPage === totalPages}
-                                    />
-                                </Pagination>
-                        </div>
-                    </div>
+                    <CommentSection comments={comments} setComments={setComments} watchlistData={watchlistData} />
                 </>
             </div>
         </div>
