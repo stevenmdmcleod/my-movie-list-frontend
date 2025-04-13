@@ -48,3 +48,17 @@
     width: 100%;
     resize: none;
 }
+
+#individual-watchlist-header-hr-light {
+    border-top: 1px solid;
+    color: #313131;
+    width: 100%;
+    opacity: 1;
+    border-radius: 50px;
+}
+
+@media screen and (max-width: 900px) {
+    #individual-watchlist-create-comment {
+        width: 100%;
+    }
+}

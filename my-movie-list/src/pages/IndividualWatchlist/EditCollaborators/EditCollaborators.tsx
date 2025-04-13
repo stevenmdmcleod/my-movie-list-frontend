@@ -86,6 +86,7 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
       }
 
       setCollaborators(selectedCollaborators);
+      onClose();
     }
 
     useEffect(() => {

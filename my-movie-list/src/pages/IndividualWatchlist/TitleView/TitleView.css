@@ -1,0 +1,7 @@
+#individual-watchlist-titles-view {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
