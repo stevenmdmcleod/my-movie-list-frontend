@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./watchlists.css";
 import axios from "axios";
+import { getPublicWatchlists } from "../../utils/databaseCalls";
 
-
+let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface WatchlistData {
@@ -16,8 +17,7 @@ interface WatchlistData {
   collaborators: string[];
 }
 
-interface titleData {
-  id: string;
+interface TitleData {
   title: string;
   poster:string;
 }
@@ -25,44 +25,49 @@ interface titleData {
 function watchlists() {
 
   const [watchlists, setWatchlists] = useState<WatchlistData[]>([]);
+  const [titleMap, setTitleMap] = useState<Map<string, TitleData>>(new Map());
 
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get(`${BASE_URL}/watchlist/public`);
+        const result = await getPublicWatchlists();//await axios.get(`${BASE_URL}/watchlist/public`);
         
-        setWatchlists(result.data);
+        const data = result?.data || [];
+        setWatchlists(data);
 
+         // Collect all unique title IDs
+         const allIds = data.flatMap((wl:WatchlistData) => wl.titles);
+         const uniqueIds = Array.from(new Set(allIds));
+
+         console.log("unique Ids ", uniqueIds);
+
+         const map = new Map<string, TitleData>();
+
+         // Fetch all titles one by one from Watchmode API
+        await Promise.all(
+          uniqueIds.map(async (id) => {
+            try {
+              const res = await axios.get(`https://api.watchmode.com/v1/title/${id}/details/?apiKey=${API_KEY}`);
+              map.set(id as string, {
+                title: res.data.title || "Untitled",
+                poster: res.data.poster || "/src/assets/Images/default-title-image.png"
+              });
+            } catch {
+              map.set(id as string, {
+                title: "Unknown Title",
+                poster: "/src/assets/Images/default-title-image.png"
+              });
+            }
+          })
+        );
+        setTitleMap(map);
         
       } catch (err) {
         console.error("Error fetching data:", err);
       }
-    };
-
-    const fetchTitleInfo = async (ids: string[]) => {
-      try {
-        const response = await axios.get(`${BASE_URL}/titles`, {
-          params: { ids: ids.join(',') }
-        });
-    
-        // Assume response.data is an array of title info objects
-        const titleMap = new Map<string, { name: string; posterUrl: string }>();
-        response.data.forEach((title: any) => {
-          titleMap.set(title.id, {
-            name: title.name,
-            posterUrl: title.posterUrl
-          });
-        });
-    
-        return titleMap;
-      } catch (error) {
-        console.error("Failed to fetch title info:", error);
-        return new Map();
-      }
-    };
-    
+    };    
 
     fetchData();
   }, []);
@@ -86,17 +91,20 @@ function watchlists() {
   <p className="watchlist-username">{wl.username}</p>
 
   <div className="title-grid">
-    {wl.titles.slice(0, 4).map((title, index) => (
+  {wl.titles.slice(0, 4).map((titleId, index) => {
+    const title = titleMap.get(titleId);
+    return (
       <div key={index} className="title-cell">
         <img
-          src="/src/assets/Images/default-title-image.png"
-          alt="title"
+          src={title?.poster || "/src/assets/Images/default-title-image.png"}
+          alt={title?.title || "title"}
           className="title-poster"
         />
-        <p className="title-name">title</p>
+        <p className="title-name">{title?.title || "Title"}</p>
       </div>
-    ))}
-  </div>
+    );
+  })}
+</div>
   <p className="collaborators"><strong>Collaborators:</strong> {wl.collaborators.join(', ')}</p>
 
   <div className="likes-comments">

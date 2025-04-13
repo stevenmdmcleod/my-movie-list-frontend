@@ -13,7 +13,6 @@ import { decodeToken, userJwt } from "../../utils/jwt";
 import { deleteCommentOnWatchlist, getAllWatchlistComments, getAllWatchlistsAdmins, getUsers, updateBanStatus } from "../../utils/databaseCalls";
 
 let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const TOKEN = window.localStorage.getItem("token") || '';
 const admin = decodeToken(TOKEN) as userJwt;
@@ -67,17 +66,8 @@ function dashboard() {
     const fetchData = async () => {
       try {
         const [commentsRes, usersRes, watchlistRes] = await Promise.all([
-          // axios.get(`${BASE_URL}/watchlist/comments/all`, {
-          //   headers: { Authorization: `Bearer ${TOKEN}` },
-          // }),
           getAllWatchlistComments(),
-          // axios.get(`${BASE_URL}/users/users`, {
-          //   headers: { Authorization: `Bearer ${TOKEN}` },
-          // }),
           getUsers(),
-          // axios.get(`${BASE_URL}/watchlist`, {
-          //   headers: { Authorization: `Bearer ${TOKEN}` },
-          // }),
           getAllWatchlistsAdmins(),
         ]);
 
@@ -110,7 +100,6 @@ function dashboard() {
         );
 
         if (commentsRes && usersRes && watchlistRes) {
-          // safe to access .data now
           setComments(commentsRes.data);
           setUsers(usersRes.data);
           setWatchlists(enrichedWatchlists);
@@ -130,13 +119,6 @@ function dashboard() {
     try {
       const banStatus = isCurrentlyBanned ? "unbanned" : "banned";
       await updateBanStatus(userId, banStatus);
-      // await axios.patch(
-      //   `${BASE_URL}/users/${userId}/ban-status`,
-      //   { status: banStatus },
-      //   {
-      //     headers: { Authorization: `Bearer ${TOKEN}` },
-      //   }
-      // );
 
       // Update user state locally after ban/unban
       setUsers((prev) =>
@@ -154,13 +136,6 @@ function dashboard() {
   const handleDeleteComment = async (listId: string, commentId: string) => {
     try {
       await deleteCommentOnWatchlist(listId, commentId);
-      // await axios.put(
-      //   `${BASE_URL}/watchlist/${listId}/comments/${commentId}`,
-      //   {},
-      //   {
-      //     headers: { Authorization: `Bearer ${TOKEN}` },
-      //   }
-      // );
 
       // Remove the comment from state
       setComments((prevComments) =>
