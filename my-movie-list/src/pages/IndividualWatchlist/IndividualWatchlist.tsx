@@ -226,9 +226,15 @@ function IndividualWatchlist() {
         }
     },[watchlistData, collaboratorsProfiles])
 
-    if (!hasAccess()) return <div>Access Denied</div>
-    if (watchlistLoading || profileLoading) return <div>Loading...</div>;
-    if (!watchlistData) return <div>NOT FOUND</div>
+    if (!hasAccess()) return <div className='access-denied-view'>
+            <span className='access-denied-view-title'>Access Denied</span>
+            <span className="access-denied-view-redirect">
+                Please login to an account with valid access: <button className="login-redirect-button" onClick={() => navigate('/login')}>Go To Login</button>
+            </span>
+        </div>
+    
+    if (watchlistLoading || profileLoading) return <div className='centered-error-view'>Loading...</div>;
+    if (!watchlistData) return <div className='centered-error-view'>NOT FOUND</div>
 
     return (
         <div id="individual-watchlist-view">
