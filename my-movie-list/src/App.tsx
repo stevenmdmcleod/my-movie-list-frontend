@@ -13,7 +13,6 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import MovieInformation from "./pages/MovieInformation/movieInformation";
 import MyWatchLists from "./pages/MyWatchlists/myWatchLists";
 import Watchlists from "./pages/Watchlists/watchlists";
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
 import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist";
