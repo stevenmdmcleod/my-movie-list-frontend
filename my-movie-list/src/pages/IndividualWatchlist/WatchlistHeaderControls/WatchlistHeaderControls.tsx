@@ -72,7 +72,13 @@ function WatchlistHeaderControls({userIsOwner, ownerProfile, userProfile, watchl
         <div id="individual-watchlist-header">
             <div id="individual-watchlist-header-left">
                 <div id="individual-watchlist-header-name-visibility">
-                    <span>{isPublic? "Public": "Private"}</span>
+                    
+                    
+                    { isPublic? 
+                        <span id="individual-watchlist-header-name-visibility-public">Public</span>
+                        :
+                        <span id="individual-watchlist-header-name-visibility-private">Private</span>
+                    }
                     <h1>{listName}</h1>
                 </div>
                 <span id='individual-watchlist-header-author'>by <a href="#" onClick={(e) => {e.preventDefault(); handleProfileNavigation(watchlistData?.userId);}}>{ownerProfile?.username}</a></span>
