@@ -58,6 +58,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/friends" element={<Friends />} />
+            <Route path="/watchlists" element={<Watchlists />} />
             <Route path="/watchlist/:listId" element={<Watchlists />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
