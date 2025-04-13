@@ -15,7 +15,7 @@ function MovieInformation() {
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string }[]>([]);
+  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string; id: number }[]>([]);
   const [userWatchlists, setUserWatchlists] = useState<any[]>([]);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function MovieInformation() {
   useEffect(() => {
     if (data && data.similar_titles.length > 0) {
       const fetchSimilarTitles = async () => {
-        const similarTitlesList: { poster: string; title: string }[] = [];
+        const similarTitlesList: { poster: string; title: string; id: number}[] = [];
 
         for (let i = 0; i < Math.min(data.similar_titles.length, 5); i++) {
           const similarTitleID = data.similar_titles[i];
@@ -58,6 +58,7 @@ function MovieInformation() {
             similarTitlesList.push({
               poster: similarData.poster,
               title: similarData.title,
+              id: similarData.id,
             });
           } catch (e) {
             console.error("Error fetching similar title:", e);
@@ -162,14 +163,14 @@ function MovieInformation() {
             <div className="similar-titles">
               {similarTitles.length > 0 ? (
                 similarTitles.slice(0, 4).map((similar, index) => (
-                  <div key={index} className="similar-title">
+                  <button key={index} className="similar-title" onClick={() => window.location.href = `/movieinformation/${similarTitles[index].id}`}>
                     <img
                       src={similar.poster ?? ""}
                       className="rounded mx-auto d-block"
                       alt="similar title not found"
                     />
                     <p>{similar.title ?? "Title Not Found"}</p>
-                  </div>
+                  </button>
                 ))
               ) : (
                 <p>No similar titles found</p>
