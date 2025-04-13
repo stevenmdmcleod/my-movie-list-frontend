@@ -13,22 +13,16 @@ import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
 import axios from 'axios';
 import EditWatchlist from './EditWatchlist/EditWatchlist';
 import EditCollaborators from './EditCollaborators/EditCollaborators';
+import TitleCard, { TitleInformation } from './TitleCard/TitleCard';
 
-const emptyWatchlist = {
-    listId: "",
-    userId: "",
-    listName: "",
-    isPublic: true,
-    likes: [],
-    titles: [],
-    comments: []
-}
 function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
     const [listName, setListName] = useState<string>('')
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [collaborators, setCollaborators] = useState<Array<Profile>>([])
-
+    // Test state to avoid API calls while developing
+    const [titles, setTitles] = useState<Array<TitleInformation>>([{id: 3173903, title: "Breaking Bad", poster: "https://cdn.watchmode.com/posters/03173903_poster_w185.jpg"},{id: 316213, title: "Boston Legal", poster: "https://cdn.watchmode.com/posters/0316213_poster_w185.jpg"},{id: 3110052, title: "Southland", poster: "https://cdn.watchmode.com/posters/03110052_poster_w185.jpg"}])
+    // const [titles, setTitles] = useState<Array<TitleInformation>>([])
     const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState<boolean>(false);
     const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
 
@@ -51,7 +45,6 @@ function IndividualWatchlist() {
     
     const { profiles: collaboratorsProfiles, loading: collaboratorsLoading } = useMultipleProfiles(watchlistData?.collaborators);
 
-    // const collaboratorsUsernames = collaboratorsProfiles.map(profile => profile.username);
     const userIsOwner = userProfile && userProfile.userId && userProfile?.userId === ownerProfile?.userId;
 
     function handleProfileNavigation(userId:string | undefined): void {
@@ -75,6 +68,22 @@ function IndividualWatchlist() {
             setLikedLists(likedLists.filter(id => id !== userProfile.userId));
         } else {
             setLikedLists([...likedLists, userProfile.userId])
+        }
+    }
+
+    async function handleDelete(titleId:number, titleName:string) {
+        if (!watchlistData) return;
+        if (window.confirm(`Delete ${titleName}?`)) {
+            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/titles`, { titleId: `${titleId}` },{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${window.localStorage.getItem("token")}`
+                }
+            })
+
+            if (response.status === 200) {
+                setTitles(titles.filter(title => title.id !== titleId));
+            }
         }
     }
 
@@ -118,6 +127,21 @@ function IndividualWatchlist() {
         return false
     }
 
+    async function getTitles(titleIds: Array<string>) {
+        const retrievedTitles = [];
+        for (const title of titleIds) {
+            try {
+                const response = await axios.get(`https://api.watchmode.com/v1/title/${title}/details/?apiKey=${import.meta.env.VITE_WATCHMODE_API_KEY}`)
+                if (response.status === 200) {
+                    retrievedTitles.push(response.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        setTitles(retrievedTitles);
+    }
+
     useEffect(() => {
         if (watchlistData && watchlistData.likes) {
             setLikedLists(watchlistData.likes);
@@ -129,6 +153,10 @@ function IndividualWatchlist() {
 
         if (watchlistData && watchlistData.isPublic) {
             setIsPublic(watchlistData.isPublic);
+        }
+
+        if (watchlistData && watchlistData.titles) {
+            // getTitles(watchlistData.titles);
         }
 
         if (collaboratorsProfiles) {
@@ -185,6 +213,12 @@ function IndividualWatchlist() {
                         </div>
                     </div>
                     <hr id='individual-watchlist-header-hr'/>
+
+                    <div id="individual-watchlist-titles-view">
+                        {titles.map((title, index) => {
+                            return <TitleCard key={title.id + index} titleInfo={title} handleDelete={handleDelete} />
+                        })}
+                    </div>
                 </>
             </div>
         </div>

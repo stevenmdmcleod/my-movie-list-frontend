@@ -99,6 +99,15 @@
     border-radius: 50px;
 }
 
+#individual-watchlist-titles-view {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+
 @media screen and (max-width: 900px) {
     #individual-watchlist-header {
         display: flex;
