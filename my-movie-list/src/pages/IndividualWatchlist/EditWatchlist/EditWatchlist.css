@@ -103,3 +103,9 @@
         width: 90%;
     }
 }
+
+@media screen and (max-height: 600px) {
+    #edit-watchlist-dialog {
+        height: 100%;
+    }
+}

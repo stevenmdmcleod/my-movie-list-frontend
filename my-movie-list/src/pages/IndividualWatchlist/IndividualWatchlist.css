@@ -99,6 +99,14 @@
     border-radius: 50px;
 }
 
+#individual-watchlist-header-hr-light {
+    border-top: 1px solid;
+    color: #313131;
+    width: 100%;
+    opacity: 1;
+    border-radius: 50px;
+}
+
 #individual-watchlist-titles-view {
     width: 90%;
     display: flex;
@@ -107,11 +115,57 @@
     flex-wrap: wrap;
 }
 
+#individual-watchlist-comment-section {
+    width: 90%;
+}
+
+#individual-watchlist-comment-section h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+#individual-watchlist-create-comment {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: end;
+    margin-bottom: 2rem;
+}
+
+#individual-watchlist-post-comment {
+    width: 8rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+    border: 0px solid transparent;
+    margin-top: .5rem;
+    transition: .2s;
+
+}
+
+#individual-watchlist-post-comment:hover {
+    background-color: white;
+    color:black;
+    transition: ease();
+}
+
+#individual-watchlist-comment-textarea {
+    width: 100%;
+    resize: none;
+}
 
 @media screen and (max-width: 900px) {
     #individual-watchlist-header {
         display: flex;
         align-items: start;
         flex-direction: column;
+    }
+
+    #individual-watchlist-create-comment {
+        width: 100%;
     }
 }

@@ -5,7 +5,7 @@ import useMultipleProfiles from '../../../hooks/useMultipleProfilesData';
 import axios from 'axios';
 
 interface EditCollaboratorsProps {
-  ownerProfile: Profile,
+  ownerProfile: Profile | null,
   watchlist: Watchlist,
   collaborators: Array<Profile>,
   setCollaborators: (profiles: Array<Profile>) => void, 

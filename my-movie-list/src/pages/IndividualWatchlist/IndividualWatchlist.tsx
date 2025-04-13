@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router";
 // import collaboratorCogwheelIcon from "../../assets/icons/person-cogwheel.png";
 // import redHeartIcon from "../../assets/icons/red-heart.png";
@@ -14,6 +14,7 @@ import axios from 'axios';
 import EditWatchlist from './EditWatchlist/EditWatchlist';
 import EditCollaborators from './EditCollaborators/EditCollaborators';
 import TitleCard, { TitleInformation } from './TitleCard/TitleCard';
+import Comment from './Comment/Comment';
 
 function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
@@ -25,16 +26,17 @@ function IndividualWatchlist() {
     // const [titles, setTitles] = useState<Array<TitleInformation>>([])
     const [isWatchlistDialogOpen, setIsWatchlistDialogOpen] = useState<boolean>(false);
     const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
+    const [comment, setComment] = useState<string>("");
+    const [comments, setComments] = useState<Array<Comment>>([]);
 
     const navigate = useNavigate();
-    // const [watchlist, setWatchlist] = useState<Watchlist>(emptyWatchlist);
     const { listId } = useParams();
     const token = window.localStorage.getItem("token") || '';
     let decoded;
     if (isTokenValid(token)){
         decoded = decodeToken(token) as userJwt;
     }
-    const {data: userProfile, loading: userLoading } = useProfileData(decoded?.userId || '')
+    const {data: userProfile } = useProfileData(decoded?.userId || '')
 
     const { data: watchlistData, loading: watchlistLoading }: UseIndividualWatchlistDataReturn = useIndividualWatchlistData(listId);
 
@@ -43,9 +45,11 @@ function IndividualWatchlist() {
     const {data: ownerProfile, loading:profileLoading } = useProfileData(ownerId ?? "");
 
     
-    const { profiles: collaboratorsProfiles, loading: collaboratorsLoading } = useMultipleProfiles(watchlistData?.collaborators);
+    const { profiles: collaboratorsProfiles } = useMultipleProfiles(watchlistData?.collaborators);
 
-    const userIsOwner = userProfile && userProfile.userId && userProfile?.userId === ownerProfile?.userId;
+    const userIsOwner = userProfile && userProfile.userId && userProfile?.userId === ownerProfile?.userId || false;
+
+    const userIsCollaborator = userProfile && userProfile.userId && watchlistData && watchlistData.collaborators.includes(userProfile.userId) || false;
 
     function handleProfileNavigation(userId:string | undefined): void {
         if (!userId) return;
@@ -85,6 +89,45 @@ function IndividualWatchlist() {
                 setTitles(titles.filter(title => title.id !== titleId));
             }
         }
+    }
+
+    function handleCommentUpdate(event: ChangeEvent<HTMLTextAreaElement>) {
+        setComment(event.target.value);
+    }
+
+    async function handleSubmitComment() {
+        if (!watchlistData) return;
+        const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/comments`, { comment },{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem("token")}`
+            }
+        })
+
+        if (response.status === 200) {
+            const unsorted = [...comments, response.data.comment];
+            const sorted = sortComments(unsorted);
+            setComments(sorted);
+            setComment("");
+        }
+    }
+
+    function sortComments(comments:Array<Comment>){
+        const sorted = [...comments];
+
+        sorted.sort((a, b) => {
+            if (a.datePosted < b.datePosted) {
+                return -1;
+            }
+
+            if (a.datePosted > b.datePosted) {
+                return 1;
+            }
+
+            return 0;
+        })
+
+        return sorted;
     }
 
     function getLikeIcon() {
@@ -159,10 +202,14 @@ function IndividualWatchlist() {
             // getTitles(watchlistData.titles);
         }
 
+        if (watchlistData && watchlistData.comments) {
+            const sorted = sortComments(watchlistData.comments);
+            setComments(sorted);
+        }
+
         if (collaboratorsProfiles) {
             setCollaborators(collaboratorsProfiles);
         }
-
     },[watchlistData, collaboratorsProfiles])
 
     if (!hasAccess()) return <div>Access Denied</div>
@@ -216,8 +263,27 @@ function IndividualWatchlist() {
 
                     <div id="individual-watchlist-titles-view">
                         {titles.map((title, index) => {
-                            return <TitleCard key={title.id + index} titleInfo={title} handleDelete={handleDelete} />
+                            return <TitleCard key={title.id + index} titleInfo={title} handleDelete={handleDelete} userCanDelete={userIsOwner || userIsCollaborator}/>
                         })}
+                    </div>
+
+                    <div id="individual-watchlist-comment-section">
+                        <h2>Comments</h2>
+                        <hr id='individual-watchlist-header-hr'/>
+                        
+                        <div id="individual-watchlist-create-comment">
+                            <textarea name="add-comment" id="individual-watchlist-comment-textarea" rows={5} maxLength={400} value={comment} onChange={handleCommentUpdate}></textarea>
+                            <button id="individual-watchlist-post-comment" onClick={handleSubmitComment}>Post</button>
+                        </div>
+
+                        <div id="individual-watchlist-comment-section">
+                            {comments.map(comment => {
+                                return <React.Fragment key={comment.commentId}>
+                                    <Comment  comment={comment} />
+                                    <hr id='individual-watchlist-header-hr-light'/>
+                                </React.Fragment>
+                            })}
+                        </div>
                     </div>
                 </>
             </div>

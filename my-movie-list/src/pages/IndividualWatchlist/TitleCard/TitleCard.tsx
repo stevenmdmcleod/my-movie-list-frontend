@@ -11,10 +11,11 @@ export interface TitleInformation {
 
 interface TitleCardProps {
     titleInfo: TitleInformation
-    handleDelete: (id: number, titleName: string) => void
+    handleDelete: (id: number, titleName: string) => void,
+    userCanDelete: boolean
 }
 
-function TitleCard({ titleInfo, handleDelete } :TitleCardProps) {
+function TitleCard({ titleInfo, handleDelete, userCanDelete } :TitleCardProps) {
     const navigate = useNavigate();
     const [title, setTitle] = useState<TitleInformation>(titleInfo || {});
 
@@ -34,7 +35,7 @@ function TitleCard({ titleInfo, handleDelete } :TitleCardProps) {
 
   return (
     <div className='title-card'>
-        <span className="title-card-delete" onClick={() => handleDelete(title.id, title.title)}></span>
+        { userCanDelete? <span className="title-card-delete" onClick={() => handleDelete(title.id, title.title)}></span>: null}
         <img className='title-card-poster' onClick={() => handleNavigate(title.id)} src={title.poster || defaultTitleImage} alt="Title Poster" />
         <div className="title-card-name" onClick={() => handleNavigate(title.id)}>{title.title}</div>
     </div>

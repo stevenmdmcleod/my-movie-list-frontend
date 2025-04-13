@@ -79,3 +79,21 @@
     color:black;
     transition: ease();
 }
+
+@media screen and (max-width: 830px) {
+    #edit-collaborators-dialog {
+        width: 80%;
+    }
+}
+
+@media screen and (max-height: 650px) {
+    #edit-collaborators-dialog-container h1 {
+        font-size: 1.5rem;
+    }
+    #edit-collaborators-dialog {
+        height: 100%;
+    }
+    #edit-collaborators-dialog-container {
+        padding: 5px;
+    }
+}
