@@ -4,6 +4,7 @@ import SearchableDropdown from '../../components/SearchableDropdown/SearchableDr
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { removeActiveUser } from '../../LocalStorage';
+import { BASE_ROUTE } from '../../utils/config';
 
 interface EditProfileProps {
     profile: Profile,
@@ -99,7 +100,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             for (const genre of selectedGenres) {
                 formData.append('preferredGenres', genre);
             }
-            const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/users/update-profile`, formData, {
+            const response = await axios.put(`${BASE_ROUTE}/users/update-profile`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${window.localStorage.getItem("token")}`
@@ -125,7 +126,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             return;
         }
 
-        const response = await axios.delete(`${ import.meta.env.VITE_BASE_URL}/users/me`, {
+        const response = await axios.delete(`${ BASE_ROUTE}/users/me`, {
             headers: {
                 'Authorization': `Bearer ${window.localStorage.getItem("token")}`
             }
@@ -152,17 +153,14 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
                 dialog.showModal();
             }
             dialog?.addEventListener('click', handleBackdropClick);
-            document.body.style.overflow = 'hidden';
         } else {
             EditProfileRef.current?.close();
-            document.body.style.overflow = '';
         }
 
         setSelectedGenres(profile?.preferredGenres);
         setBiography(profile?.biography);
         return () => {
             EditProfileRef.current?.removeEventListener('click', handleBackdropClick);
-            document.body.style.overflow = '';
         };
     }, [isOpen, onClose, profile]);
 

@@ -19,6 +19,25 @@ interface Profile {
     recentlyAdded?: Array<string>,
 }
 
+interface Comment {
+    commentId: string,
+    userId: string,
+    username: string,
+    comment: string,
+    datePosted: string
+}
+
+interface Watchlist {
+    listId: string,
+    userId: string,
+    listName: string,
+    isPublic: boolean,
+    likes: Array<string>,
+    titles: Array<string>,
+    collaborators: Array<string>,
+    comments: Array<Comment>
+}
+
 interface MovieData {
     id: number;
     title: string;
@@ -32,16 +51,4 @@ interface MovieData {
     type: string;
     plot_overview: string;
     genre_names: string[];
-  }
-
-
-  interface Watchlist {
-    listId: string;
-    collaborators: string[];
-    comments: [];
-    isPublic: boolean;
-    likes: [];
-    listName: string;
-    titles: [];
-    userId: string;
   }
