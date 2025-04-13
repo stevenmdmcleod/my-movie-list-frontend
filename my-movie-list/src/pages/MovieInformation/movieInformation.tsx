@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./movieInformation.css";
 import { useParams } from "react-router";
 import { getUserWatchlists, AddRemoveTitleFromWatchlist } from "../../utils/databaseCalls";
+import { red } from "@mui/material/colors";
 
 const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 
@@ -186,17 +187,17 @@ function MovieInformation() {
             referrerPolicy="strict-origin-when-cross-origin"
             allowFullScreen
           ></iframe>
-          <label htmlFor="watchlist">Add/Remove title from watchlist:
+          <label >Add/Remove from watchlist:</label>
           <select className="watchlist-select" onChange={(e) => AddRemoveTitleFromWatchlist(e.target.value, titleid ?? "")}>
-            
+          
           <option value="">Select a watchlist</option>
             {userWatchlists.map((watchlist) => (
               <option key={watchlist.listId} value={watchlist.listId}>
                 {watchlist.listName}
               </option>
-            ))}
+            ))};
           </select>
-          </label>
+          
         </div>
       </div>
     </div>
