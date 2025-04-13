@@ -25,8 +25,8 @@ function IndividualWatchlist() {
     const [comments, setComments] = useState<Array<Comment>>([]);
 
     // Test state to avoid API calls while developing
-    const [titles, setTitles] = useState<Array<TitleInformation>>([{id: 3173903, title: "Breaking Bad", poster: "https://cdn.watchmode.com/posters/03173903_poster_w185.jpg"},{id: 316213, title: "Boston Legal", poster: "https://cdn.watchmode.com/posters/0316213_poster_w185.jpg"},{id: 3110052, title: "Southland", poster: "https://cdn.watchmode.com/posters/03110052_poster_w185.jpg"}])
-    // const [titles, setTitles] = useState<Array<TitleInformation>>([])
+    // const [titles, setTitles] = useState<Array<TitleInformation>>([{id: 3173903, title: "Breaking Bad", poster: "https://cdn.watchmode.com/posters/03173903_poster_w185.jpg"},{id: 316213, title: "Boston Legal", poster: "https://cdn.watchmode.com/posters/0316213_poster_w185.jpg"},{id: 3110052, title: "Southland", poster: "https://cdn.watchmode.com/posters/03110052_poster_w185.jpg"}])
+    const [titles, setTitles] = useState<Array<TitleInformation>>([])
 
     // Retrieve JWT
     const token = window.localStorage.getItem("token") || '';
@@ -116,7 +116,7 @@ function IndividualWatchlist() {
         }
 
         if (watchlistData && watchlistData.titles) {
-            // getTitles(watchlistData.titles);
+            getTitles(watchlistData.titles);
         }
         
         // Comment out this section to avoid Watchmode API calls, can use dummy state to simulate titles.
