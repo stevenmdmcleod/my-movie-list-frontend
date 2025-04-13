@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './EditWatchlist.css';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../../utils/config';
 
 interface EditWatchlistProps {
   watchlist: Watchlist,
@@ -17,7 +18,7 @@ function EditWatchlist({watchlist, listName, setListName, setIsPublic, isOpen, o
     const [editIsPublic, setEditIsPublic] = useState<boolean>(watchlist.isPublic || false);
 
     async function handleSaveChanges() {
-        const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlist.listId}`, {
+        const response = await axios.put(`${BASE_ROUTE}/watchlist/${watchlist.listId}`, {
             listName: editListName,
             isPublic: editIsPublic
         }, {

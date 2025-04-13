@@ -21,6 +21,7 @@ import { UserProvider } from "./context/userAuth";
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
 // import { useEffect } from "react";
+// import { BASE_ROUTE } from "./utils/config";
 
 function App() {
   // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
@@ -30,7 +31,7 @@ function App() {
   // useEffect(() => {
   //   try {
   //     async function login() {
-  //       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,{
+  //       const res = await axios.post(`${BASE_ROUTE}/users/login`,{
   //         username: "nickbowden", // replace with test user information
   //         password: "asdfasdf"
   //     });

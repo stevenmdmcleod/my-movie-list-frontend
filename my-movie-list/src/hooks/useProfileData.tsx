@@ -1,5 +1,6 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
+import { BASE_ROUTE } from '../utils/config';
 
 export interface UseProfileDataReturn {
     data: Profile | null,
@@ -19,7 +20,7 @@ const useProfileData = (userId : string): UseProfileDataReturn => {
     };
     const fetchData = async () => {
       try {
-        const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/userId/${userId}`, {
+        const { data: response } = await axios.get(`${BASE_ROUTE}/users/userId/${userId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`

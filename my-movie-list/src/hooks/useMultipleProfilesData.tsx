@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import { BASE_ROUTE } from '../utils/config';
 
 const useMultipleProfiles = (userIds: string[] | undefined) => {
     const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -11,7 +12,7 @@ const useMultipleProfiles = (userIds: string[] | undefined) => {
         try {
           const results = await Promise.all(
             userIds.map(id =>
-              axios.get(`${import.meta.env.VITE_BASE_URL}/users/userId/${id}`, {
+              axios.get(`${BASE_ROUTE}/users/userId/${id}`, {
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${window.localStorage.getItem("token")}`,

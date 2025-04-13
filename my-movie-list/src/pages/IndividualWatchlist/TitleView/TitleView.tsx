@@ -1,6 +1,7 @@
 import './TitleView.css';
 import TitleCard, { TitleInformation } from '../TitleCard/TitleCard';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../../utils/config';
 
 interface TitleViewProps {
     titles: Array<TitleInformation>,
@@ -14,7 +15,7 @@ function TitleView({titles, setTitles, userIsOwner, userIsCollaborator, watchlis
     async function handleDelete(titleId:number, titleName:string) {
         if (!watchlistData) return;
         if (window.confirm(`Delete ${titleName}?`)) {
-            const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/titles`, { titleId: `${titleId}` },{
+            const response = await axios.patch(`${BASE_ROUTE}/watchlist/${watchlistData.listId}/titles`, { titleId: `${titleId}` },{
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${window.localStorage.getItem("token")}`

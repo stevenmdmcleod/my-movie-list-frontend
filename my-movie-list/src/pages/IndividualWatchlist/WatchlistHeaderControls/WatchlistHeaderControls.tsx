@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import EditWatchlist from '../EditWatchlist/EditWatchlist';
 import EditCollaborators from '../EditCollaborators/EditCollaborators';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../../utils/config';
 
 interface WatchlistHeaderControlsProps {
     userIsOwner: boolean,
@@ -33,7 +34,7 @@ function WatchlistHeaderControls({userIsOwner, ownerProfile, userProfile, watchl
     async function handleListLIke() {
         if (!userProfile) return;
         if (!watchlistData) return;
-        const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/likes`,{
+        const response = await axios.patch(`${BASE_ROUTE}/watchlist/${watchlistData.listId}/likes`,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem("token")}`

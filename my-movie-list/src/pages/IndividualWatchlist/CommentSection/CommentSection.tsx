@@ -3,6 +3,7 @@ import './CommentSection.css';
 import Comment from '../Comment/Comment';
 import { Pagination } from 'react-bootstrap';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../../utils/config';
 
 const COMMENTS_PER_PAGE = 5;
 
@@ -28,7 +29,7 @@ function CommentSection({comments,setComments, watchlistData}:CommentSectionProp
 
     async function handleSubmitComment() {
         if (!watchlistData) return;
-        const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlistData.listId}/comments`, { comment },{
+        const response = await axios.put(`${BASE_ROUTE}/watchlist/${watchlistData.listId}/comments`, { comment },{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem("token")}`

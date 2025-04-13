@@ -1,5 +1,6 @@
 import { useEffect, useState} from 'react';
 import axios from 'axios';
+import { BASE_ROUTE } from '../utils/config';
 
 export interface UseIndividualWatchlistDataReturn {
     data: Watchlist | null,
@@ -14,7 +15,7 @@ const useIndividualWatchlistData = (listId : string | undefined): UseIndividualW
     if (!listId) return;
     const fetchData = async () => {
       try {
-        const { data: response } = await axios.get(`${import.meta.env.VITE_BASE_URL}/watchlist/${listId}`, {
+        const { data: response } = await axios.get(`${BASE_ROUTE}/watchlist/${listId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${window.localStorage.getItem("token")}`

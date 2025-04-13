@@ -3,6 +3,7 @@ import './EditCollaborators.css'
 import SearchableDropdown from '../../../components/SearchableDropdown/SearchableDropdown';
 import useMultipleProfiles from '../../../hooks/useMultipleProfilesData';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../../utils/config';
 
 interface EditCollaboratorsProps {
   ownerProfile: Profile | null,
@@ -57,7 +58,7 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
       // Adding missing selected profiles
       for (const profile of addedCollaborators) {
         try {
-          await axios.patch(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlist.listId}/collaborators`, { "collaborator": profile.userId }, {
+          await axios.patch(`${BASE_ROUTE}/watchlist/${watchlist.listId}/collaborators`, { "collaborator": profile.userId }, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`,
               'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
       // Removing unselected profiles
       for (const profile of removedCollaborators) {
         try {
-          await axios.delete(`${import.meta.env.VITE_BASE_URL}/watchlist/${watchlist.listId}/collaborators`, {
+          await axios.delete(`${BASE_ROUTE}/watchlist/${watchlist.listId}/collaborators`, {
             data: { "collaborator": profile.userId },
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`,

@@ -6,6 +6,7 @@ import useProfileData, { UseProfileDataReturn } from '../../hooks/useProfileData
 import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { BASE_ROUTE } from '../../utils/config';
 
 const emptyProfile = {
   userId: '1231241234',
@@ -80,7 +81,7 @@ function Profile() {
     
 
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_BASE_URL}/users/friends`, {
+      const response = await axios.patch(`${BASE_ROUTE}/users/friends`, {
         username: profile.username
       }, {
         headers: {
