@@ -108,6 +108,7 @@ export async function createWatchlist(listName: string) {
     return response; // Properly return the response
      } catch (error) {
        console.log(error)
+       throw error; // Re-throw the error so it can be handled by the caller
 }}
 
 //likes/unlikes watchlist
