@@ -6,7 +6,7 @@ import {
 } from "../../utils/databaseCalls";
 
 import { useNavigate } from "react-router";
-import { BASE_ROUTE } from "../../utils/config";
+
 
 function myWatchLists() {
   const navigate = useNavigate();
