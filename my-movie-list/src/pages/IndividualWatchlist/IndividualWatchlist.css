@@ -99,6 +99,14 @@
     border-radius: 50px;
 }
 
+#individual-watchlist-header-comments-hr {
+    border-top: 3px solid;
+    color: #000000;
+    width: 100%;
+    opacity: 1;
+    border-radius: 50px;
+}
+
 #individual-watchlist-header-hr-light {
     border-top: 1px solid;
     color: #313131;

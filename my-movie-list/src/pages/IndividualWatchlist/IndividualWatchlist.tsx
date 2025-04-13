@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router";
+import { Pagination } from 'react-bootstrap';
 // import collaboratorCogwheelIcon from "../../assets/icons/person-cogwheel.png";
 // import redHeartIcon from "../../assets/icons/red-heart.png";
 // import greyHeartIcon from "../../assets/icons/grey-heart.png";
@@ -16,6 +17,8 @@ import EditCollaborators from './EditCollaborators/EditCollaborators';
 import TitleCard, { TitleInformation } from './TitleCard/TitleCard';
 import Comment from './Comment/Comment';
 
+const COMMENTS_PER_PAGE = 5;
+
 function IndividualWatchlist() {
     const [likedLists, setLikedLists] = useState<Array<string>>([]);
     const [listName, setListName] = useState<string>('')
@@ -28,6 +31,17 @@ function IndividualWatchlist() {
     const [isCollaboratorDialogOpen, setIsCollaboratorDialogOpen] = useState<boolean>(false);
     const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<Array<Comment>>([]);
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(comments.length / COMMENTS_PER_PAGE);
+    const indexOfLastComment = currentPage * COMMENTS_PER_PAGE;
+    const indexOfFirstComment = indexOfLastComment - COMMENTS_PER_PAGE;
+    const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+
+
+
 
     const navigate = useNavigate();
     const { listId } = useParams();
@@ -269,20 +283,40 @@ function IndividualWatchlist() {
 
                     <div id="individual-watchlist-comment-section">
                         <h2>Comments</h2>
-                        <hr id='individual-watchlist-header-hr'/>
+                        <hr id='individual-watchlist-header-comments-hr'/>
                         
                         <div id="individual-watchlist-create-comment">
                             <textarea name="add-comment" id="individual-watchlist-comment-textarea" rows={5} maxLength={400} value={comment} onChange={handleCommentUpdate}></textarea>
                             <button id="individual-watchlist-post-comment" onClick={handleSubmitComment}>Post</button>
                         </div>
 
-                        <div id="individual-watchlist-comment-section">
-                            {comments.map(comment => {
+                        <div id="individual-watchlist-comments">
+                            {currentComments.map(comment => {
                                 return <React.Fragment key={comment.commentId}>
                                     <Comment  comment={comment} />
                                     <hr id='individual-watchlist-header-hr-light'/>
                                 </React.Fragment>
                             })}
+
+                            <Pagination style={{ width: '100%' }}  className="mt-3 justify-content-center">
+                                    <Pagination.Prev
+                                    onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                                    disabled={currentPage === 1}
+                                    />
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                    <Pagination.Item
+                                        key={page}
+                                        active={page === currentPage}
+                                        onClick={() => setCurrentPage(page)}
+                                    >
+                                        {page}
+                                    </Pagination.Item>
+                                    ))}
+                                    <Pagination.Next
+                                    onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                                    disabled={currentPage === totalPages}
+                                    />
+                                </Pagination>
                         </div>
                     </div>
                 </>
