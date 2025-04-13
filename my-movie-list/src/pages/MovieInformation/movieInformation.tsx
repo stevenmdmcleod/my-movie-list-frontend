@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./movieInformation.css";
 import { useParams } from "react-router";
 import { getUserWatchlists, AddRemoveTitleFromWatchlist } from "../../utils/databaseCalls";
-import { red } from "@mui/material/colors";
+
 
 const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 
