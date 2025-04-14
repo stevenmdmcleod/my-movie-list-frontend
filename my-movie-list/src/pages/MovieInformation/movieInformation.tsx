@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import "./movieInformation.css";
 import { useParams } from "react-router";
 import { getUserWatchlists, AddRemoveTitleFromWatchlist } from "../../utils/databaseCalls";
+import { BASE_ROUTE } from "../../utils/config";
 
 
-const API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
+
 
 
 
 function MovieInformation() {
   const { titleid } = useParams();
-  const apiURL = `https://api.watchmode.com/v1/title/${titleid}/details/?apiKey=${API_KEY}`;
+  const apiURL = `${BASE_ROUTE}/watchmode/title/${titleid}`;
+  // const apiURL = `https://api.watchmode.com/v1/title/${titleid}/details/?apiKey=${API_KEY}`;
 
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,7 @@ function MovieInformation() {
 
         for (let i = 0; i < Math.min(data.similar_titles.length, 5); i++) {
           const similarTitleID = data.similar_titles[i];
-          const similarTitleURL = `https://api.watchmode.com/v1/title/${similarTitleID}/details/?apiKey=${API_KEY}`;
+          const similarTitleURL = `${BASE_ROUTE}/watchmode/title/${similarTitleID}`;
 
           try {
             const response = await fetch(similarTitleURL);
