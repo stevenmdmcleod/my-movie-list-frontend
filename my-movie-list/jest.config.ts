@@ -18,5 +18,10 @@ export default {
     "setupTests.ts",
     "index.tsx"
   ],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+  },
+  testMatch: ['**/*.test.ts?(x)', '**/*.spec.ts?(x)'],
+  
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts']
 }
