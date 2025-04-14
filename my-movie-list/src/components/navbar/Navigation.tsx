@@ -50,7 +50,7 @@ const Navigation = () => {
       </Container>
       <Col className="profile-button">
           <div className="profile-button-button">
-            <Button onClick={logout} href="/profile">Logout</Button>
+            <Button onClick={logout} href="/login">Logout</Button>
           </div>
           <div className="profile-button-button">
             <Button href="/profile">Profile</Button>
