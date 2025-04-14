@@ -30,6 +30,12 @@
     .page p{
         color: #e0e0e0;
     }
+    .page button{
+        background-color: #121212;
+        color: #e0e0e0;
+        border: 1px solid #585858;
+        
+    }
 
     .leftblock{
         
