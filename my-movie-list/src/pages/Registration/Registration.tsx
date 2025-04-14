@@ -1,99 +1,86 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { IUserModel, addUser, isUsernameExists } from "../../LocalStorage";
-import "./Registration.css";
+import React from "react";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth } from "../../context/userAuth";
+import { useForm } from "react-hook-form";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import './Registration.css';
 
-const Register = () => {
-  const [data, setData] = useState<IUserModel>({
-    name: "",
-    username: "",
-    password: "",
-  });
+type Props = object;
 
-  const [message, setMessage] = useState<string>("");
+type RegisterFormsInputs = {
+  email: string;
+  userName: string;
+  password: string;
+};
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const id = event.target.id;
-    const value = event.target.value;
-    setData({ ...data, [id]: value });
-    setMessage("");
+const validation = Yup.object().shape({
+  email: Yup.string().required("Email is required"),
+  userName: Yup.string().required("Username is required"),
+  password: Yup.string().required("Password is required"),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const RegisterPage = (props: Props) => {
+  const { registerUser } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
+
+  const handleLogin = (form: RegisterFormsInputs) => {
+    registerUser(form.email, form.userName, form.password);
   };
-
-  const resetData = () => {
-    setData({
-      name: "",
-      username: "",
-      password: "",
-    });
-  };
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (data.name == "" || data.username == "" || data.password == "") {
-      setMessage("Please fill all the field");
-      return;
-    }
-
-    if (isUsernameExists(data.username)) {
-      setMessage("Registration failed. User already exists");
-      return;
-    }
-
-    addUser(data);
-    resetData();
-    setMessage("User registered. Jump to Login page");
-  };
-
   return (
     <div className="backdrop">
     <>
-      <div className="background">
-        <div className="shape"></div>
-        <div className="shape"></div>
-      </div>
-      <form onSubmit={handleFormSubmit}>
-        <h3>Register Here</h3>
+    <Form className="login-form" onSubmit={handleSubmit(handleLogin)}>
+        <h3>Register New Account</h3>
 
-        <label>Name</label>
+        <label>Email</label>
         <input
           type="text"
-          placeholder="Name"
-          id="name"
-          value={data.name}
-          onChange={handleInputChange}
+          placeholder="Enter Email"
+          {...register("email")}
         />
+        {errors.email ? (
+          <p className="text-white">{errors.email.message}</p>
+        ) : (
+          ""
+        )}
 
         <label>Username</label>
         <input
           type="text"
-          placeholder="Email"
-          id="username"
-          value={data.username}
-          onChange={handleInputChange}
+          placeholder="Enter Username"
+          {...register("userName")}
         />
+        {errors.userName ? (
+          <p className="text-white">{errors.userName.message}</p>
+        ) : (
+          ""
+        )}
 
         <label>Password</label>
         <input
           type="password"
-          placeholder="Password"
+          placeholder="••••••••"
           id="password"
-          value={data.password}
-          onChange={handleInputChange}
+          {...register("password")}
         />
+        {errors.password ? (
+          <p className="white-text">{errors.password.message}</p>
+        ) : (
+          ""
+        )}
 
-        <button>Register</button>
-        <div className="social">
-          {message && <p>{message}</p>}
-          <br />
-          <h4>
-            <Link to="/login">Login</Link>
-          </h4>
-        </div>
-      </form>
+        <Button type="submit">Register</Button>
+      </Form>
     </>
     </div>
   );
 };
 
-export default Register;
+export default RegisterPage;

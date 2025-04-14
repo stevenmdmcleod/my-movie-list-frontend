@@ -21,6 +21,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 export const UserProvider = ({ children } : Props) => {
 
     const navigate = useNavigate();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [isReady, setIsReady] = useState(false);
@@ -63,7 +64,6 @@ export const UserProvider = ({ children } : Props) => {
               };
               localStorage.setItem("user", JSON.stringify(userObj));
               setToken(res?.data.token);
-              console.log(token);
               setUser(userObj!);
               toast.success("Login Successful!");
               navigate("/");
@@ -72,7 +72,7 @@ export const UserProvider = ({ children } : Props) => {
     };
 
     const isLoggedIn = () => {
-        return !user;
+        return !!user;
     };
 
     const logout = () => {

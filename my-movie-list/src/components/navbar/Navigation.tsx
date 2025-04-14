@@ -9,7 +9,7 @@ import "./Navigation.css";
 import { useAuth } from '../../context/userAuth';
 
 const Navigation = () => {
-  const { logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
 
 
   return (
@@ -50,11 +50,17 @@ const Navigation = () => {
       </Container>
       <Col className="profile-button">
           <div className="profile-button-button">
-            <Button onClick={logout} href="/login">Logout</Button>
-          </div>
-          <div className="profile-button-button">
             <Button href="/profile">Profile</Button>
           </div>
+          {isLoggedIn() ? (
+          <div className="profile-button-button">
+            <Button onClick={logout} href="/profile">Logout</Button>
+          </div>
+          ) : (
+            <div className="profile-button-button">
+            <Button href="/login">Login</Button>
+          </div>
+          )}
       </Col>
 
     </Navbar>
