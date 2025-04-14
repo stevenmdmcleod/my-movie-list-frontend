@@ -1,0 +1,52 @@
+    .friendscontainer {
+        background-color: #121212; 
+        text-align: center;   
+        color: white;
+        width: 100%;
+        height: 250%;
+        font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+        
+    }
+    
+    .friendspage {
+        display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: center;
+    color: white;
+        
+    }
+
+    .friendspage .friendslist{
+        
+        flex-direction: column;
+        align-items: center;
+        width: 25%;
+        text-align: center;
+        background-color: #585858;
+        border: solid 2px #489FB5;
+        color: white;
+    }
+
+    .friendspage .friend{
+        width: 15rem;
+        background-color: #2e51a2;
+        color: white;
+        border: 3px solid #489FB5;
+        
+        text-align: center;
+        
+        font-size: 16px;
+        margin: 4px;
+        cursor: pointer;
+        border-radius: 4px;
+        
+    }
+
+    .friendspage .addfriendblock{
+        
+        width: 25%;
+    flex-direction: column;
+    text-align: center;
+    }
+

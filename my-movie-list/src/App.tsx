@@ -13,24 +13,25 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import MovieInformation from "./pages/MovieInformation/movieInformation";
 import MyWatchLists from "./pages/MyWatchlists/myWatchLists";
 import Watchlists from "./pages/Watchlists/watchlists";
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
+import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist";
 import { UserProvider } from "./context/userAuth";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
 // import { useEffect } from "react";
+// import { BASE_ROUTE } from "./utils/config";
 
 function App() {
   // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
   // UNCOMMENT FOR TESTING
   // REMOVE WHEN NOT NEEDED
-
+  
   // useEffect(() => {
   //   try {
   //     async function login() {
-  //       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,{
+  //       const res = await axios.post(`${BASE_ROUTE}/users/login`,{
   //         username: "nickbowden", // replace with test user information
   //         password: "asdfasdf"
   //     });
@@ -59,14 +60,11 @@ function App() {
             <Route path="/registration" element={<Registration />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/watchlists" element={<Watchlists />} />
-            <Route path="/watchlist/:listId" element={<Watchlists />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<Profile />} />
-            </Route>
+            <Route path="/profile" element={<Profile />} />
             <Route element={<AdminRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
-            
+            <Route path="/watchlist/:listId" element={<IndividualWatchlist />} />
             <Route path="/mywatchlists" element={<MyWatchLists />} />
             <Route path="/movieinformation/:titleid" element={<MovieInformation />} />
             <Route path="*" element={<NoMatch />} />

@@ -1,0 +1,43 @@
+.title-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 11rem;
+    height: 23rem;
+    position: relative;
+}
+
+.title-card-delete {
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url('../../../assets/icons/remove.png');
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: .5rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s;
+    cursor: pointer;
+}
+
+.title-card:hover .title-card-delete{
+    visibility: visible;
+    opacity: 1;
+}
+
+.title-card-name {
+    font-weight: bold;
+}
+
+.title-card-name:hover, .title-card-poster:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.title-card-poster {
+    height: 16rem;
+    width: 11rem;
+}

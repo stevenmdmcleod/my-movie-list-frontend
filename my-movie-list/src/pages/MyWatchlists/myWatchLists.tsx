@@ -3,6 +3,7 @@ import "./myWatchLists.css";
 import {
   getUserCollaborativeWatchlists,
   getUserWatchlists,
+  createWatchlist
 } from "../../utils/databaseCalls";
 
 import { useNavigate } from "react-router";
@@ -15,6 +16,7 @@ function myWatchLists() {
   const [collaborativeWatchlists, setCollaborativeWatchlists] = useState<any[]>(
     []
   );
+  const [errorMessage, setErrorMessage] = useState<string | null>("");
 
   useEffect(() => {
     const fetchUserWatchlists = async () => {
@@ -52,6 +54,37 @@ function myWatchLists() {
     navigate(`/watchlist/${listId}`); // Navigate to the desired route
   };
 
+
+  const handleCreateWatchlist = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault(); // Prevent the default form submission behavior
+  
+    const inputElement = document.getElementById("listNameInput") as HTMLInputElement;
+    const listName = inputElement.value.trim(); // Get the value from the input field
+  
+    if (!listName) {
+      console.error("Watchlist name cannot be empty");
+      return;
+    }
+    else{
+      const response: any = await createWatchlist(listName);
+      //console.log(response);
+      if (response.status === 201) {
+        
+        navigate(`/watchlist/${response.data.watchlist.listId}`); // Navigate to the new watchlist page
+      }
+      else {
+        console.error("Failed to create watchlist:", response);
+        setErrorMessage("Failed to create watchlist. Please try again."); // Set error message
+      }
+    }
+    } catch (error) {
+      console.error("Error creating watchlist: watchlist exists already");
+      setErrorMessage("Failed to create watchlist. watchlist already exists"); // Set error message
+    }
+    
+}
+
   return (
     <div className="mywatchlistpagecontainer">
       <h1 style={{ textAlign: "center" }}>My Watchlists</h1>
@@ -84,6 +117,21 @@ function myWatchLists() {
             </button>
           ))}
         </div>
+        <div className="createwatchlist">
+          <form className="createwatchlistform" onSubmit={(e) => handleCreateWatchlist(e)}>
+            <input type="text" id="listNameInput" placeholder="name your watchlist"/>
+            
+          <button className="createwatchlistbutton" type="submit">
+            Create Watchlist
+          </button>
+          </form>
+          {errorMessage && (
+    <p className="error-message" style={{ color: "red", marginTop: "5px" }}>
+      {errorMessage}
+    </p>
+  )}
+        </div>
+
       </div>
     </div>
   );

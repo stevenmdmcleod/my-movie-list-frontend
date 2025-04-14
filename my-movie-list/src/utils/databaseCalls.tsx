@@ -15,7 +15,7 @@ export async function addFriend(username: string) {
       );
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 //deletes the current logged in user
@@ -29,7 +29,7 @@ export async function deleteMe() {
       });
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 //get user by userId
@@ -43,7 +43,7 @@ export async function getUserByUserId(userId: string) {
       });
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 
@@ -58,7 +58,7 @@ export async function getFriends() {
       });
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 //need to implement updateProfile function
@@ -77,7 +77,7 @@ export async function updateBanStatus(userId: string, banStatus: string) {
       );
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 //get users for Admins
@@ -91,7 +91,7 @@ export async function getUsers() {
       });
       return response; // Properly return the response
        } catch (error) {
-         console.log(error)
+         console.log(error);
 }}
 
 //create watchlist
@@ -107,7 +107,8 @@ export async function createWatchlist(listName: string) {
     );
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
+       throw error; // Re-throw the error so it can be handled by the caller
 }}
 
 //likes/unlikes watchlist
@@ -121,7 +122,7 @@ export async function likeWatchlist(listId: string) {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -152,7 +153,7 @@ export async function getUserCollaborativeWatchlists() {
     })
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -162,7 +163,7 @@ export async function getPublicWatchlists() {
      const response = await axios.get(`${BASE_ROUTE}/watchlist/public`, {});
      return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -179,7 +180,7 @@ export async function addCollaborator(listId: string, userId: string) {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -196,7 +197,7 @@ export async function removeCollaborator(listId: string, userId: string) {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -214,7 +215,7 @@ export async function updateWatchlist(listId: string, listName: string, isPublic
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -231,7 +232,7 @@ export async function addCommentToWatchlist(listId: string, comment: string) {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -246,7 +247,7 @@ export async function getWatchlistById(listId: string) {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -261,7 +262,7 @@ export async function deleteCommentOnWatchlist(listId: string, commentId: string
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -282,7 +283,7 @@ export async function AddRemoveTitleFromWatchlist(listId: string, titleId: strin
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -297,7 +298,7 @@ export async function getAllWatchlistComments() {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
 
 
@@ -312,5 +313,5 @@ export async function getAllWatchlistsAdmins() {
     });
     return response; // Properly return the response
      } catch (error) {
-       console.log(error)
+       console.log(error);
 }}
