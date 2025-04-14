@@ -12,7 +12,6 @@ import { BASE_ROUTE } from "../../utils/config";
 function MovieInformation() {
   const { titleid } = useParams();
   const apiURL = `${BASE_ROUTE}/watchmode/title/${titleid}`;
-  // const apiURL = `https://api.watchmode.com/v1/title/${titleid}/details/?apiKey=${API_KEY}`;
 
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
