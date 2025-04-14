@@ -10,9 +10,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
+import { deleteCommentOnWatchlist, getAllWatchlistComments, getAllWatchlistsAdmins, getUsers, updateBanStatus } from "../../utils/databaseCalls";
 
 let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const TOKEN = window.localStorage.getItem("token") || '';
 const admin = decodeToken(TOKEN) as userJwt;
@@ -61,25 +61,18 @@ function dashboard() {
   const [section, setSection] = useState<Section>("dashboard");
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [showUserPopup, setShowUserPopup] = useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [commentsRes, usersRes, watchlistRes] = await Promise.all([
-          axios.get(`${BASE_URL}/watchlist/comments/all`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
-          axios.get(`${BASE_URL}/users/users`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
-          axios.get(`${BASE_URL}/watchlist`, {
-            headers: { Authorization: `Bearer ${TOKEN}` },
-          }),
+          getAllWatchlistComments(),
+          getUsers(),
+          getAllWatchlistsAdmins(),
         ]);
 
         const enrichedWatchlists = await Promise.all(
-          watchlistRes.data.map(async (watchlist: WatchlistData) => {
+          watchlistRes?.data.map(async (watchlist: WatchlistData) => {
             if (watchlist.titles.length > 0) {
               const firstTitleId = watchlist.titles[0];
               try {
@@ -106,9 +99,11 @@ function dashboard() {
           })
         );
 
-        setComments(commentsRes.data);
-        setUsers(usersRes.data);
-        setWatchlists(enrichedWatchlists);
+        if (commentsRes && usersRes && watchlistRes) {
+          setComments(commentsRes.data);
+          setUsers(usersRes.data);
+          setWatchlists(enrichedWatchlists);
+        }
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -123,13 +118,7 @@ function dashboard() {
   ) => {
     try {
       const banStatus = isCurrentlyBanned ? "unbanned" : "banned";
-      await axios.patch(
-        `${BASE_URL}/users/${userId}/ban-status`,
-        { status: banStatus },
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        }
-      );
+      await updateBanStatus(userId, banStatus);
 
       // Update user state locally after ban/unban
       setUsers((prev) =>
@@ -146,13 +135,7 @@ function dashboard() {
 
   const handleDeleteComment = async (listId: string, commentId: string) => {
     try {
-      await axios.put(
-        `${BASE_URL}/watchlist/${listId}/comments/${commentId}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` },
-        }
-      );
+      await deleteCommentOnWatchlist(listId, commentId);
 
       // Remove the comment from state
       setComments((prevComments) =>
@@ -163,7 +146,7 @@ function dashboard() {
     }
   };
 
-  const adminProfile = users.find((user) => user.userId === admin.userId);
+  const adminProfile = users.find((user) => user.userId === admin?.userId);
   const adminProfilePicture =
     adminProfile?.signedUrl || "/src/assets/Images/default-profile.png";
 
@@ -538,8 +521,8 @@ function dashboard() {
                 className="w-12 h-12 rounded-full"
               />
               <h3 className="username">
-                {admin.username}
-                {/* AdminUsername */}
+                {admin?.username}
+                
               </h3>
               <span className="role">Admin</span>
             </div>

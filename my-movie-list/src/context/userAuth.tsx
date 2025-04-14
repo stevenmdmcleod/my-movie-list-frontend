@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAPI, registerAPI } from '../services/authService';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { decodeToken, userJwt } from "../utils/jwt";
 import 'react-toastify/dist/ReactToastify.css';
 
 type UserContextType = {
@@ -63,7 +64,16 @@ export const UserProvider = ({ children } : Props) => {
               setToken(res?.data.token);
               setUser(userObj!);
               toast.success("Login Successful!");
-              navigate("/");
+           
+              const currentUser = decodeToken(res.data.token) as userJwt;
+              if(currentUser.isAdmin){
+                navigate("/dashboard");
+              } else {
+                navigate("/");
+              }
+              
+                       
+             
             }
             else{
                 toast.warning("Login Failed!");
