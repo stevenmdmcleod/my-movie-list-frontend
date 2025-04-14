@@ -46,3 +46,7 @@
     float: right;
     margin-right: 50px;
 }
+
+.col {
+    display: flex;
+}
