@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAPI, registerAPI } from '../services/authService';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { decodeToken, userJwt } from "../utils/jwt";
 
 type UserContextType = {
     user: User | null;
@@ -66,7 +67,16 @@ export const UserProvider = ({ children } : Props) => {
               console.log(token);
               setUser(userObj!);
               toast.success("Login Successful!");
-              navigate("/");
+           
+              const currentUser = decodeToken(res.data.token) as userJwt;
+              if(currentUser.isAdmin){
+                navigate("/dashboard");
+              } else {
+                navigate("/");
+              }
+              
+                       
+             
             }
         }).catch((e) => toast.warning("Server error occured"));
     };

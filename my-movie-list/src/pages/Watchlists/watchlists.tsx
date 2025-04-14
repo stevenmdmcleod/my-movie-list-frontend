@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./watchlists.css";
 import axios from "axios";
-import { addFriend, getPublicWatchlists } from "../../utils/databaseCalls";
+import { addFriend, getFriends, getPublicWatchlists } from "../../utils/databaseCalls";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import { decodeToken, userJwt } from "../../utils/jwt";
 import { Link } from "react-router";
@@ -32,14 +32,20 @@ function watchlists() {
   const [watchlists, setWatchlists] = useState<WatchlistData[]>([]);
   const [titleMap, setTitleMap] = useState<Map<string, TitleData>>(new Map());
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [friends, setFriends] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getPublicWatchlists(); //await axios.get(`${BASE_URL}/watchlist/public`);
+        const result = await getPublicWatchlists();
 
         const data = result?.data || [];
         setWatchlists(data);
+
+        if(token){
+          const friendRes = await getFriends();
+          setFriends(friendRes?.data.map((f: any) => f.username));
+        }
 
         // Collect all unique title IDs
         const allIds = data.flatMap((wl: WatchlistData) => wl.titles);
@@ -83,6 +89,7 @@ function watchlists() {
     try {
       await addFriend(username);
       alert("Friend request sent!");
+      setFriends((prev) => [...prev, username]);
     } catch (error) {
       console.error("Failed to send friend request:", error);
     }
@@ -104,7 +111,6 @@ function watchlists() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="search-button">Search</button>
         </div>
       </div>
 
@@ -114,10 +120,15 @@ function watchlists() {
         <div className="public-watchlist-grid">
           {filteredWatchlists.map((wl) => (
             <div key={wl.listId} className="public-watchlist-card">
-              <h3 className="watchlist-name">{wl.listName}</h3>
+              <h3>
+              <Link to={`/watchlist/${wl.listId}`} className="public-watchlist-name">
+                {wl.listName}
+              </Link>
+              </h3>
+              
               <p className="watchlist-username-container">
-                <span className="watchlist-username">{wl.username}</span>
-                {token && wl.username !== currentUsername && (
+                <span className="public-watchlist-username">{wl.username}</span>
+                {token && wl.username !== currentUsername && !friends.includes(wl.username) && (
                   <button
                     className="add-friend-button"
                     onClick={() => handleAddFriend(wl.username)}
@@ -147,13 +158,13 @@ function watchlists() {
                   );
                 })}
               </div>
-              <p className="collaborators">
-                <strong>Collaborators:</strong> {wl.collaborators.join(", ")}
-              </p>
 
               <div className="likes-comments">
-                <p>{wl.likes.length}<strong> Likes</strong></p>
-                <p>{wl.comments.length}<strong> Comments</strong></p>
+              <p>
+                <strong>Collaborators:</strong> {wl.collaborators.length}
+              </p>
+                <p><strong>Likes: </strong>{wl.likes.length}</p>
+                <p><strong>Comments: </strong>{wl.comments.length}</p>
               </div>
             </div>
           ))}

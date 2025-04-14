@@ -146,7 +146,7 @@ function dashboard() {
     }
   };
 
-  const adminProfile = users.find((user) => user.userId === admin.userId);
+  const adminProfile = users.find((user) => user.userId === admin?.userId);
   const adminProfilePicture =
     adminProfile?.signedUrl || "/src/assets/Images/default-profile.png";
 
@@ -521,8 +521,8 @@ function dashboard() {
                 className="w-12 h-12 rounded-full"
               />
               <h3 className="username">
-                {admin.username}
-                {/* AdminUsername */}
+                {admin?.username}
+                
               </h3>
               <span className="role">Admin</span>
             </div>
