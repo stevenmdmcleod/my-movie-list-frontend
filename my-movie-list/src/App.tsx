@@ -17,6 +17,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminRoute from "./components/ProtectedRoute/AdminRoute";
 import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist";
 import { UserProvider } from "./context/userAuth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
@@ -52,6 +54,7 @@ function App() {
     <div className="app-container">
       <div className="page-container">
         <Navigation />
+        <ToastContainer />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />

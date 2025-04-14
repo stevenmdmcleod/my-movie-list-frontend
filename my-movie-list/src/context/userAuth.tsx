@@ -5,6 +5,7 @@ import { loginAPI, registerAPI } from '../services/authService';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { decodeToken, userJwt } from "../utils/jwt";
+import 'react-toastify/dist/ReactToastify.css';
 
 type UserContextType = {
     user: User | null;
@@ -22,6 +23,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 export const UserProvider = ({ children } : Props) => {
 
     const navigate = useNavigate();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [isReady, setIsReady] = useState(false);
@@ -39,24 +41,20 @@ export const UserProvider = ({ children } : Props) => {
 
     const registerUser = async (email: string, username: string, password: string) => {
         await registerAPI(email, username, password).then((res) => {
-            if(res) {
-                localStorage.setItem("token", res?.data.token);
-                const userObj = {
-                    username: res?.data.username,
-                    email: res?.data.email,
-              };
-              localStorage.setItem("user", JSON.stringify(userObj));
-              setToken(res?.data.token);
-              setUser(userObj!);
+            if(res?.status === 201) {
+              
               toast.success("Registration Successful!");
-              navigate("/");
+              navigate("/login");
+            }
+            else{
+                toast.warning("Registration Failed!");
             }
         }).catch((e) => toast.warning("Server error occured"));
     };
 
     const loginUser = async (username: string, password: string) => {
         await loginAPI(username, password).then((res) => {
-            if(res) {
+            if(res?.status === 200) {
                 localStorage.setItem("token", res?.data.token);
                 const userObj = {
                     username: res?.data.username,
@@ -64,7 +62,6 @@ export const UserProvider = ({ children } : Props) => {
               };
               localStorage.setItem("user", JSON.stringify(userObj));
               setToken(res?.data.token);
-              console.log(token);
               setUser(userObj!);
               toast.success("Login Successful!");
            
@@ -78,11 +75,14 @@ export const UserProvider = ({ children } : Props) => {
                        
              
             }
+            else{
+                toast.warning("Login Failed!");
+            }
         }).catch((e) => toast.warning("Server error occured"));
     };
 
     const isLoggedIn = () => {
-        return !user;
+        return !!user;
     };
 
     const logout = () => {
@@ -94,7 +94,7 @@ export const UserProvider = ({ children } : Props) => {
     }
 
     return (
-        <UserContext.Provider value={{loginUser,registerUser,isLoggedIn,logout}}
+        <UserContext.Provider value={{user, token, loginUser, registerUser, isLoggedIn, logout}}
         >
             {isReady ? children : null}
         </UserContext.Provider>

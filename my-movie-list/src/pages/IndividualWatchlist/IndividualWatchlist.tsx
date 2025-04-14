@@ -13,6 +13,7 @@ import TitleView from './TitleView/TitleView';
 import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
 import axios from 'axios';
 import './IndividualWatchlist.css'
+import { BASE_ROUTE } from '../../utils/config';
 
 function IndividualWatchlist() {
     const navigate = useNavigate();
@@ -89,9 +90,9 @@ function IndividualWatchlist() {
 
     async function getTitles(titleIds: Array<string>) {
         const retrievedTitles = [];
-        for (const title of titleIds) {
+        for (const titleId of titleIds) {
             try {
-                const response = await axios.get(`https://api.watchmode.com/v1/title/${title}/details/?apiKey=${import.meta.env.VITE_WATCHMODE_API_KEY}`)
+                const response = await axios.get(`${BASE_ROUTE}/watchmode/title/${titleId}`)
                 if (response.status === 200) {
                     retrievedTitles.push(response.data);
                 }
