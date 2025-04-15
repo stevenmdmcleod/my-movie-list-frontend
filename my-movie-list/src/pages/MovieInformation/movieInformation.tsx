@@ -16,8 +16,8 @@ function MovieInformation() {
   const [data, setData] = useState<MovieData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string; id: number }[]>([]);
-  const [userWatchlists, setUserWatchlists] = useState<any[]>([]);
+  const [similarTitles, setSimilarTitles] = useState<{ poster: string; title: string; id: number }[] | null>([]);
+  const [userWatchlists, setUserWatchlists] = useState<any[] | null>([]);
 
   useEffect(() => {
     const fetchData = async (url: string) => {
@@ -40,16 +40,15 @@ function MovieInformation() {
     fetchData(apiURL);
   }, [titleid]); //runs when titleid changes
 
-  // Fetch similar titles after main title is loaded
   useEffect(() => {
-    if (data && data.similar_titles.length > 0) {
+    if (data && Array.isArray(data.similar_titles) && data.similar_titles.length > 0) {
       const fetchSimilarTitles = async () => {
-        const similarTitlesList: { poster: string; title: string; id: number}[] = [];
-
+        const similarTitlesList: { poster: string; title: string; id: number }[] = [];
+  
         for (let i = 0; i < Math.min(data.similar_titles.length, 5); i++) {
           const similarTitleID = data.similar_titles[i];
           const similarTitleURL = `${BASE_ROUTE}/watchmode/title/${similarTitleID}`;
-
+  
           try {
             const response = await fetch(similarTitleURL);
             if (!response.ok) {
@@ -65,13 +64,15 @@ function MovieInformation() {
             console.error("Error fetching similar title:", e);
           }
         }
-
+  
         setSimilarTitles(similarTitlesList);
       };
-
+  
       fetchSimilarTitles();
+    } else {
+      console.warn("No similar titles available or data is not loaded yet.");
     }
-  }, [data]); // Only run when data (movie details) is available
+  }, [data]);
 
   useEffect(() => {
     const fetchUserWatchlists = async () => {
@@ -162,8 +163,8 @@ function MovieInformation() {
             </h1>
             {/* Render similar titles only if available */}
             <div className="similar-titles">
-              {similarTitles.length > 0 ? (
-                similarTitles.slice(0, 4).map((similar, index) => (
+              {similarTitles && similarTitles.length > 0 ? (
+                similarTitles.map((similar, index) => (
                   <button key={index} className="similar-title" onClick={() => window.location.href = `/movieinformation/${similarTitles[index].id}`}>
                     <img
                       src={similar.poster ?? ""}
@@ -193,7 +194,7 @@ function MovieInformation() {
           <select className="watchlist-select" onChange={(e) => AddRemoveTitleFromWatchlist(e.target.value, titleid ?? "")}>
           
           <option value="">Select a watchlist</option>
-            {userWatchlists.map((watchlist) => (
+            {userWatchlists && userWatchlists.map((watchlist) => (
               <option key={watchlist.listId} value={watchlist.listId}>
                 {watchlist.listName}
               </option>
