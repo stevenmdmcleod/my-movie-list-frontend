@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./watchlists.css";
 import axios from "axios";
 import { addFriend, getFriends, getPublicWatchlists } from "../../utils/databaseCalls";
-import RecommendIcon from "@mui/icons-material/Recommend";
 import { decodeToken, userJwt } from "../../utils/jwt";
 import { Link } from "react-router";
+import { BASE_ROUTE } from "../../utils/config";
 
-let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
 const token = localStorage.getItem("token") || "";
 const user = decodeToken(token) as userJwt;
 const currentUsername = user?.username;
@@ -60,7 +59,7 @@ function watchlists() {
           uniqueIds.map(async (id) => {
             try {
               const res = await axios.get(
-                `https://api.watchmode.com/v1/title/${id}/details/?apiKey=${API_KEY}`
+                `${BASE_ROUTE}/watchmode/title/${id}`
               );
               map.set(id as string, {
                 title: res.data.title || "Untitled",
