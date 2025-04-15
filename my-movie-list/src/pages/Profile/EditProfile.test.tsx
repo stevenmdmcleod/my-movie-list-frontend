@@ -56,7 +56,7 @@ describe('EditProfile Component', () => {
         { wrapper: MemoryRouter }
         );
 
-        const textarea = screen.getByRole('textbox');
+        const textarea = screen.getByTestId('edit-profile-biography');
         fireEvent.change(textarea, { target: { value: 'Updated bio' } });
         expect(textarea).toHaveValue('Updated bio');
     });

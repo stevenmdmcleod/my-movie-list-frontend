@@ -166,7 +166,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
     }, [isOpen, onClose, profile]);
 
   return (
-    <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog' open={isOpen} aria-modal="true">
+    <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog' aria-modal="true">
         <div id="edit-profile-dialog-container">
             <button id="edit-profile-dialog-close" onClick={() => {setActiveDelete(false);onClose();}}>&times;</button>
             
@@ -183,7 +183,7 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             <p className='genres-list'>{displayGenres(selectedGenres)}</p>
 
             <label htmlFor="edit-profile-biography" className="edit-profile-input-label" id='edit-profile-about-me-label'>About Me:</label>
-            <textarea name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={400} value={biography} onChange={handleBiographyUpdate}></textarea>
+            <textarea data-testid="edit-profile-biography" name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={400} value={biography} onChange={handleBiographyUpdate}></textarea>
             
             <label htmlFor='profile-picture-upload' className='edit-profile-input-label' id='file-upload-label'>Upload New Profile Picture:</label>
             <div id="profile-upload-background">

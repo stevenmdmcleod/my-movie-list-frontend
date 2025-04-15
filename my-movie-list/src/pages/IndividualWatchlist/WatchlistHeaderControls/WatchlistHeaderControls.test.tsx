@@ -2,6 +2,21 @@ import { render, screen } from '@testing-library/react';
 import WatchlistHeaderControls from './WatchlistHeaderControls';
 import { MemoryRouter } from 'react-router-dom';
 
+interface WatchlistHeaderControlsProps {
+  userIsOwner: boolean,
+  ownerProfile: Profile | null,
+  userProfile: Profile | null,
+  watchlistData: Watchlist,
+  likedLists: Array<string>,
+  setLikedLists: (newLikedList: Array<string>) => void,
+  isPublic: boolean,
+  setIsPublic: (newIsPublic: boolean) => void,
+  listName: string,
+  setListName: (newListName: string) => void,
+  collaborators: Array<Profile>,
+  setCollaborators: (newCollaborators: Array<Profile>) => void
+}
+
 const mockProfile = {
     userId: '1231241234',
     username: 'testUser',
@@ -28,7 +43,7 @@ const mockWatchlist = {
     isPublic:true
 }
 
-const mockProps = {
+const mockProps:WatchlistHeaderControlsProps = {
     userIsOwner: true,
     ownerProfile: mockProfile,
     userProfile: mockProfile,
@@ -44,6 +59,16 @@ const mockProps = {
 };
 
 describe('WatchlistHeaderControls Component', () => {
+
+    beforeAll(() => {
+      if (!HTMLDialogElement.prototype.showModal) {
+        HTMLDialogElement.prototype.showModal = jest.fn();
+      }
+      if (!HTMLDialogElement.prototype.close) {
+        HTMLDialogElement.prototype.close = jest.fn();
+      }
+    });
+
   it('renders without crashing', () => {
     render(<WatchlistHeaderControls {...mockProps}/>, { wrapper: MemoryRouter });
 

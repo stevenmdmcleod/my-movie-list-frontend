@@ -35,7 +35,7 @@ function TitleCard({ titleInfo, handleDelete, userCanDelete } :TitleCardProps) {
 
   return (
     <div className='title-card'>
-        { userCanDelete? <span className="title-card-delete" onClick={() => handleDelete(title.id, title.title)}></span>: null}
+        { userCanDelete? <span data-testid="title-card-delete" className="title-card-delete" onClick={() => handleDelete(title.id, title.title)}></span>: null}
         <img className='title-card-poster' onClick={() => handleNavigate(title.id)} src={title.poster || defaultTitleImage} alt="Title Poster" />
         <div className="title-card-name" onClick={() => handleNavigate(title.id)}>{title.title}</div>
     </div>

@@ -120,7 +120,7 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
   return (
     <dialog ref={EditCollaboratorsRef} onClose={onClose} id='edit-collaborators-dialog'>
         <div id="edit-collaborators-dialog-container">
-          <button id="edit-collaborators-dialog-close" onClick={() => {onClose()}}>&times;</button>
+          <button data-testid="edit-collaborators-dialog-close" id="edit-collaborators-dialog-close" onClick={() => {onClose()}}>&times;</button>
 
           <h1>Edit Collaborators</h1>
 
