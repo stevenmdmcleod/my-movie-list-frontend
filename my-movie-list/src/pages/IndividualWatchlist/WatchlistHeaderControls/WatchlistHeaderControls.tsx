@@ -85,7 +85,7 @@ function WatchlistHeaderControls({userIsOwner, ownerProfile, userProfile, watchl
                 <span id='individual-watchlist-header-author'>by <a href="#" onClick={(e) => {e.preventDefault(); handleProfileNavigation(watchlistData?.userId);}}>{ownerProfile?.username}</a></span>
                 { userIsOwner? 
                     <>
-                        <span id='individual-watchlist-edit-icon' title='Edit Watchlist' onClick={() => setIsWatchlistDialogOpen(true)}></span>
+                        <span data-testid='edit-watchlist-icon' id='individual-watchlist-edit-icon' title='Edit Watchlist' onClick={() => setIsWatchlistDialogOpen(true)}></span>
                         <EditWatchlist watchlist={watchlistData} listName={listName} setListName={setListName} setIsPublic={setIsPublic} isOpen={isWatchlistDialogOpen} onClose={() => setIsWatchlistDialogOpen(false)} />
                     </>
                     :null

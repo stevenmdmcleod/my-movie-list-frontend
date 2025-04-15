@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, Fragment } from 'react';
 import './CommentSection.css';
 import Comment from '../Comment/Comment';
 import { Pagination } from 'react-bootstrap';
@@ -73,10 +73,10 @@ function CommentSection({comments,setComments, watchlistData}:CommentSectionProp
 
     <div id="individual-watchlist-comments">
         {currentComments.map(comment => {
-            return <React.Fragment key={comment.commentId}>
+            return <Fragment key={comment.commentId}>
                 <Comment  comment={comment} />
                 <hr id='individual-watchlist-header-hr-light'/>
-            </React.Fragment>
+            </Fragment>
         })}
 
         <Pagination style={{ width: '100%' }}  className="mt-3 justify-content-center">
