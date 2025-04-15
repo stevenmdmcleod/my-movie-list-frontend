@@ -1,9 +1,10 @@
 import axios from "axios";
 import { handleError } from "../helpers/errorHandling";
 import { UserToken } from "../models/users";
+import { BASE_ROUTE } from "../utils/config";
 
 //to be changed to .env or config file
-const api = "http://localhost:3000";
+const api = BASE_ROUTE;
 
 export const loginAPI = async (username: string, password: string) => {
   try {

@@ -11,3 +11,12 @@
 .card-text {
     margin-bottom: 50px;
 }
+
+.nomatch-button {
+    width: 200px;
+    margin-left: 6%;
+}
+
+.display__content--text {
+    margin-left: 2%;
+}
