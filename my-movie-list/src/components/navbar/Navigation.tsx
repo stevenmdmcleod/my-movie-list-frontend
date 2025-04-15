@@ -9,7 +9,6 @@ import "./Navigation.css";
 import { useAuth } from "../../context/userAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_ROUTE } from "../../utils/config";
 
 const Navigation = () => {
   // Define the query state
