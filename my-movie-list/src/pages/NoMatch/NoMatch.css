@@ -1,0 +1,21 @@
+.robot-image {
+    height: 400px;
+    margin-left: 40%;
+}
+
+.display {
+    background-color: white;
+}
+
+.display__content {
+   margin-left: 40%;
+}
+
+.nomatch-button {
+    width: 200px;
+    margin-left: 6%;
+}
+
+.display__content--text {
+    margin-left: 2%;
+}
