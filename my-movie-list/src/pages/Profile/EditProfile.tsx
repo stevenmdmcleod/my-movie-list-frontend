@@ -160,12 +160,13 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
         setSelectedGenres(profile?.preferredGenres);
         setBiography(profile?.biography);
         return () => {
-            EditProfileRef.current?.removeEventListener('click', handleBackdropClick);
-        };
+            if (EditProfileRef.current && typeof EditProfileRef.current.close === 'function') {
+                EditProfileRef.current.close();
+              }        };
     }, [isOpen, onClose, profile]);
 
   return (
-    <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog'>
+    <dialog ref={EditProfileRef} onClose={onClose} id='edit-profile-dialog' aria-modal="true">
         <div id="edit-profile-dialog-container">
             <button id="edit-profile-dialog-close" onClick={() => {setActiveDelete(false);onClose();}}>&times;</button>
             
@@ -181,8 +182,8 @@ function EditProfile({profile, setProfile, setImageSource, isOpen, onClose}:Edit
             </div>
             <p className='genres-list'>{displayGenres(selectedGenres)}</p>
 
-            <label className="edit-profile-input-label" id='edit-profile-about-me-label'>About Me:</label>
-            <textarea name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={400} value={biography} onChange={handleBiographyUpdate}></textarea>
+            <label htmlFor="edit-profile-biography" className="edit-profile-input-label" id='edit-profile-about-me-label'>About Me:</label>
+            <textarea data-testid="edit-profile-biography" name="edit-profile-biography" id="edit-profile-biography" rows={8} maxLength={400} value={biography} onChange={handleBiographyUpdate}></textarea>
             
             <label htmlFor='profile-picture-upload' className='edit-profile-input-label' id='file-upload-label'>Upload New Profile Picture:</label>
             <div id="profile-upload-background">

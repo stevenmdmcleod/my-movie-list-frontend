@@ -152,7 +152,7 @@ function Profile() {
             </div>
     
             <h4 className="strikethrough">Preferred Genres</h4>
-            <p className="genres-list">{displayGenres(profile.preferredGenres)}</p>
+            <p className="genres-list" data-testid="profile-genres">{displayGenres(profile.preferredGenres)}</p>
     
             <h4 className="strikethrough">About Me</h4>
             <p className="biography">{profile.biography}</p>

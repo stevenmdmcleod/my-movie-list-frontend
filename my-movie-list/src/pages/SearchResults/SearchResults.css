@@ -1,0 +1,35 @@
+.search-results-container {
+    background-color: #1e1e1e;
+    width: 100%;
+    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding: 1rem;
+}
+
+.search-result-card{
+    display: flex;
+    flex-direction: column; /* Stack image and title vertically */
+    align-items: center;
+    justify-content: center;
+    background-color: #2e51a2;
+    color: white;
+    border: 1px solid #489FB5;
+    padding: 0.5rem;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease; /* Added transition for scaling */
+    width: 15rem; /* Fixed width for movie cards */
+    height: 10rem; /* Fixed height for movie cards */
+    text-align: center;
+    
+}
+
+.search-result-card:hover {
+  background-color: #1e3a7a;
+  transform: scale(1.01);
+}

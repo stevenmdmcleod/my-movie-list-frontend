@@ -315,3 +315,24 @@ export async function getAllWatchlistsAdmins() {
      } catch (error) {
        console.log(error);
 }}
+
+export async function getWatchmodeTitle(titleId: string | number) {
+  try {
+    const response = await axios.get(`${BASE_ROUTE}/watchmode/title/${titleId}`)
+    return response;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// Search watchlist using name
+// IMPORTANT: name string cannot have spaces. Replace all spaces with %20.
+// Example: "Ed wood" --> "Ed%20wood"
+export async function searchWatchlistByName(name:string) {
+  try {
+    const response = await axios.get(`${BASE_ROUTE}/watchmode/search?name=${name}`)
+    return response;
+  } catch (error) {
+    console.log(error)
+  }
+} 

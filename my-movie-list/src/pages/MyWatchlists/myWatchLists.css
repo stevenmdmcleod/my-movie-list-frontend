@@ -37,9 +37,9 @@
 
 .mywatchlistpage button{
     width: 15rem;
-    background-color: #2e51a2;
-    color: white;
-    border: 3px solid #489FB5;
+    background-color: #ffffff;
+    color: black;
+
     
     text-align: center;
     
@@ -56,4 +56,12 @@
     width: 25%;
     flex-direction: column;
     text-align: center;
+}
+
+.createwatchlistform {
+    background-color: #2e51a2;
+}
+
+.createwatchlistbutton {
+    background-color: #ffffff;
 }

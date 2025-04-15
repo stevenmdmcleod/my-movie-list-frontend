@@ -50,3 +50,13 @@
     text-align: center;
     }
 
+    .addfriend {
+        background-color: #2e51a2;
+        
+    }
+
+    .addfriendbutton {
+        border-radius: 4px;
+        width: 15rem;
+    }
+
