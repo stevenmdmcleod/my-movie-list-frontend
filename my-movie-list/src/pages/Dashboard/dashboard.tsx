@@ -11,8 +11,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
 import { deleteCommentOnWatchlist, getAllWatchlistComments, getAllWatchlistsAdmins, getUsers, updateBanStatus } from "../../utils/databaseCalls";
-
-let API_KEY = import.meta.env.VITE_WATCHMODE_API_KEY;
+import { BASE_ROUTE } from "../../utils/config";
 
 const TOKEN = window.localStorage.getItem("token") || '';
 const admin = decodeToken(TOKEN) as userJwt;
@@ -77,14 +76,15 @@ function dashboard() {
               const firstTitleId = watchlist.titles[0];
               try {
                 const res = await axios.get(
-                  `https://api.watchmode.com/v1/title/${firstTitleId}/details/?apiKey=${API_KEY}`
+                  `${BASE_ROUTE}/watchmode/title/${firstTitleId}`
                 );
-                console.log(res);
+                console.log("Fetched from backend proxy:", res.data);
                 return {
                   ...watchlist,
                   posterUrl: res.data.poster, // assuming response has posterUrl
                 };
-              } catch {
+              } catch (error) {
+                console.error(`Failed to fetch title ${firstTitleId}:`, error);
                 return {
                   ...watchlist,
                   posterUrl: "/src/assets/Images/default-title-image.png",
@@ -148,7 +148,7 @@ function dashboard() {
 
   const adminProfile = users.find((user) => user.userId === admin?.userId);
   const adminProfilePicture =
-    adminProfile?.signedUrl || "/src/assets/Images/default-profile.png";
+    adminProfile?.signedUrl || "/src/assets/Images/default-profile.jpg";
 
   return (
     <>
