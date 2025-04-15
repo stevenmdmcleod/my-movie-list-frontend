@@ -50,6 +50,7 @@
   width: 60%;
   padding: 10px 5px;
   background: #dde6ed;
+  min-height: 820px;
 }
 .main-header {
   margin-bottom: 20px;
@@ -245,11 +246,11 @@
   background: #fff;
   border-radius: 10px;
   padding: 0.7rem;
-  align-items: center;
+  align-items: center; 
 }
 .users-list-all {
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
 }
 
 .users-list-all .user-item {
@@ -352,6 +353,7 @@
   border-radius: 10px;
   padding: 0.7rem;
   align-items: center;
+
 }
 
 /* Profile section*/
@@ -387,6 +389,7 @@
   object-fit: cover;
   margin-top: 50px;
   margin-bottom: 20px;
+  aspect-ratio: 1 / 1;
 }
 .admin-detail .username{
   color: #526d82;

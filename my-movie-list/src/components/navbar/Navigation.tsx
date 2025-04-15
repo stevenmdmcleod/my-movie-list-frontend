@@ -9,12 +9,11 @@ import "./Navigation.css";
 import { useAuth } from "../../context/userAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_ROUTE } from "../../utils/config";
 
 const Navigation = () => {
   // Define the query state
   const [query, setQuery] = useState("");
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout, isAdmin } = useAuth();
   const navigate = useNavigate();
 
 
@@ -31,7 +30,9 @@ const Navigation = () => {
             <Nav.Link href="/myWatchLists">My Watchlists</Nav.Link>
             <Nav.Link href="/watchLists">Watchlists</Nav.Link>
             <Nav.Link href="/about">About</Nav.Link>
-            <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+            {isAdmin() && 
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+            }
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

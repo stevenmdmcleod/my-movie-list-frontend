@@ -60,6 +60,11 @@ function dashboard() {
   const [section, setSection] = useState<Section>("dashboard");
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const [showUserPopup, setShowUserPopup] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    setSearchTerm(""); // Reset search input whenever the section changes
+  }, [section]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,6 +155,18 @@ function dashboard() {
   const adminProfilePicture =
     adminProfile?.signedUrl || "/src/assets/Images/default-profile.jpg";
 
+    const filteredUsers = users.filter((user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredWatchlists = watchlists.filter((w) =>
+      w.listName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredComments = comments.filter((c) =>
+      c.comment.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
   return (
     <>
       <div className="dashboard">
@@ -185,7 +202,8 @@ function dashboard() {
             </h1>
             <div className="header-activity">
               <div className="search-box">
-                <input type="text" placeholder="Search..." />
+                <input type="text" placeholder="Search..." 
+                  value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                 <SearchIcon className="icon" />
               </div>
             </div>
@@ -248,7 +266,9 @@ function dashboard() {
                   <div className="content-title">Watchlists</div>
                   <div className="watchlist-grid">
                     {watchlists.slice(0, 3).map((list) => (
+                      
                       <div className="watchlist-card" key={list.listId}>
+                        <Link to={`/watchlist/${list.listId}`}>
                         <img
                           src={
                             list.posterUrl ||
@@ -257,11 +277,16 @@ function dashboard() {
                           alt={list.listName}
                           className="watchlist-thumbnail"
                         />
-                        <div className="watchlist-name">{list.listName}</div>
+                         </Link>
+                         <Link to={`/watchlist/${list.listId}`}>
+                         <div className="watchlist-name">{list.listName}</div>
+                         </Link>
+                        
                         <div className="watchlist-username">
                           {list.username || "username"}
                         </div>
                       </div>
+                     
                     ))}
                     <div className="view-more">
                       <div
@@ -348,8 +373,11 @@ function dashboard() {
           {section === "users" && (
             <div className="content-users-all">
               <div className="content-title">Users</div>
+              {filteredUsers.length === 0 ? (
+                <p style={{ marginTop: "2rem" }}>No users found.</p>
+              ) : (
               <div className="users-list-all">
-                {users.map((item) => (
+                {filteredUsers.map((item) => (
                   <div className="user-item" key={item.userId}>
                     <div className="user-display">
                       <img
@@ -419,14 +447,18 @@ function dashboard() {
                   </div>
                 ))}
               </div>
+            )}
             </div>
           )}
 
           {section === "watchlists" && (
             <div className="content-watchlists-all">
               <div className="content-title">Watchlists</div>
-              <div className="watchlist-list-all">
-                {watchlists.map((wl) => (
+              { filteredWatchlists.length === 0 ? (
+                  <p style={{ marginTop: "2rem" }}>No watchlists found.</p>
+                ) : (
+                <div className="watchlist-list-all">
+                {filteredWatchlists.map((wl) => (
                   <div key={wl.listId} className="watchlist-item">
                     {wl.posterUrl && (
                       <img src={wl.posterUrl} alt={`${wl.listName} Poster`} className="poster" />
@@ -444,15 +476,18 @@ function dashboard() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> )}
             </div>
           )}
 
           {section === "comments" && (
             <div className="content-comments-all">
               <div className="content-title">Comments</div>
+              { filteredComments.length === 0 ? (
+                <p style={{ marginTop: "2rem" }}>No comments found.</p>
+              ) : (
               <div className="comments-list-all">
-                {comments.map((item) => (
+                {filteredComments.map((item) => (
                   <div className="comment-item" key={item.commentId}>
                     <div className="comment--content">
                       <div className="comment--title">
@@ -505,7 +540,7 @@ function dashboard() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> )}
             </div>
           )}
           {/* </div> */}
