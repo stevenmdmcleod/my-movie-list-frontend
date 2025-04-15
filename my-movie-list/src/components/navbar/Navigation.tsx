@@ -26,8 +26,16 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
+            {isLoggedIn() ? (
             <Nav.Link id="nav-link" href="/friends">Friends</Nav.Link>
+          ) : (
+            <p></p>
+          )}
+            {isLoggedIn() ? ( 
             <Nav.Link href="/myWatchLists">My Watchlists</Nav.Link>
+          ) : (
+            <p></p>
+          )}
             <Nav.Link href="/watchLists">Watchlists</Nav.Link>
             <Nav.Link href="/about">About</Nav.Link>
             {isAdmin() && 
@@ -74,12 +82,9 @@ const Navigation = () => {
                   
                   
                   className="mr-sm-2"
-                  value={query}
-                  
-                  
+                  value={query}                               
                   placeholder="search for a title..."
                 />
-
                 <Button type="submit">Submit</Button>
               
             </Form>
@@ -87,9 +92,13 @@ const Navigation = () => {
         </Navbar.Collapse>
       </Container>
       <Col className="profile-button">
+      {isLoggedIn() ? (
         <div className="profile-button-button">
           <Button href="/profile">Profile</Button>
         </div>
+      ) : (
+        <p></p>
+      )}
         {isLoggedIn() ? (
           <div className="profile-button-button">
             <Button onClick={logout} href="/profile">
