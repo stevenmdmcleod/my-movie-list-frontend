@@ -99,9 +99,8 @@ function Profile() {
 
   useEffect(() => {
     if (data && data.userId) {
-      // Only update data if userId has changed (prevents overwrites)
       if (data.userId !== profile.userId) {
-        setProfile(data)
+        setProfile(data);
       }
       if (!navigatedUserId || navigatedUserId === decoded?.userId) {
         setOwnerProfile(true);
@@ -109,24 +108,26 @@ function Profile() {
         setOwnerProfile(false);
       }
     }
-    // Trying to display the default profile picture until the signedUrl is retrieved and loads
-    if (data && data.signedUrl) {
+  }, [data, decoded, navigatedUserId, profile.userId]);
+
+  useEffect(() => {
+    if (profile.signedUrl) {
       const img = new Image();
-      img.src = data.signedUrl;
-
+      img.src = profile.signedUrl;
+  
       img.onload = () => {
-        setImageSource(data.signedUrl as string);
-      }
-
+        setImageSource(profile.signedUrl as string);
+      };
+  
       img.onerror = () => {
         console.log('Failed to load profile picture');
         setImageSource(DefaultProfilePic);
-      }
+      };
     } else {
       setImageSource(DefaultProfilePic);
     }
-  }, [data, decoded, navigatedUserId, profile])
-
+  }, [profile.signedUrl]);
+  
   return (
     <div id='profile-view'>
       <div id="profile">
