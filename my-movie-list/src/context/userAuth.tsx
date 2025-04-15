@@ -14,6 +14,7 @@ type UserContextType = {
     loginUser: (username: string, password: string) => void;
     logout: () => void;
     isLoggedIn: () => boolean;
+    isAdmin: () => boolean;
 };
 
 type Props = { children: React.ReactNode };
@@ -65,14 +66,7 @@ export const UserProvider = ({ children } : Props) => {
               setUser(userObj!);
               toast.success("Login Successful!");
            
-              const currentUser = decodeToken(res.data.token) as userJwt;
-              if(currentUser.isAdmin){
-                navigate("/dashboard");
-              } else {
-                navigate("/");
-              }
-              
-                       
+              navigate("/");     
              
             }
             else{
@@ -85,6 +79,16 @@ export const UserProvider = ({ children } : Props) => {
         return !!user;
     };
 
+    const isAdmin = () => {
+        const TOKEN = window.localStorage.getItem("token") || '';
+        const user = decodeToken(TOKEN) as userJwt;
+
+        if (user && user.isAdmin){
+            return true;
+        }
+        return false;
+    }
+
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -94,7 +98,7 @@ export const UserProvider = ({ children } : Props) => {
     }
 
     return (
-        <UserContext.Provider value={{user, token, loginUser, registerUser, isLoggedIn, logout}}
+        <UserContext.Provider value={{user, token, loginUser, registerUser, isLoggedIn, logout, isAdmin}}
         >
             {isReady ? children : null}
         </UserContext.Provider>
