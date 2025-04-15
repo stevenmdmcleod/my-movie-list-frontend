@@ -56,17 +56,13 @@ describe('EditCollaborators Component', () => {
       });
     it('renders collaborator editing controls', () => {
         render(<EditCollaborators {...mockProps} />);
-        // Check if one of the collaborator emails appears
         expect(screen.getByText(mockProps.collaborators[0].username)).toBeInTheDocument();
-        // Check for a close button or similar key action
         const closeButton = screen.getByTestId('edit-collaborators-dialog-close');
         expect(closeButton).toBeInTheDocument();
     });
 
     it('calls onClose when the dialog is closed', () => {
         render(<EditCollaborators {...mockProps} />);
-        // This test is very basic—simulate a click on an "Add" or "Remove" button if available.
-        // For example, if there's a button to remove the first collaborator:
         const closeButton = screen.getByTestId('edit-collaborators-dialog-close');
         fireEvent.click(closeButton);
         expect(mockProps.onClose).toHaveBeenCalled();

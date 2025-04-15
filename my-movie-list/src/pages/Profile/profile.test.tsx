@@ -3,7 +3,6 @@ import Profile from './Profile';
 import * as useProfileDataHook from '../../hooks/useProfileData';
 import { MemoryRouter } from 'react-router-dom';
 
-// Mock hook return
 jest.mock('../../hooks/useProfileData', () => ({
   __esModule: true,
   default: jest.fn(),
@@ -16,12 +15,11 @@ jest.mock('../../utils/jwt', () => ({
 
 describe('Profile Component', () => {
     beforeAll(() => {
-        // Add close/showModal mocks to HTMLDialogElement prototype
+
         window.HTMLDialogElement.prototype.close = jest.fn();
         window.HTMLDialogElement.prototype.showModal = jest.fn();
         });
     beforeEach(() => {
-        // Prevent real network calls
         jest.spyOn(useProfileDataHook, 'default').mockReturnValue({
         data: {
             userId: '1234',

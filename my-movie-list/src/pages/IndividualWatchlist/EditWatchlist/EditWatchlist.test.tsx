@@ -31,11 +31,8 @@ describe('EditWatchlist Component', () => {
       });
 
     it('renders edit watchlist form when open', () => {
-        // If your component uses a boolean to control visibility, pass that prop here.
         render(<EditWatchlist {...EditWatchlistProps} isOpen={true} />);
-        // Look for a header or label you know must be in the component.
         expect(screen.getByText(/edit watchlist/i)).toBeInTheDocument();
-        // Optionally check for a field with the initial title value
         expect(screen.getByDisplayValue(EditWatchlistProps.listName)).toBeInTheDocument();
     });
 

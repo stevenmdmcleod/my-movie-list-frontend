@@ -1,13 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-// 👇 mock useProfileData before importing the component that uses it
 jest.mock('../../../hooks/useProfileData', () => ({
   __esModule: true,
   default: jest.fn(() => ({ data: { signedUrl: '' } })),
 }));
 
-// Now safely import the component under test
 import Comment from './Comment';
 
 const mockComment = {
