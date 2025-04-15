@@ -55,10 +55,12 @@
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    transition:  transform 0.3s ease; /* Added transition for scaling */
     width: 8rem; /* Fixed width for movie cards */
     height: 12rem; /* Fixed height for movie cards */
     text-align: center;
   }
+  
   
   .movie-card img {
     width: 100%;
@@ -75,4 +77,5 @@
   
   .movie-card:hover {
     background-color: #1e3a7a;
+    transform: scale(1.05); /* Slightly enlarge on hover */
   }

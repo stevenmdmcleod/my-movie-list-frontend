@@ -19,6 +19,7 @@ import IndividualWatchlist from "./pages/IndividualWatchlist/IndividualWatchlist
 import { UserProvider } from "./context/userAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SearchResults from "./pages/SearchResults/SearchResults";
 
 // TEMPORARY IMPORTS REMOVE WHEN NEEDED
 // import axios from 'axios';
@@ -67,6 +68,7 @@ function App() {
             <Route element={<AdminRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
+            <Route path="/searchresults/:query" element={<SearchResults />} />
             <Route path="/watchlist/:listId" element={<IndividualWatchlist />} />
             <Route path="/mywatchlists" element={<MyWatchLists />} />
             <Route path="/movieinformation/:titleid" element={<MovieInformation />} />
