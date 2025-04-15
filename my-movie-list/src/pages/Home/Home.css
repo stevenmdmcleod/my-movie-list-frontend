@@ -1,4 +1,78 @@
-.banner {
+/* General container styles */
+.home-container {
+    background-color: #121212;
     width: 100%;
-    height: 150px;
-}
+    color: #e0e0e0;
+    padding: 2rem;
+  }
+  
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Avenir, lucida grande, tahoma, verdana, arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0 auto;
+  }
+  
+  /* Category sections */
+  .newreleases-movies,
+  .action-movies,
+  .comedy-movies {
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+  
+  .newreleases-movies h2,
+  .action-movies h2,
+  .comedy-movies h2 {
+    margin-bottom: 1rem;
+    color: #ffffff;
+    
+  }
+  
+  /* Movie list container */
+  .movie-list {
+    display: flex; /* Flexbox for horizontal alignment */
+    flex-wrap: wrap; /* Allow wrapping to the next row if needed */
+    gap: 1rem; /* Add spacing between movie cards */
+    justify-content: center; /* Align items to the left */
+  }
+  
+  /* Movie card (button) styles */
+  .movie-card {
+    display: flex;
+    flex-direction: column; /* Stack image and title vertically */
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #2e51a2;
+    color: white;
+    border: 1px solid #489FB5;
+    padding: 0.5rem;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    width: 8rem; /* Fixed width for movie cards */
+    height: 12rem; /* Fixed height for movie cards */
+    text-align: center;
+  }
+  
+  .movie-card img {
+    width: 100%;
+    height: 70%; /* Adjust image height */
+    object-fit: cover; /* Ensure the image fits nicely */
+    border-radius: 4px;
+  }
+  
+  .movie-card h3 {
+    margin-top: 0.5rem;
+    font-size: 12px;
+    color: white;
+  }
+  
+  .movie-card:hover {
+    background-color: #1e3a7a;
+  }

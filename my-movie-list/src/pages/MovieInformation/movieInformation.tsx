@@ -163,7 +163,7 @@ function MovieInformation() {
             {/* Render similar titles only if available */}
             <div className="similar-titles">
               {similarTitles.length > 0 ? (
-                similarTitles.slice(0, 4).map((similar, index) => (
+                similarTitles.map((similar, index) => (
                   <button key={index} className="similar-title" onClick={() => window.location.href = `/movieinformation/${similarTitles[index].id}`}>
                     <img
                       src={similar.poster ?? ""}
