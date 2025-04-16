@@ -1,9 +1,9 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import Dashboard from "./dashboard";
-import * as db from "../../utils/databaseCalls";
-import * as jwtUtils from "../../utils/jwt";
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
+// import * as db from "../../utils/databaseCalls";
+// import * as jwtUtils from "../../utils/jwt";
+import { BrowserRouter } from "react-router-dom";
 
 // Mock API calls
 jest.mock("../../utils/databaseCalls", () => ({
@@ -77,7 +77,9 @@ describe("Dashboard Component", () => {
   });  
 
   it("renders the dashboard sidebar", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
     expect(screen.getByText(/My Movie List/i)).toBeInTheDocument();
     expect(screen.getByTestId("sidebar-dashboard")).toBeInTheDocument();
@@ -88,7 +90,9 @@ describe("Dashboard Component", () => {
   });
 
   it("renders the dashboard main content", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
     expect(screen.getByTestId("dashboard-users")).toBeInTheDocument();
     expect(screen.getByTestId("dashboard-watchlists")).toBeInTheDocument();
@@ -96,15 +100,19 @@ describe("Dashboard Component", () => {
 
   });
 
-  test("renders header title as 'Dashboard'", () => {
-    renderWithRouter(<Dashboard />);
+  test("renders header title as 'Dashboard'", async () => {
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
     const headerTitle = screen.getByTestId("header-title");
     expect(headerTitle).toHaveTextContent("Dashboard");
   });
 
   it("renders the dashboard profile", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
     expect(screen.getByText("Profile")).toBeInTheDocument();
     expect(screen.getByText("Admin")).toBeInTheDocument();
@@ -112,7 +120,9 @@ describe("Dashboard Component", () => {
   });
 
   it("displays users in dashboard section", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
      // Wait for users to be loaded
      await waitFor(() =>
@@ -125,7 +135,9 @@ describe("Dashboard Component", () => {
   });
 
   it("displays watchlists in dashboard section", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
      // Wait for watchlists to be loaded
      await waitFor(() =>
@@ -139,7 +151,9 @@ describe("Dashboard Component", () => {
   });
 
   it("displays the comments in dashboard section", async () => {
-    renderWithRouter(<Dashboard />);
+    await waitFor(() => {
+      renderWithRouter(<Dashboard />);
+    });
 
     // Wait for comments to be loaded
     await waitFor(() =>
