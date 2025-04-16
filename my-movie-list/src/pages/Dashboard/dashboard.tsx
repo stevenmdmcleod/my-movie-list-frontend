@@ -176,19 +176,19 @@ function dashboard() {
             <h2>My Movie List</h2>
           </div>
           <div className="menu">
-            <div className="item" onClick={() => setSection("dashboard")}>
+            <div className="item" onClick={() => setSection("dashboard")} data-testid="sidebar-dashboard">
               <HomeIcon className="icon" />
               Dashboard
             </div>
-            <div className="item" onClick={() => setSection("users")}>
+            <div className="item" onClick={() => setSection("users")} data-testid="sidebar-users">
               <GroupIcon className="icon" />
               Users
             </div>
-            <div className="item" onClick={() => setSection("watchlists")}>
+            <div className="item" onClick={() => setSection("watchlists")} data-testid="sidebar-watchlists">
               <BallotIcon className="icon" />
               Watchlists
             </div>
-            <div className="item" onClick={() => setSection("comments")}>
+            <div className="item" onClick={() => setSection("comments")} data-testid="sidebar-comments">
               <ForumIcon className="icon" />
               Comments
             </div>
@@ -197,7 +197,7 @@ function dashboard() {
 
         <div className="main">
           <div className="main-header">
-            <h1 className="header-title">
+            <h1 className="header-title" data-testid="header-title">
               {section.charAt(0).toUpperCase() + section.slice(1)}
             </h1>
             <div className="header-activity">
@@ -213,7 +213,7 @@ function dashboard() {
             <div className="dashboard-widgets">
               <div className="content-users-watchlists">
                 <div className="content-users">
-                  <div className="content-title">Users</div>
+                  <div className="content-title" data-testid="dashboard-users">Users</div>
                   <div className="users-list">
                     {users.slice(0, 3).map((item) => (
                       <div className="user-item" key={item.userId}>
@@ -263,7 +263,7 @@ function dashboard() {
                   </div>
                 </div>
                 <div className="content-watchlists">
-                  <div className="content-title">Watchlists</div>
+                  <div className="content-title" data-testid="dashboard-watchlists">Watchlists</div>
                   <div className="watchlist-grid">
                     {watchlists.slice(0, 3).map((list) => (
                       
@@ -301,7 +301,7 @@ function dashboard() {
                 </div>
               </div>
               <div className="content-comments">
-                <div className="content-title">Comments</div>
+                <div className="content-title" data-testid="dashboard-comments">Comments</div>
                 <div className="list-container">
                   {comments.slice(0, 4).map((item) => (
                     <div className="comment-item" key={item.commentId}>
