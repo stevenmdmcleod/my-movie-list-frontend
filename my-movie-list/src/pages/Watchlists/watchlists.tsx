@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./watchlists.css";
 import axios from "axios";
 import { addFriend, getFriends, getPublicWatchlists } from "../../utils/databaseCalls";

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, Fragment } from 'react';
+import { ChangeEvent, useState, Fragment } from 'react';
 import './CommentSection.css';
 import Comment from '../Comment/Comment';
 import { Pagination } from 'react-bootstrap';

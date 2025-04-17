@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./dashboard.css";
 import { Link } from "react-router-dom";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";

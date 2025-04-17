@@ -1,8 +1,6 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import Dashboard from "./dashboard";
-// import * as db from "../../utils/databaseCalls";
-// import * as jwtUtils from "../../utils/jwt";
 import { BrowserRouter } from "react-router-dom";
 
 // Mock API calls
@@ -71,9 +69,7 @@ const renderWithRouter = (ui: React.ReactElement) => {
 
 describe("Dashboard Component", () => {
   beforeEach(() => {
-    // (db.getUsers as jest.Mock).mockResolvedValue({ data: [] });
-    // (db.getAllWatchlistComments as jest.Mock).mockResolvedValue({ data: [] });
-    // (db.getAllWatchlistsAdmins as jest.Mock).mockResolvedValue({ data: [] });
+   
   });  
 
   it("renders the dashboard sidebar", async () => {

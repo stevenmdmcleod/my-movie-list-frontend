@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './WatchlistHeaderControls.css';
 import { useNavigate } from 'react-router';
 import EditWatchlist from '../EditWatchlist/EditWatchlist';

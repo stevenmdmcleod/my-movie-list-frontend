@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-bootstrap';
 import robot from "../../assets/Images/3828537.jpg"
 import "./NoMatch.css";
