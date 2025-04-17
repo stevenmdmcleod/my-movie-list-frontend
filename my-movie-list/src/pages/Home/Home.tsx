@@ -20,7 +20,7 @@ const Home = () => {
         <div className="newreleases-movies">
           <h2>New Releases</h2>
           <div className="movie-list">
-            {newReleases.map((movie: any) => (
+            {newReleases?.map((movie: any) => (
               <button
                 key={movie.id}
                 className="movie-card"
@@ -37,7 +37,7 @@ const Home = () => {
         <div className="action-movies">
           <h2>Action Movies</h2>
           <div className="movie-list">
-            {action.map((movie: any) => (
+            {action?.map((movie: any) => (
               <button
                 key={movie.id}
                 className="movie-card"
@@ -54,7 +54,7 @@ const Home = () => {
         <div className="comedy-movies">
           <h2>Comedies</h2>
           <div className="movie-list">
-            {comedy.map((movie: any) => (
+            {comedy?.map((movie: any) => (
               <button
                 key={movie.id}
                 className="movie-card"
