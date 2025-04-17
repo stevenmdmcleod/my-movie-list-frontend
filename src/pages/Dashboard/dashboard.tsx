@@ -12,6 +12,8 @@ import axios from "axios";
 import { decodeToken, userJwt } from "../../utils/jwt";
 import { deleteCommentOnWatchlist, getAllWatchlistComments, getAllWatchlistsAdmins, getUsers, updateBanStatus } from "../../utils/databaseCalls";
 import { BASE_ROUTE } from "../../utils/config";
+import defaultProfile from "../../assets/Images/default-profile.jpg";
+import defaultTitle from "../../assets/Images/default-movie-cover.jpg";
 
 const TOKEN = window.localStorage.getItem("token") || '';
 const admin = decodeToken(TOKEN) as userJwt;
@@ -91,13 +93,13 @@ function dashboard() {
                 console.error(`Failed to fetch title ${firstTitleId}:`, error);
                 return {
                   ...watchlist,
-                  posterUrl: "/src/assets/Images/default-title-image.png",
+                  posterUrl: defaultTitle,
                 };
               }
             } else {
               return {
                 ...watchlist,
-                posterUrl: "/src/assets/Images/default-title-image.png",
+                posterUrl: defaultTitle,
               };
             }
           })
@@ -152,7 +154,7 @@ function dashboard() {
 
   const adminProfile = users.find((user) => user.userId === admin?.userId);
   const adminProfilePicture =
-    adminProfile?.signedUrl || "/src/assets/Images/default-profile.jpg";
+    adminProfile?.signedUrl || defaultProfile;
 
     const filteredUsers = users.filter((user) =>
       user.username.toLowerCase().includes(searchTerm.toLowerCase())
@@ -221,7 +223,7 @@ function dashboard() {
                             src={
                               item.signedUrl
                                 ? item.signedUrl
-                                : "/src/assets/Images/default-profile.jpg"
+                                : defaultProfile
                             }
                             alt="user photo"
                           />
@@ -271,7 +273,7 @@ function dashboard() {
                         <img
                           src={
                             list.posterUrl ||
-                            "/src/assets/Images/default-title-image.png"
+                            defaultTitle
                           }
                           alt={list.listName}
                           className="watchlist-thumbnail"
@@ -382,7 +384,7 @@ function dashboard() {
                       <img
                         src={
                           item.signedUrl ||
-                          "/src/assets/Images/default-profile.jpg"
+                          defaultProfile
                         }
                         alt="user photo"
                         className="user-photo"
@@ -578,7 +580,7 @@ function dashboard() {
             <img
               src={
                 selectedUser.signedUrl ||
-                "/src/assets/Images/default-profile.jpg"
+                defaultProfile
               }
               alt="user profile"
               className="popup-user-photo"
