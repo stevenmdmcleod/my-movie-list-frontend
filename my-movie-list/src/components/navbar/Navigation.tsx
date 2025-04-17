@@ -22,24 +22,24 @@ const Navigation = () => {
   return (
     <Navbar expand="lg" className="nav-background">
       <Container>
-        <Navbar.Brand href="/">My Movie List</Navbar.Brand>
+        <Navbar.Brand href="/" data-text="My Movie List">My Movie List</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             {isLoggedIn() ? (
-            <Nav.Link id="nav-link" href="/friends">Friends</Nav.Link>
+            <Nav.Link id="nav-link" href="/friends" data-text="Friends">Friends</Nav.Link>
           ) : (
             <p></p>
           )}
             {isLoggedIn() ? ( 
-            <Nav.Link href="/myWatchLists">My Watchlists</Nav.Link>
+            <Nav.Link href="/myWatchLists" data-text="My Watchlists">My Watchlists</Nav.Link>
           ) : (
             <p></p>
           )}
-            <Nav.Link href="/watchLists">Watchlists</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link href="/watchLists" data-text="Watchlists">Watchlists</Nav.Link>
+            <Nav.Link href="/about" data-text="About">About</Nav.Link>
             {isAdmin() && 
-              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="/dashboard" data-text="Dashboard">Dashboard</Nav.Link>
             }
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -78,7 +78,7 @@ const Navigation = () => {
                   type="text"
                   onChange={(e) => {
                     setQuery(e.target.value);
-                    console.log("query is: ", query);}}
+                  }}
                   
                   
                   className="mr-sm-2"

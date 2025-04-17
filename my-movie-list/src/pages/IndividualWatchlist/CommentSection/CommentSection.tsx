@@ -8,8 +8,8 @@ import { BASE_ROUTE } from '../../../utils/config';
 const COMMENTS_PER_PAGE = 5;
 
 interface CommentSectionProps {
-    comments: Array<Comment>,
-    setComments: (newComments: Array<Comment>) => void,
+    comments: Array<CommentData>,
+    setComments: (newComments: Array<CommentData>) => void,
     watchlistData: Watchlist | null
 }
 
@@ -44,7 +44,7 @@ function CommentSection({comments,setComments, watchlistData}:CommentSectionProp
         }
     }
 
-    function sortComments(comments:Array<Comment>){
+    function sortComments(comments:Array<CommentData>){
         const sorted = [...comments];
 
         sorted.sort((a, b) => {

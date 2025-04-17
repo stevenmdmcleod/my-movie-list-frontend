@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #2e51a2;
+    background-color: #121212;
 }
 
 #individual-watchlist {
@@ -25,6 +25,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 
 .access-denied-view-title, .centered-error-view {
@@ -45,7 +46,7 @@
     transition: .3s;
     border-radius: 10px;
     border: 0px solid transparent;
-    background-color: black;
+    background-color: #2e51a2;;
     color: white; 
 }
 
