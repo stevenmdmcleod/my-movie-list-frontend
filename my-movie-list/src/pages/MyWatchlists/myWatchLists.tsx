@@ -38,7 +38,6 @@ function myWatchLists() {
       try {
         const response: any = await getUserCollaborativeWatchlists();
         if (response.status === 200) {
-          console.log(response);
           setCollaborativeWatchlists(response.data.watchlist);
         }
       } catch (error) {
@@ -46,8 +45,6 @@ function myWatchLists() {
       }
     };
     fetchCollaborativeWatchlists();
-    console.log(
-      "Collaborative watchlists fetched: ", collaborativeWatchlists);
   }, []);
 
   const handleNavigation = (listId: string) => {

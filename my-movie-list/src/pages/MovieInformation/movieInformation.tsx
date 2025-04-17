@@ -80,7 +80,6 @@ function MovieInformation() {
         const response = await getUserWatchlists();
         if (response.status === 200) {
           setUserWatchlists(response.data.watchlists);
-          console.log("Fetched user watchlists:", response.data.watchlists);
         } else {
           console.error("Failed to fetch watchlists:", response.statusText);
         }

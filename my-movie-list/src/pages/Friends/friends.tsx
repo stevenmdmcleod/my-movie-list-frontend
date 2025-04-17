@@ -17,9 +17,7 @@ function friends() {
 
       try{
         const response: any = await getFriends();
-        console.log("response is: ",response);
         if (response.status === 200) {
-          console.log("response.data is: ",response.data);
           setFriends(response.data);
         }
         else {
@@ -52,7 +50,6 @@ const handleAddFriend = async (e: React.FormEvent<HTMLFormElement>) => {
     }
     else{
       const response: any = await addFriend(friendusername);
-      console.log(response);
       if (response.status === 200) {
       
         setSuccess("Friend added successfully!"); // Set success message

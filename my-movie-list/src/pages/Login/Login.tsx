@@ -6,8 +6,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Login.css';
 
-type Props = object;
-
 type LoginFormsInputs = {
   userName: string;
   password: string;
@@ -19,7 +17,7 @@ const validation = Yup.object().shape({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   const { loginUser } = useAuth();
   const {
     register,

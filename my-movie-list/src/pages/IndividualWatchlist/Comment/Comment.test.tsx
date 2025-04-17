@@ -6,7 +6,7 @@ jest.mock('../../../hooks/useProfileData', () => ({
   default: jest.fn(() => ({ data: { signedUrl: '' } })),
 }));
 
-import Comment from './Comment';
+import CommentComponent  from './Comment';
 
 const mockComment = {
   commentId: 'c1',
@@ -18,7 +18,7 @@ const mockComment = {
 
 describe('Comment Component', () => {
   it('renders comment text and username', () => {
-    render(<Comment comment={mockComment} />, { wrapper: MemoryRouter });
+    render(<CommentComponent  comment={mockComment} />, { wrapper: MemoryRouter });
 
     expect(screen.getByText('Commenter')).toBeInTheDocument();
     expect(screen.getByText('Nice list!')).toBeInTheDocument();

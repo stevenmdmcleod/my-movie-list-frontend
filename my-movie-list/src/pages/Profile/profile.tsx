@@ -120,7 +120,6 @@ function Profile() {
       };
   
       img.onerror = () => {
-        console.log('Failed to load profile picture');
         setImageSource(DefaultProfilePic);
       };
     } else {

@@ -83,7 +83,6 @@ function dashboard() {
                 const res = await axios.get(
                   `${BASE_ROUTE}/watchmode/title/${firstTitleId}`
                 );
-                console.log("Fetched from backend proxy:", res.data);
                 return {
                   ...watchlist,
                   posterUrl: res.data.poster, // assuming response has posterUrl

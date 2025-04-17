@@ -5,7 +5,19 @@
 .navbar-brand {
     color: #ffffff !important;
     margin-left: 50px;
+    font-weight: normal;
+    position: relative;
+    display: inline-block;
 }
+
+.navbar-brand::before {
+    content: attr(data-text);
+    font-weight: bold;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    display: block;
+  }
 
 .navbar-brand:hover {
     font-weight: bold;
@@ -17,9 +29,21 @@
 }
 
 .nav-link {
+    position: relative;
+    display: inline-block;
+    font-weight: normal;
     align-content: center;
     color: #ffffff !important;
 }
+
+.nav-link::before {
+    content: attr(data-text);
+    font-weight: bold;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    display: block;
+  }
 
 .nav-link:hover {
     font-weight: bold;

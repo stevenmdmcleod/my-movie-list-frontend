@@ -23,7 +23,7 @@ function IndividualWatchlist() {
     const [listName, setListName] = useState<string>('')
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [collaborators, setCollaborators] = useState<Array<Profile>>([])    
-    const [comments, setComments] = useState<Array<Comment>>([]);
+    const [comments, setComments] = useState<Array<CommentData>>([]);
 
     // Test state to avoid API calls while developing
     // const [titles, setTitles] = useState<Array<TitleInformation>>([{id: 3173903, title: "Breaking Bad", poster: "https://cdn.watchmode.com/posters/03173903_poster_w185.jpg"},{id: 316213, title: "Boston Legal", poster: "https://cdn.watchmode.com/posters/0316213_poster_w185.jpg"},{id: 3110052, title: "Southland", poster: "https://cdn.watchmode.com/posters/03110052_poster_w185.jpg"}])
@@ -48,7 +48,7 @@ function IndividualWatchlist() {
     const userIsOwner = userProfile && userProfile.userId && userProfile?.userId === ownerProfile?.userId || false;
     const userIsCollaborator = userProfile && userProfile.userId && watchlistData && watchlistData.collaborators.includes(userProfile.userId) || false;
 
-    function sortComments(comments:Array<Comment>){
+    function sortComments(comments:Array<CommentData>){
         const sorted = [...comments];
 
         sorted.sort((a, b) => {
