@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import DefaultProfilePic from '../../assets/Images/default-profile.jpg';
-import "./Profile.css";
+import "./profile.css";
 import EditProfile from './EditProfile';
 import useProfileData, { UseProfileDataReturn } from '../../hooks/useProfileData';
 import { decodeToken, isTokenValid, userJwt } from '../../utils/jwt';
