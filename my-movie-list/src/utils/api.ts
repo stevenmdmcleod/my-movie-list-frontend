@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export interface DataItem {
-    id:
-    title:
-    year:
+    id: number | string;
+    title: string;
+    year: string;
 }

@@ -132,7 +132,7 @@ function MovieInformation() {
   return (
     <div className="default">
       <div className="page">
-        <div className="leftblock">
+        <div className="leftblock" data-testid="leftblock">
           <img
             src={data.poster}
             className="rounded mx-auto d-block"
