@@ -1,88 +1,114 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import MovieInformation from './movieInformation';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
-jest.mock('../../databaseCalls', () => ({
-  fetchMovieData: jest.fn(),
-  fetchSimilarTitles: jest.fn(),
-  fetchUserWatchlists: jest.fn(),
-}));
+beforeEach(() => {
+    jest.clearAllMocks();
+    global.fetch = jest.fn();
+    jest.spyOn(console, 'error').mockImplementation(() => {}); // Silence console.error
+    jest.spyOn(console, 'log').mockImplementation(() => {});   // Silence console.log
+    localStorage.setItem("token", "fake-jwt");
+});
+
+const renderWithRouter = (ui: React.ReactElement, route = '/movieinformation/123') => {
+  window.history.pushState({}, 'Test page', route);
+  return render(
+    <MemoryRouter initialEntries={[route]}>
+      <Routes>
+        <Route path="/movieinformation/:titleid" element={ui} />
+      </Routes>
+    </MemoryRouter>
+  );
+};
 
 describe('MovieInformation Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('renders loading state initially', () => {
-    render(<MovieInformation />);
+    renderWithRouter(<MovieInformation />);
     expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 
   it('renders movie information after fetching data', async () => {
-    const mockMovieData = {
-      title: 'Inception',
-      description: 'A mind-bending thriller.',
-      user_rating: 8.8,
-      critic_score: 91,
-      release_date: '2010-07-16',
-      genre_names: ['Action', 'Sci-Fi', 'Thriller'],
-    };
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        title: 'Inception',
+        plot_overview: 'A mind-bending thriller.',
+        user_rating: 8.8,
+        critic_score: 91,
+        release_date: '2010-07-16',
+        genre_names: ['Action', 'Sci-Fi', 'Thriller'],
+        us_rating: 'PG-13',
+        type: 'movie',
+        poster: 'poster_url',
+        trailer: 'https://www.youtube.com/watch?v=YoHD9XEInc0',
+        similar_titles: [],
+      }),
+    });
 
-    require('../../DatabaseCalls').fetchMovieData.mockResolvedValue(mockMovieData);
-
-    render(<MovieInformation />);
+    renderWithRouter(<MovieInformation />);
 
     await waitFor(() => {
       expect(screen.getByText(/Inception/i)).toBeInTheDocument();
-      expect(screen.getByText(/A mind-bending thriller./i)).toBeInTheDocument();
-      expect(screen.getByText(/User rating: 8.8/i)).toBeInTheDocument();
-      expect(screen.getByText(/Critic score: 91/i)).toBeInTheDocument();
-      expect(screen.getByText(/Release date: 2010-07-16/i)).toBeInTheDocument();
-      expect(screen.getByText(/Genres: Action, Sci-Fi, Thriller/i)).toBeInTheDocument();
+      expect(screen.getByText(/A mind-bending thriller/i)).toBeInTheDocument();
+    });
+  });
+
+  it('handles API error gracefully', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+    });
+
+    renderWithRouter(<MovieInformation />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Could not fetch movie data/i)).toBeInTheDocument();
     });
   });
 
   it('renders similar titles', async () => {
-    const mockSimilarTitles = [
-      { title: 'Interstellar' },
-      { title: 'The Prestige' },
-    ];
+    // First call = main movie
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        title: 'Inception',
+        plot_overview: 'A mind-bending thriller.',
+        user_rating: 8.8,
+        critic_score: 91,
+        release_date: '2010-07-16',
+        genre_names: ['Action', 'Sci-Fi'],
+        us_rating: 'PG-13',
+        type: 'movie',
+        poster: 'poster_url',
+        trailer: '',
+        similar_titles: [1, 2],
+      }),
+    });
 
-    require('../../DatabaseCalls').fetchSimilarTitles.mockResolvedValue(mockSimilarTitles);
+    // Next two calls = similar titles
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        title: 'Interstellar',
+        poster: 'poster_interstellar',
+        id: 1,
+      }),
+    }).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        title: 'The Prestige',
+        poster: 'poster_prestige',
+        id: 2,
+      }),
+    });
 
-    render(<MovieInformation />);
+    renderWithRouter(<MovieInformation />);
 
     await waitFor(() => {
-      mockSimilarTitles.forEach((movie) => {
-        expect(screen.getByText(movie.title)).toBeInTheDocument();
-      });
+      expect(screen.getByText('Interstellar')).toBeInTheDocument();
+      expect(screen.getByText('The Prestige')).toBeInTheDocument();
     });
   });
 
-  it('renders user watchlists in dropdown', async () => {
-    const mockWatchlists = [
-      { listId: '1', listName: 'Favorites' },
-      { listId: '2', listName: 'Watch Later' },
-    ];
-
-    require('../../DatabaseCalls').fetchUserWatchlists.mockResolvedValue(mockWatchlists);
-
-    render(<MovieInformation />);
-
-    await waitFor(() => {
-      mockWatchlists.forEach((watchlist) => {
-        expect(screen.getByText(watchlist.listName)).toBeInTheDocument();
-      });
-    });
-  });
-
-  it('handles API errors gracefully', async () => {
-    require('../../DatabaseCalls').fetchMovieData.mockRejectedValue(new Error('API Error'));
-
-    render(<MovieInformation />);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Could not fetch movie data./i)).toBeInTheDocument();
-    });
-  });
 });

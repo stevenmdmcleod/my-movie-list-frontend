@@ -6,7 +6,7 @@ import { searchWatchlistByName } from '../../utils/databaseCalls';
 
 function SearchResults() {
     const { query } = useParams();
-    console.log("query parame is: ",query);
+    
     const navigate = useNavigate();
     const [searchResults, setSearchResults] = useState<any[] | undefined>([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +16,7 @@ function SearchResults() {
         const fetchSearchResults = async () => {
         try {
             const response: any = await searchWatchlistByName(query || '');
-            console.log(response);
+            //console.log(response);
 
             if (response.status === 200) {
             setSearchResults(response.data.title_results);
