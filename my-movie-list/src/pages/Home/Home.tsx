@@ -1,10 +1,8 @@
 import "./Home.css";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import action from "./action.json";
 import comedy from "./comedy.json";
 import newReleases from "./newreleases.json";
-import { BASE_ROUTE } from "../../utils/config";
 
 const Home = () => {
   const navigate = useNavigate();

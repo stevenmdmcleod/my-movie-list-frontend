@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import defaultTitleImage from '../../../assets/Images/default-movie-cover.jpg';
 import './TitleCard.css';
 import { useNavigate } from 'react-router';

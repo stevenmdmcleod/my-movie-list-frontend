@@ -1,10 +1,7 @@
 // __tests__/Watchlists.test.tsx
-import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import Watchlists from "./watchlists"; 
 import * as db from "../../utils/databaseCalls";
-// import * as jwtUtils from "../../utils/jwt";
-// import axios from "axios";
 
 // Mock React Router
 jest.mock("react-router", () => ({
@@ -13,7 +10,6 @@ jest.mock("react-router", () => ({
 
 // Mock databaseCalls and jwt
 jest.mock("../../utils/databaseCalls");
-// jest.mock("../../utils/jwt");
 
 describe("Watchlists Component", () => {
   const mockWatchlist = [
@@ -65,12 +61,4 @@ describe("Watchlists Component", () => {
     expect(screen.getByText("No watchlists found.")).toBeInTheDocument();
   });
 
-  // test("shows Add Friend button when user is not already a friend", async () => {
-  //   (db.getFriends as jest.Mock).mockResolvedValue({ data: [] }); // No friends
-
-  //   render(<Watchlists />);
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/Add Friend/i)).toBeInTheDocument();
-  //   });
-  // });
 });
