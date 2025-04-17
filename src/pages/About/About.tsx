@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Col, Container, Row } from 'react-bootstrap';
 import './About.css';
+import aboutImage from "../../assets/Images/pexels-rao-qingwei-400570939-18176581.jpg";
 
 function About() {
   return (
@@ -30,7 +31,7 @@ function About() {
     <Col>
     <Card style={{ width: '500px', height: '450px' }}>
 
-      <Card.Img variant="top" src="/src/assets/Images/pexels-rao-qingwei-400570939-18176581.jpg" />
+      <Card.Img variant="top" src={aboutImage} />
 
     </Card>
     </Col>
