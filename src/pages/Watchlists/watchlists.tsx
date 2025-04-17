@@ -5,6 +5,7 @@ import { addFriend, getFriends, getPublicWatchlists } from "../../utils/database
 import { decodeToken, userJwt } from "../../utils/jwt";
 import { Link } from "react-router";
 import { BASE_ROUTE } from "../../utils/config";
+import defaultTitle from "../../assets/Images/default-movie-cover.jpg";
 
 const token = localStorage.getItem("token") || "";
 const user = decodeToken(token) as userJwt;
@@ -63,12 +64,12 @@ function watchlists() {
                 title: res.data.title || "Untitled",
                 poster:
                   res.data.poster ||
-                  "/src/assets/Images/default-title-image.png",
+                  defaultTitle,
               });
             } catch {
               map.set(id as string, {
                 title: "Unknown Title",
-                poster: "/src/assets/Images/default-title-image.png",
+                poster: defaultTitle,
               });
             }
           })
@@ -144,7 +145,7 @@ function watchlists() {
                         <img
                           src={
                             title?.poster ||
-                            "/src/assets/Images/default-title-image.png"
+                            defaultTitle
                           }
                           alt={title?.title || "title"}
                           className="title-poster"
