@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Profile from './Profile';
+import Profile from './profile';
 import * as useProfileDataHook from '../../hooks/useProfileData';
 import { MemoryRouter } from 'react-router-dom';
 

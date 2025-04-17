@@ -2,6 +2,9 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import Watchlists from "./watchlists"; 
 import * as db from "../../utils/databaseCalls";
+import axios from 'axios';
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Mock React Router
 jest.mock("react-router", () => ({
@@ -26,9 +29,23 @@ describe("Watchlists Component", () => {
   ];
 
   beforeEach(() => {
-
-    (db.getPublicWatchlists as jest.Mock).mockResolvedValue({ data: mockWatchlist });  
-
+    // Mock the getPublicWatchlists call
+    (db.getPublicWatchlists as jest.Mock).mockResolvedValue({ data: mockWatchlist });
+  
+    // Mock the per-title movie data API call
+    mockedAxios.get.mockImplementation((url: string) => {
+      if (url.includes('/watchmode/title/')) {
+        return Promise.resolve({
+          data: {
+            title: 'Mock Movie Title',
+            poster: 'mock-poster.jpg',
+          },
+        });
+      }
+  
+      // Optional: Fail fast if unexpected URL is hit (good for catching mistakes)
+      return Promise.reject(new Error(`Unhandled request: ${url}`));
+    });
   });
 
   afterEach(() => {

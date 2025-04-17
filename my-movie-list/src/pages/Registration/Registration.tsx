@@ -6,8 +6,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Registration.css';
 
-type Props = object;
-
 type RegisterFormsInputs = {
   email: string;
   userName: string;
@@ -21,7 +19,7 @@ const validation = Yup.object().shape({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const RegisterPage = (props: Props) => {
+const RegisterPage = () => {
   const { registerUser } = useAuth();
   const {
     register,

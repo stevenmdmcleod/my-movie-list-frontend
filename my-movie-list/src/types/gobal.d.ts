@@ -19,7 +19,7 @@ interface Profile {
     recentlyAdded?: Array<string>,
 }
 
-interface Comment {
+interface CommentData {
     commentId: string,
     userId: string,
     username: string,
@@ -35,7 +35,7 @@ interface Watchlist {
     likes: Array<string>,
     titles: Array<string>,
     collaborators: Array<string>,
-    comments: Array<Comment>
+    comments: Array<CommentData>
 }
 
 interface MovieData {

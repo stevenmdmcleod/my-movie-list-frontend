@@ -50,8 +50,6 @@ function watchlists() {
         const allIds = data.flatMap((wl: WatchlistData) => wl.titles);
         const uniqueIds = Array.from(new Set(allIds));
 
-        console.log("unique Ids ", uniqueIds);
-
         const map = new Map<string, TitleData>();
 
         // Fetch all titles one by one from Watchmode API

@@ -25,11 +25,11 @@ const mockProfile: Profile = {
     recentlyAdded: [],
   }
 
-const mockWatchlist = {
+const mockWatchlist: Watchlist = {
     listId: '456',
     userId:'123',
     titles:[],
-    collaborators:[mockProfile],
+    collaborators:[mockProfile.userId],
     likes:[],
     comments:[],
     listName:'TestList',
@@ -39,7 +39,7 @@ const mockWatchlist = {
 const mockProps: EditCollaboratorsProps = {
     ownerProfile: mockProfile,
     watchlist: mockWatchlist,
-    collaborators: mockWatchlist.collaborators,
+    collaborators: [mockProfile],
     setCollaborators: jest.fn(),
     isOpen: true,
     onClose: jest.fn()

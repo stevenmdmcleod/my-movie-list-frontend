@@ -21,35 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchResults from "./pages/SearchResults/SearchResults";
 
-// TEMPORARY IMPORTS REMOVE WHEN NEEDED
-// import axios from 'axios';
-// import { useEffect } from "react";
-// import { BASE_ROUTE } from "./utils/config";
-
 function App() {
-  // TEMPORARY LOGIN FUNCTION TO RETRIEVE JWT
-  // UNCOMMENT FOR TESTING
-  // REMOVE WHEN NOT NEEDED
-  
-  // useEffect(() => {
-  //   try {
-  //     async function login() {
-  //       const res = await axios.post(`${BASE_ROUTE}/users/login`,{
-  //         username: "nickbowden", // replace with test user information
-  //         password: "asdfasdf"
-  //     });
-    
-  //     if (res.status === 200) {
-  //       window.localStorage.setItem("token", res.data.token); // Stores JWT in window localStorage
-  //     }
-    
-  //     }
-  //     login();
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }, []);
-
   return (
     <UserProvider>
     <div className="app-container">

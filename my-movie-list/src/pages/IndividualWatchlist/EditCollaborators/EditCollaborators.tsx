@@ -64,7 +64,6 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
               'Content-Type': 'application/json',
             },
           })
-          console.log(`Added ${profile.userId}`);
         } catch (err) {
           console.error(`Failed to add ${profile.userId}:`, err);
         }
@@ -80,7 +79,6 @@ function EditCollaborators({ownerProfile, watchlist, collaborators, setCollabora
               'Content-Type': 'application/json',
             },
           })
-          console.log(`Removed ${profile.userId}`);
         } catch (err) {
           console.error(`Failed to remove ${profile.userId}:`, err);
         }

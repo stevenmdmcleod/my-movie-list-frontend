@@ -4,7 +4,7 @@ import useProfileData from '../../../hooks/useProfileData';
 import './Comment.css';
 
 interface CommentProps {
-    comment: Comment
+    comment: CommentData
 }
 
 function Comment({ comment }: CommentProps) {
