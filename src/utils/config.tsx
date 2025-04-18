@@ -1,1 +1,1 @@
-export const BASE_ROUTE = "http://3.147.126.217:3000";
+export const BASE_ROUTE = "http://3.135.210.131:3000";
