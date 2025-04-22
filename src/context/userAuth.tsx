@@ -56,7 +56,14 @@ export const UserProvider = ({ children } : Props) => {
     const loginUser = async (username: string, password: string) => {
         await loginAPI(username, password).then((res) => {
             if(res?.status === 200) {
+                const currentUser = decodeToken(res?.data.token) as userJwt;
+                if(currentUser.isBanned){
+                    toast.warning("Your account has been locked.");
+                    toast.warning("Login Failed!");
+                    return;
+                }
                 localStorage.setItem("token", res?.data.token);
+
                 const userObj = {
                     username: res?.data.username,
                     email: res?.data.email,
@@ -64,9 +71,11 @@ export const UserProvider = ({ children } : Props) => {
               localStorage.setItem("user", JSON.stringify(userObj));
               setToken(res?.data.token);
               setUser(userObj!);
+              
               toast.success("Login Successful!");
-           
-              navigate("/");     
+              navigate("/"); 
+              
+                 
              
             }
             else{
